@@ -29,7 +29,8 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 20px 50px;
-  background-color: var(--bg-secondary);
+/*   background-color: var(--bg-secondary); */
+  background-color:blue;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   position: sticky;
   top: 0;
@@ -642,4 +643,4 @@ a {
   }
 }
 
-/* [Rest of your previous CSS remains the same] */
+

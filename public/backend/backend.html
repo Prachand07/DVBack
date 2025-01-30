@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload</title>
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body>
+    <h1>Upload Files</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <label for="username">Enter username:</label>
+        <input type="text" id="username" placeholder="Enter folder name" name="username" required />
+        <input type="file" id="files" name="files" multiple required />
+        <button type="submit">Upload</button>
+    </form>
+    <div id="response"></div>
+    <script>
+        const form = document.getElementById("uploadForm");
+        const responseDiv = document.getElementById("response");
+        const fileInput = document.getElementById("files");
+
+        const validFileTypes = ["text/html", "text/htm", "image/jpeg", "image/png", "text/javascript", "text/css", "video/mp4", "image/jpg"];
+
+
+        fileInput.addEventListener('change', () => {
+            const files = fileInput.files
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                if (!validFileTypes.includes(file.type)) {
+                    responseDiv.textContent = `Invalid file type: ${file.name}. Please select HTML, HTM, JPG, PNG, CSS or JS files.`;
+                    response.style.color="red"
+                    fileInput.value = '';
+                    return;
+                }
+            }
+            responseDiv.textContent = '';
+        });
+
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const username = document.getElementById("username").value.trim();
+            const files = document.getElementById("files").files;
+
+            if (!username) {
+                responseDiv.textContent = "Please enter a unique name.";
+                responseDiv.style.color = "red";
+                return;
+            }
+
+            if (!files.length) {
+                responseDiv.textContent = "Please select files to upload.";
+                return;
+            }
+
+            
+
+            const formData = new FormData();
+            formData.append("username", username);
+            for (const file of files) {
+                formData.append("files", file);
+            }
+
+            try {
+                const response = await fetch("http://localhost:5000/upload-folder", {
+                    method: "POST",
+                    body: formData,
+                });
+
+                if (response.ok) {
+                    const text = await response.text();
+                    responseDiv.textContent = text;
+                } else {
+                    responseDiv.textContent = "Failed to upload files.";
+                }
+            } catch (err) {
+                responseDiv.textContent = "An error occurred: " + err.message;
+            }
+        });
+    </script>
+</body>
+
+</html>

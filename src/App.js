@@ -107,15 +107,15 @@ function DeploymentPipeline() {
         <h3>Integrated with Your Workflow</h3>
         <ul className="features">
           <li>
-          <img src={docker} alt="Docker Logo" style={{ width: "40px", height: "auto", borderRadius: "50%", objectFit: "cover", marginRight: "60px" }} />
+            <img src={docker} alt="Docker Logo" style={{ width: "40px", height: "auto", borderRadius: "50%", objectFit: "cover", marginRight: "60px" }} />
             <strong> Docker Support:</strong> Native Docker support with automated container orchestration and registry integration.
           </li>
           <li>
-          <img src={terraform} alt="Terraform logo" style={{ width: "40px", height: "40px", borderRadius: "50%", objectFit: "cover", marginRight: "60px" }} />
+            <img src={terraform} alt="Terraform logo" style={{ width: "40px", height: "40px", borderRadius: "50%", objectFit: "cover", marginRight: "60px" }} />
             <strong> Terraform Integration:</strong> Infrastructure as code with Terraform for consistent and version-controlled deployments.
           </li>
           <li>
-          <img src={cloudFront} alt="cloudFront logo" style={{ width: "40px", height: "40px", borderRadius: "50%", objectFit: "cover", marginRight: "60px"}} />
+            <img src={cloudFront} alt="cloudFront logo" style={{ width: "40px", height: "40px", borderRadius: "50%", objectFit: "cover", marginRight: "60px" }} />
             <strong> Cloud Monitoring:</strong> Integrated with AWS CloudWatch for real-time monitoring and alerts.
           </li>
         </ul>
@@ -253,7 +253,10 @@ function App() {
         <div className="nav-buttons">
           <button className="login">Login</button>
           <button className="cta">Buy Now</button>
-          <button className="cta">Try It Free</button>
+          <a href="/backend/backend.html">
+            <button className="cta">Try It Free</button>
+          </a>
+
         </div>
       </header>
 
@@ -303,16 +306,16 @@ function App() {
 
         {/* Cloud Service Cards */}
         <CloudServiceCards />
-         {/* Deployment Pipeline Section */}
-<div>
-  <DeploymentPipeline />
-</div>
-<div>
-      <Features />
-    </div>
-    <div>
-      <ResourcesDocumentation />
-    </div>
+        {/* Deployment Pipeline Section */}
+        <div>
+          <DeploymentPipeline />
+        </div>
+        <div>
+          <Features />
+        </div>
+        <div>
+          <ResourcesDocumentation />
+        </div>
       </main>
     </div>
   );
