@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>File Upload</title>
     <link rel="stylesheet" href="styles.css">
-
 </head>
 
 <body>
@@ -18,6 +16,7 @@
         <button type="submit">Upload</button>
     </form>
     <div id="response"></div>
+
     <script>
         const form = document.getElementById("uploadForm");
         const responseDiv = document.getElementById("response");
@@ -25,14 +24,14 @@
 
         const validFileTypes = ["text/html", "text/htm", "image/jpeg", "image/png", "text/javascript", "text/css", "video/mp4", "image/jpg"];
 
-
+      
         fileInput.addEventListener('change', () => {
-            const files = fileInput.files
+            const files = fileInput.files;
             for (let i = 0; i < files.length; i++) {
                 const file = files[i];
                 if (!validFileTypes.includes(file.type)) {
                     responseDiv.textContent = `Invalid file type: ${file.name}. Please select HTML, HTM, JPG, PNG, CSS or JS files.`;
-                    response.style.color="red"
+                    responseDiv.style.color = "red";
                     fileInput.value = '';
                     return;
                 }
@@ -40,7 +39,21 @@
             responseDiv.textContent = '';
         });
 
+      
+        async function getPublicIP() {
+            try {
+                const response = await fetch("http://169.254.169.254/latest/meta-data/public-ipv4");
+                if (!response.ok) {
+                    throw new Error("Failed to fetch EC2 public IP");
+                }
+                return await response.text();
+            } catch (err) {
+                console.error("Error fetching EC2 public IP:", err);
+                return null;
+            }
+        }
 
+        
         form.addEventListener("submit", async (e) => {
             e.preventDefault();
 
@@ -58,8 +71,6 @@
                 return;
             }
 
-            
-
             const formData = new FormData();
             formData.append("username", username);
             for (const file of files) {
@@ -67,7 +78,13 @@
             }
 
             try {
-                const response = await fetch("http://localhost:8090/upload-folder", {
+                const ec2PublicIP = await getPublicIP();
+                if (!ec2PublicIP) {
+                    responseDiv.textContent = "Could not determine EC2 Public IP.";
+                    return;
+                }
+
+                const response = await fetch(`http://${ec2PublicIP}:8090/upload-folder`, {
                     method: "POST",
                     body: formData,
                 });
@@ -75,14 +92,16 @@
                 if (response.ok) {
                     const text = await response.text();
                     responseDiv.textContent = text;
+                    responseDiv.style.color = "green";
                 } else {
                     responseDiv.textContent = "Failed to upload files.";
+                    responseDiv.style.color = "red";
                 }
             } catch (err) {
                 responseDiv.textContent = "An error occurred: " + err.message;
+                responseDiv.style.color = "red";
             }
         });
     </script>
 </body>
-
 </html>
