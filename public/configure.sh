@@ -5,6 +5,6 @@ sudo systemctl start httpd
 sudo systemctl enable httpd
 cd /var/www/html/backend
 sudo yum install -y nodejs
-sudo fuser -k 8090/tcp
+sudo kill $(lsof -t -i:8090)
 node server.js
 echo "Deployment complete and server restarted successfully."
