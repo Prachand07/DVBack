@@ -5,7 +5,6 @@ sudo systemctl start httpd
 sudo systemctl enable httpd
 cd /var/www/html/backend
 sudo yum install -y nodejs
-node server.js
-sudo fuser -k 8090/tcp
-node server.js
+npm install -g pm2
+pm2 start server.js
 echo "Deployment complete and server restarted successfully."
