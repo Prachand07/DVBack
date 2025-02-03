@@ -1,0 +1,104 @@
+/*resource and documentation css
+/* ResourcesDocumentation.css */
+
+.container-rsd {
+    min-height: 100vh;
+    background-color: #121212;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+  }
+  
+  .title-rsd {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 6rem;
+  }
+  
+  .cards-rsd {
+    display: flex;
+    flex-direction: row;
+    gap: 4rem;
+  }
+  
+  .card-rsd {
+    background-color: #2d3748;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    width: 40rem;
+    height: 20rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-size: medium;
+  }
+  
+  .card-header-rsd {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  
+  .icon {
+    padding: 1.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .icon.green {
+    background-color: #38a169;
+  }
+  
+  .icon.purple {
+    background-color: #805ad5;
+  }
+  
+  .icon-svg {
+    height: 1.5rem;
+    width: 1.5rem;
+    color: white;
+  }
+  
+  .card-title-rsd {
+    font-size: 1.7rem;
+    font-weight: 600;
+  }
+  
+  .card-text-rsd {
+    color: #a0aec0;
+    margin-bottom: 1.2rem;
+    font-size: 1.7rem;
+  }
+  
+  .button {
+    padding: 1.7rem 1.7rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .button.green-rsd {
+    background-color: #38a169;
+    color: white;
+  }
+  
+  .button.green-rsd:hover {
+    background-color: #2f855a;
+  }
+  
+  .button.purple.rsd {
+    background-color: #805ad5;
+    color: white;
+  }
+  
+  .button.purple.rsd:hover {
+    background-color: #6b46c1;
+  }
+  

@@ -23,26 +23,28 @@ body {
   color: var(--text-primary);
 }
 
- 
-.navbar {
+.nav-links li:hover {
+  color: var(--accent-primary);
+}
+.navbar:hover {
+  background-color: var(--bg-secondary);
+}
+
+ .navbar {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end; 
   align-items: center;
   padding: 20px 50px;
-/*   background-color: var(--bg-secondary); */
-  background-color:blue;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  background-color: var(--bg-secondary);
+  box-shadow: 0 2px 4px rgb(3, 3, 3);
   position: sticky;
   top: 0;
   z-index: 1000;
 }
 
-.logo {
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: var(--accent-primary);
-  cursor: pointer;
-}
+/*.logo {
+  margin-right: auto;
+}*/
 
 .nav-links {
   display: flex;
@@ -50,40 +52,48 @@ body {
   list-style: none;
 }
 
-.nav-links li {
-  cursor: pointer;
-  font-size: 1rem;
-  color: var(--text-primary);
-  transition: color 0.3s ease;
-}
-
-.nav-links li:hover {
-  color: var(--accent-primary);
-}
-
-.nav-buttons button {
+.nav-buttons {
+  display: flex;
+  gap: 15px; 
   margin-left: 10px;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 0.9rem;
+  
 }
 
 .login {
   background-color: var(--bg-secondary);
   color: var(--text-primary);
-  border: 1px solid var(--accent-primary);
+  border: 2px solid var(--accent-primary);
+  padding: 10px 16px;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out;
 }
 
+/*.login:hover {
+  background-color: var(--accent-primary);
+  color: var(--bg-primary);
+}*/
+.login:hover {
+  background-color: blue;
+  color: white;
+  border-color: #4fc3f7; /* Optional: To match the blue tone */
+}
 .cta {
   background-color: #4caf50;
   color: white;
+  margin-left: 35px; 
+  padding: 10px 16px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease-in-out;
 }
 
-.cta:hover {
+/*.cta:hover {
   background-color: #388e3c;
+}*/
+.cta:hover {
+  background-color: blue; /* Change background color to blue on hover */
+  color: white; /* Change text color to white on hover */
 }
+
 
 /* Main Content */
 .content {
@@ -151,6 +161,8 @@ body {
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease;
+  margin-right: 40px;
+  margin-left: 40px;
 }
 
 .see-apps-btn:hover {
@@ -158,453 +170,6 @@ body {
   transform: translateY(-2px);
 }
 
-/* Video Section */
-.video-section {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 150px;
-}
-
-.video-content {
-  width: 50%;
-  margin-left: 30px;
-}
-
-.video-text {
-  width: 45%;
-  color: var(--text-primary);
-}
-
-.video-text h2 {
-  font-size: 2.5rem;
-  color: var(--accent-primary);
-  margin-bottom: 20px;
-}
-
-.video-text p {
-  font-size: 1.2rem;
-  color: var(--text-secondary);
-  margin-bottom: 10px;
-}
-
-.cloud-video {
-  width: 100%;
-  max-width: 800px;
-  margin-right: 20px;
-  border: 3px solid var(--accent-primary);
-  border-radius: 10px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.8);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.cloud-video:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.9);
-}
-
-/* Cloud Services Section */
-.cloud-services {
-  padding: 100px 0;
-  background-color: var(--bg-primary);
-  margin-top: 80px;
-}
-
-.section-title {
-  text-align: center;
-  font-size: 2.8rem;
-  color: var(--accent-primary);
-  margin-bottom: 60px;
-  font-weight: 600;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.cards-container {
-  display: flex;
-  justify-content: center;
-  gap: 60px;
-  padding: 0 50px;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-/* Flip Card Styles */
-.flip-card-wrapper {
-  padding: 20px;
-  perspective: 1500px;
-}
-
-.flip-card {
-  width: 340px;
-  height: 420px;
-  cursor: pointer;
-}
-
-.flip-card-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  transform-style: preserve-3d;
-}
-
-.flip-card:hover .flip-card-inner {
-  transform: rotateY(180deg);
-}
-
-.flip-card-front,
-.flip-card-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  transition: box-shadow 0.3s ease;
-}
-
-.flip-card:hover .flip-card-front,
-.flip-card:hover .flip-card-back {
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
-}
-
-.flip-card-front {
-  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.flip-card-front::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(45deg, rgba(79, 195, 247, 0.2) 0%, rgba(79, 195, 247, 0) 100%);
-  pointer-events: none;
-}
-
-.flip-card-back {
-  background: white;
-  transform: rotateY(180deg);
-  padding: 30px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.card-content {
-  padding: 30px;
-  z-index: 1;
-}
-
-.service-title {
-  font-size: 3.5rem;
-  color: white;
-  margin-bottom: 15px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-.service-tagline {
-  color: var(--text-secondary);
-  font-size: 1.2rem;
-  margin: 0;
-}
-
-.flip-card-back h3 {
-  color: #1e3c72;
-  font-size: 2rem;
-  margin-bottom: 20px;
-  font-weight: 600;
-}
-
-.description {
-  color: #445;
-  font-size: 1rem;
-  line-height: 1.6;
-  margin-bottom: 25px;
-}
-
-.features {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.feature-item {
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  padding: 12px 20px;
-  border-radius: 8px;
-  color: #1e3c72;
-  font-size: 0.95rem;
-  transition: all 0.3s ease;
-  border: 1px solid #dee2e6;
-}
-
-.feature-item:hover {
-  transform: translateX(8px);
-  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-  border-color: var(--accent-primary);
-}
-
-/*deployment pipeline css
-/* Overall container */
-.container {
-  display: flex;
-  justify-content: center;
-  padding: 150px;
-  font-family: "Arial", sans-serif;
-  background-color: #121212; /* Dark background */
-  color: #ffffff; /* White text */
-  height: 70vh;
-}
-
-/* Left section (Deployment Pipeline) */
-.left-section {
-  flex: 1;
-  margin-right: 40px;
-}
-
-.heading {
-  display: flex;
-  align-items: center;
-  font-size: 1.5em;
-  margin-bottom: 20px;
-  color: #4fc3f7; 
-}
-
-.logo {
-  width: 30px;
-  height: 30px;
-  margin-right: 10px;
-}
-
-/* Terminal Box */
-.terminal-box {
-  background-color: #343232; /* Black terminal background */
-  color: #ffffff; /* Green terminal text */
-  border-radius: 8px;
-  padding: 20px;
-  font-family: "Courier New", Courier, monospace;
-  font-size: 1em;
-  line-height: 1.5;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  overflow-x: auto;
-}
-
-/* Right section (Features) */
-.right-section {
-  flex: 1;
-  max-width: 800px;
-  margin-left: 50px;
-}
-
-h3 {
-  font-size: 1.5em;
-  margin-bottom: 20px;
-  color: #4fc3f7; 
-}
-
-.features {
-  list-style: none;
-  padding: 150;
-  margin: 20;
-}
-
-.features li {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: flex-start;
-}
-
-.features li .icon {
-  font-size: 1.5em;
-  margin-right: 10px;
-}
-
-strong {
-  color: #ffffff;
-}
-
-a {
-  color: #1db954;
-  text-decoration: none;
-}
-/*everthing you need to deploy css
-/* Container styling */
-.features-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: top;
-  background-color: #121212; /* Light gray background */
-  padding: 2rem;
-  min-height: 70vh;
-  font-family: Arial, sans-serif;
-  margin-top: 70px;
-}
-
-/* Heading styling */
-.features-heading {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #ffffff; /* Dark text */
-  margin-bottom: 2rem;
-  text-align: center;
-}
-
-/* Grid layout */
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  max-width: 1000px;
-  width: 100%;
-  padding: 0 1rem;
-}
-
-/* Feature card */
-.feature-card {
-  background-color:  #1e3c72;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  border-radius: 8px;
-  padding: 1.5rem;
-  text-align: center;
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-}
-
-/* Hover effect */
-.feature-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
-}
-
-/* Feature icon */
-.feature-icon {
-  width: 50px;
-  height: 50px;
-  margin-bottom: 1rem;
-}
-
-/* Feature title */
-.feature-title {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #ffffff; /* Slightly lighter text */
-  margin-bottom: 0.5rem;
-}
-
-/* Feature description */
-.feature-description {
-  font-size: 1rem;
-  color: #ffffff; /* Subtle gray text */
-  line-height: 1.5;
-}
-
-/*resource and documentation css
-/* ResourcesDocumentation.css */
-
-.container-rsd {
-  min-height: 100vh;
-  background-color: #121212;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: white;
-}
-
-.title-rsd {
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 6rem;
-}
-
-.cards-rsd {
-  display: flex;
-  flex-direction: row;
-  gap: 4rem;
-}
-
-.card-rsd {
-  background-color: #2d3748;
-  border-radius: 1rem;
-  padding: 1.5rem;
-  width: 20rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.card-header-rsd {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
-}
-
-.icon {
-  padding: 0.5rem;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.icon.green {
-  background-color: #38a169;
-}
-
-.icon.purple {
-  background-color: #805ad5;
-}
-
-.icon-svg {
-  height: 1.5rem;
-  width: 1.5rem;
-  color: white;
-}
-
-.card-title-rsd {
-  font-size: 1.25rem;
-  font-weight: 600;
-}
-
-.card-text-rsd {
-  color: #a0aec0;
-  margin-bottom: 1.5rem;
-}
-
-.button {
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 0.5rem;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.button.green-rsd {
-  background-color: #38a169;
-  color: white;
-}
-
-.button.green-rsd:hover {
-  background-color: #2f855a;
-}
-
-.button.purple.rsd {
-  background-color: #805ad5;
-  color: white;
-}
-
-.button.purple.rsd:hover {
-  background-color: #6b46c1;
-}
 
 
 
@@ -643,4 +208,4 @@ a {
   }
 }
 
-
+/* [Rest of your previous CSS remains the same] */
