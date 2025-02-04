@@ -1,15 +1,15 @@
 /* Dark Theme Variables */
 :root {
-  --bg-primary: #121212;
-  --bg-secondary: #1e1e1e;
+  --bg-primary: #0D1117;
+  --bg-secondary: #121212;
   --text-primary: #e0e0e0;
   --text-secondary: #b0bec5;
   --accent-primary: #4fc3f7;
   --accent-secondary: #29b6f6;
+  
   --card-bg: #1e1e1e;
 }
 
-/* General Reset */
 * {
   margin: 0;
   padding: 0;
@@ -26,15 +26,17 @@ body {
 .nav-links li:hover {
   color: var(--accent-primary);
 }
+
 .navbar:hover {
   background-color: var(--bg-secondary);
 }
 
- .navbar {
+.navbar {
   display: flex;
-  justify-content: flex-end; 
+  justify-content: space-between;
+
   align-items: center;
-  padding: 20px 50px;
+  padding: 12px 50px;
   background-color: var(--bg-secondary);
   box-shadow: 0 2px 4px rgb(3, 3, 3);
   position: sticky;
@@ -42,21 +44,33 @@ body {
   z-index: 1000;
 }
 
-/*.logo {
-  margin-right: auto;
-}*/
+.navbar .logo-container {
+  display: flex;
+  align-items: center;
+
+}
 
 .nav-links {
   display: flex;
   gap: 30px;
   list-style: none;
+  align-items: center;
 }
 
 .nav-buttons {
   display: flex;
-  gap: 15px; 
+  gap: 15px;
   margin-left: 10px;
-  
+}
+
+.logo {
+  height: 75px;
+  width: 250px;
+  margin-right: 10px;
+}
+
+nav {
+  margin-left: auto;
 }
 
 .login {
@@ -68,19 +82,19 @@ body {
   transition: all 0.3s ease-in-out;
 }
 
-/*.login:hover {
-  background-color: var(--accent-primary);
-  color: var(--bg-primary);
-}*/
+
 .login:hover {
   background-color: blue;
   color: white;
-  border-color: #4fc3f7; /* Optional: To match the blue tone */
+  border-color: #4fc3f7;
+
 }
+
+
 .cta {
   background-color: #4caf50;
   color: white;
-  margin-left: 35px; 
+  margin-left: 35px;
   padding: 10px 16px;
   border-radius: 5px;
   transition: background-color 0.3s ease-in-out;
@@ -90,8 +104,10 @@ body {
   background-color: #388e3c;
 }*/
 .cta:hover {
-  background-color: blue; /* Change background color to blue on hover */
-  color: white; /* Change text color to white on hover */
+  background-color: blue;
+
+  color: white;
+  /* Change text color to white on hover */
 }
 
 
@@ -118,6 +134,8 @@ body {
   flex-direction: column;
   gap: 80px;
   align-items: center;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .side-logos img {
@@ -132,10 +150,12 @@ body {
 .side-logos img:hover {
   transform: scale(1.1);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.9),
-              0 0 20px 5px rgba(79, 195, 247, 0.7);
+    0 0 20px 5px rgba(79, 195, 247, 0.7);
 }
 
+
 .center-text {
+
   text-align: center;
   margin: 0 50px;
   max-width: 500px;
@@ -143,15 +163,29 @@ body {
 
 .center-text h1 {
   font-size: 2.5rem;
-  color: var(--accent-primary);
+  background: linear-gradient(90deg, #00E5FF 0%, #007BFF 50%, #FF00FF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: bold;
   line-height: 1.4;
 }
 
 .center-text p {
+  font-size: 1.5rem;
+  /* Slightly smaller for balance with the title */
+  margin: 20px 0;
+  color: #D4D4D4;
+  /* Sleek & minimalistic light gray */
+  font-weight: 400;
+}
+
+
+
+/* .center-text p {
   font-size: 2rem;
   margin: 20px 0;
   color: var(--text-secondary);
-}
+} */
 
 .see-apps-btn {
   padding: 10px 20px;
@@ -171,9 +205,6 @@ body {
 }
 
 
-
-
-/* Responsive Adjustments for Cards */
 @media (max-width: 1200px) {
   .cards-container {
     gap: 40px;
@@ -207,5 +238,3 @@ body {
     padding: 0 20px;
   }
 }
-
-/* [Rest of your previous CSS remains the same] */

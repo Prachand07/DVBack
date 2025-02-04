@@ -99,4 +99,27 @@
     font-size: 16px;
     margin: 5px 0 0;
   }
+
+  html, body {
+    overflow-x: hidden;
+   
+    
+    width: 100%;
+}
+
+.container {
+    max-width: 1000px;
+    margin: auto;
+    overflow: hidden; /* Prevents accidental overflow */
+}
+
+.features-dp {
+    width: 100%;
+    max-width: 1000px;
+}
+
+.left-section {
+    margin-left: 0; /* Try removing negative margin */
+}
+
   

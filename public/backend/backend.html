@@ -2,89 +2,243 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>File Upload</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🚀Deploy Static Website</title>
+  <link rel="stylesheet" href="styles.css">
+
+  </style>
 </head>
 
 <body>
-    <h1>Upload Files</h1>
-    <form id="uploadForm" enctype="multipart/form-data">
-        <label for="username">Enter username:</label>
-        <input type="text" id="username" placeholder="Enter folder name" name="username" required />
-        <input type="file" id="files" name="files" multiple required />
-        <button type="submit">Upload</button>
-    </form>
-    <div id="response"></div>
+  <div class="container">
+    <h1 class="title">Let's<span> Meet Cloud</span></h1>
 
-    <script>
-        const form = document.getElementById("uploadForm");
-        const responseDiv = document.getElementById("response");
-        const fileInput = document.getElementById("files");
+    <div class="content">
+      <div class="timeline">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <div class="step-label">STEP 1</div>
+            <h3 class="step-title">Upload files</h3>
+            <p class="step-description">
+              Got code? Drop it here to take your creation on a thrilling ride
+            </p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <div class="step-label">STEP 2</div>
+            <h3 class="step-title">Processing files</h3>
+            <p class="step-description">
+              Hang tight! We’re handling the heavy lifting behind the scenes!
+            </p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <div class="step-label">STEP 3</div>
+            <h3 class="step-title">Results</h3>
+            <p class="step-description">
+              Your results have landed !! Go ahead, take a peek!
+            </p>
+            <a id="downloadButton" class="download-btn" href="#" download style="display: none">Download File</a>
+          </div>
+        </div>
+      </div>
 
-        const validFileTypes = ["text/html", "text/htm", "image/jpeg", "image/png", "text/javascript", "text/css", "video/mp4", "image/jpg"];
 
-        // Validate file type
-        fileInput.addEventListener('change', () => {
-            const files = fileInput.files;
-            for (let i = 0; i < files.length; i++) {
-                const file = files[i];
-                if (!validFileTypes.includes(file.type)) {
-                    responseDiv.textContent = `Invalid file type: ${file.name}. Please select HTML, HTM, JPG, PNG, CSS, or JS files.`;
-                    responseDiv.style.color = "red";
-                    fileInput.value = '';
-                    return;
-                }
-            }
-            responseDiv.textContent = '';
-        });
+      <div class="upload-section" id="uploadSection">
+        <div class="upload-box" id="uploadBox">
+          <div class="input-group">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" placeholder="Enter your username" required />
+          </div>
+          <div class="input-group">
+            <label for="projectName">Project Name:</label>
+            <input type="text" id="projectName" name="projectname" placeholder="Enter project name" required />
+          </div>
+          <div class="file-icon">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+          </div>
+          <div class="upload-text">Click or Drag to Upload a File</div>
+          <input type="file" id="fileInput" multiple />
+          <button class="custom-file-input" onclick="document.getElementById('fileInput').click()">
+            Choose File
+          </button>
+        </div>
+        <div id="response"></div>
+      </div>
 
 
-        form.addEventListener("submit", async (e) => {
-            e.preventDefault();
+      <div class="loading-spinner" id="loadingSpinner" style="display: none">
+        <svg class="bike" viewBox="0 0 48 30" width="48px" height="30px">
+          <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1">
+            <g transform="translate(9.5,19)">
+              <circle class="bike__tire" r="9" stroke-dasharray="56.549 56.549" />
+              <g class="bike__spokes-spin" stroke-dasharray="31.416 31.416" stroke-dashoffset="-23.562">
+                <circle class="bike__spokes" r="5" />
+                <circle class="bike__spokes" r="5" transform="rotate(180,0,0)" />
+              </g>
+            </g>
+            <g transform="translate(24,19)">
+              <g class="bike__pedals-spin" stroke-dasharray="25.133 25.133" stroke-dashoffset="-21.991"
+                transform="rotate(67.5,0,0)">
+                <circle class="bike__pedals" r="4" />
+                <circle class="bike__pedals" r="4" transform="rotate(180,0,0)" />
+              </g>
+            </g>
+            <g transform="translate(38.5,19)">
+              <circle class="bike__tire" r="9" stroke-dasharray="56.549 56.549" />
+              <g class="bike__spokes-spin" stroke-dasharray="31.416 31.416" stroke-dashoffset="-23.562">
+                <circle class="bike__spokes" r="5" />
+                <circle class="bike__spokes" r="5" transform="rotate(180,0,0)" />
+              </g>
+            </g>
+            <polyline class="bike__seat" points="14 3,18 3" stroke-dasharray="5 5" />
+            <polyline class="bike__body" points="16 3,24 19,9.5 19,18 8,34 7,24 19" stroke-dasharray="79 79" />
+            <path class="bike__handlebars" d="m30,2h6s1,0,1,1-1,1-1,1" stroke-dasharray="10 10" />
+            <polyline class="bike__front" points="32.5 2,38.5 19" stroke-dasharray="19 19" />
+          </g>
+        </svg>
+        <p>Processing files... Please wait.</p>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const fileInput = document.getElementById("fileInput");
+      const uploadSection = document.getElementById("uploadSection");
+      const loadingSpinner = document.getElementById("loadingSpinner");
+      const responseDiv = document.getElementById("response");
+      const steps = document.querySelectorAll(".step");
+      const downloadButton = document.getElementById("downloadButton");
+      const usernameInput = document.getElementById("username");
+      const projectNameInput = document.getElementById("projectName");
+      const validFileTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/jpg",
+        "text/html",
+        "text/css",
+        "text/javascript",
+        "application/javascript",
+      ];
 
-            const username = document.getElementById("username").value.trim();
-            const files = fileInput.files;
+      steps[0].classList.add("active");
+      fileInput.addEventListener("change", async () => {
+        if (usernameInput.value.trim() === "") {
+          responseDiv.textContent = "Username is required!";
+          responseDiv.style.color = "red";
+          return;
+        }
+        if (projectNameInput.value.trim() === "") {
+          responseDiv.textContent = "Project name is required!";
+          responseDiv.style.color = "red";
+          return;
+        }
 
-            if (!username) {
-                responseDiv.textContent = "Please enter a unique name.";
-                responseDiv.style.color = "red";
-                return;
-            }
+        const files = fileInput.files;
+        if (files.length === 0) return;
 
-            if (!files.length) {
-                responseDiv.textContent = "Please select files to upload.";
-                responseDiv.style.color = "red";
-                return;
-            }
+        // Hide Upload Section & Show Spinner
+        uploadSection.style.display = "none";
+        loadingSpinner.style.display = "block";
+        steps.forEach((step) => step.classList.remove("active")); // Reset Steps
+        steps[0].classList.add("active");
 
-            const formData = new FormData();
-            formData.append("username", username);
-            for (const file of files) {
-                formData.append("files", file);
-            }
+        for (let file of files) {
+          if (!validFileTypes.includes(file.type)) {
+            responseDiv.textContent = `Invalid file type: ${file.name}.`;
+            responseDiv.style.color = "red";
+            fileInput.value = "";
+            uploadSection.style.display = "block"; // Restore Upload Section
+            loadingSpinner.style.display = "none"; // Hide Spinner
+            return;
+          }
+        }
 
-            try {
-                const response = await fetch(`http://13.60.85.61:8090/upload-folder`, {
-                    method: "POST",
-                    body: formData,
-                });
+        responseDiv.textContent = "";
 
-                if (response.ok) {
-                    const text = await response.text();
-                    responseDiv.textContent = text;
-                    responseDiv.style.color = "green";
-                } else {
-                    responseDiv.textContent = "Failed to upload files.";
-                    responseDiv.style.color = "red";
-                }
-            } catch (err) {
-                responseDiv.textContent = "An error occurred: " + err.message;
-                responseDiv.style.color = "red";
-            }
-        });
-    </script>
+        const formData = new FormData();
+        for (const file of files) {
+          formData.append("files", file);
+        }
+        formData.append("username", usernameInput.value);
+        formData.append("projectname", projectNameInput.value);
+
+        try {
+          // Simulating Upload Progress (Since fetch does not support progress natively)
+          setTimeout(() => steps[1].classList.add("active"), 1000);
+
+          const response = await fetch("http://localhost:8090/upload-folder", {
+            method: "POST",
+            body: formData,
+          });
+
+          const result = await response.json();
+
+          if (response.ok) {
+            let fileUrl = result.message;
+            let mainurl = fileUrl.match(/http[s]?:\/\/[^\s]+/)?.[0] || fileUrl;
+
+            steps[2].classList.add("active"); // Final Step Highlight
+            uploadSection.style.display = "block";
+            responseDiv.style.color = "green";
+            loadingSpinner.style.display = "none";
+            document.getElementById("uploadBox").style.display = "none";
+
+            const blob = new Blob([fileUrl], { type: "text/plain" });
+            const fileDownloadUrl = URL.createObjectURL(blob);
+
+            responseDiv.innerHTML = `
+          <div class="response-container">
+            <h2 class="response-title">Your File is Ready!</h2>
+            <div class="file-info">
+              <input type="text" id="fileUrlInput" value="${mainurl}" readonly>
+            </div>
+            <div class="action-buttons">
+              <button id="copyButton" class="btn btn-primary">Copy URL</button>
+              <a id="downloadButton" class="btn btn-success" href="${fileDownloadUrl}" download>Download File</a>
+            </div>
+            <button id="newProjectButton" class="btn btn-secondary">Start New Project</button>
+          </div>
+        `;
+
+            document.getElementById("copyButton").addEventListener("click", () => {
+              const fileUrlInput = document.getElementById("fileUrlInput");
+              fileUrlInput.select();
+              document.execCommand("copy");
+              alert("URL copied to clipboard!");
+            });
+
+            document.getElementById("newProjectButton").addEventListener("click", () => {
+              location.reload();
+            });
+          } else {
+            responseDiv.textContent = result.message;
+            responseDiv.style.color = "red";
+            uploadSection.style.display = "block";
+            loadingSpinner.style.display = "none";
+          }
+        } catch (error) {
+          responseDiv.textContent = "An error occurred during file upload.";
+          responseDiv.style.color = "red";
+          uploadSection.style.display = "block";
+          loadingSpinner.style.display = "none";
+          console.error("Upload Error:", error);
+        }
+      });
+
+      loadingSpinner.style.display = "none";
+    });
+  </script>
+
 </body>
 
 </html>

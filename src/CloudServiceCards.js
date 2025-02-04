@@ -4,17 +4,18 @@ import "./CloudServiceCards.css";
 const CloudServiceCards = () => {
     const services = [
       {
-        title: "EC2",
-        tagline: "Elastic Cloud Compute",
-        description: "Scalable computing capacity in the Amazon Web Services cloud",
-        features: ["Auto-scaling capacity", "Pay-as-you-go pricing", "Global deployment"],
-      },
-      {
         title: "S3",
         tagline: "Simple Storage Service",
         description: "Object storage built to store and retrieve any amount of data",
         features: ["Unlimited scalability", "99.999999999% durability", "Advanced security"],
       },
+      {
+        title: "EC2",
+        tagline: "Elastic Cloud Compute",
+        description: "Scalable computing capacity in the Amazon Web Services cloud",
+        features: ["Auto-scaling capacity", "Pay-as-you-go pricing", "Global deployment"],
+      },
+      
       {
         title: "VPC",
         tagline: "Virtual Private Cloud",
