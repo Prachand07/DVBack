@@ -14,6 +14,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  
 }
 
 body {
@@ -55,6 +56,9 @@ body {
   gap: 30px;
   list-style: none;
   align-items: center;
+  font-family: 'Poppins', 'sans-serif';
+  font-size: medium;
+  font-weight: 300;
 }
 
 .nav-buttons {
@@ -191,13 +195,37 @@ nav {
   padding: 10px 20px;
   background-color: var(--accent-primary);
   color: var(--bg-primary);
-  border: none;
-  border-radius: 5px;
+ 
+  border-radius: 25px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease;
-  margin-right: 40px;
-  margin-left: 40px;
+  margin-right: 20px;
+  margin-left: 20px;
+  font-family: 'Poppins', 'sans-serif';
+  font-weight: 300;
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  gap: 8px;
 }
+
+.button-container {
+  display: flex;
+  align-items: center; /* Align buttons vertically */
+  justify-content: center; /* Center them horizontally */
+  gap: 20px; /* Add spacing between buttons */
+  flex-wrap: wrap; /* Ensure they wrap on smaller screens */
+}
+
+
+.see-apps-btn span {
+  display: flex;
+  align-items: center; 
+  justify-content: center;
+  width: 24px; 
+  height: 24px;
+}
+
 
 .see-apps-btn:hover {
   background-color: var(--accent-secondary);

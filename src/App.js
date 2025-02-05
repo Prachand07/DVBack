@@ -57,32 +57,50 @@ function App() {
             <img src={cloudFront} alt="CloudFront" />
             <img src={cloudWatch} alt="CloudWatch" />
           </div>
-          <div className="center-text" style={{ fontFamily: 'Poppins, sans-serif' }}>
+
+          <div className="center-text" style={{ fontFamily: 'Poppins, sans-serif', textAlign: 'center' }}>
             <h1 style={{ fontSize: "60px", margin: "10px 0" }}>DeployVerse</h1>
             <p style={{ fontSize: "35px" }}>Where Code Meets Cloud</p>
-            <button className="see-apps-btn">See in Action</button>
-            <button className="see-apps-btn">Hosting Solutions</button>
-          </div>
-          <div className="side-logos right-middle">
-            <img src={dynamoDB} alt="DynamoDB" />
-            <img src={lambda} alt="Lambda" />
-          </div>
-          <div className="side-logos right-side">
-            <img src={keyManagementService} alt="Key Management Service" />
-            <img src={terraform} alt="terraform" />
-            <img src={virtualPrivateCloud} alt="VPC" />
-          </div>
+
+          
+            <div className="button-container">
+              <button className="see-apps-btn">
+                See in Action
+                <span>
+                  <img alt="Arrow" src="/expand_circle_right1.svg" />
+                </span>
+              </button>
+
+              <button className="see-apps-btn">
+                Hosting Solutions
+                <span>
+                  <img alt="Arrow" src="/expand_circle_right1.svg" />
+                </span>
+              </button>
+            </div>
+         
+
         </div>
-        {/* Cloud Service Cards */}
-        <CloudServiceCards />
-        {/* Deployment Pipeline Section */}
-        <DeploymentPipeline />
-        {/* Everything you can Deploy Section */}
-        <Features />
-        {/* Resource Documentation section */}
-        <ResourcesDocumentation />
-      </main>
+        <div className="side-logos right-middle">
+          <img src={dynamoDB} alt="DynamoDB" />
+          <img src={lambda} alt="Lambda" />
+        </div>
+        <div className="side-logos right-side">
+          <img src={keyManagementService} alt="Key Management Service" />
+          <img src={terraform} alt="terraform" />
+          <img src={virtualPrivateCloud} alt="VPC" />
+        </div>
     </div>
+        {/* Cloud Service Cards */ }
+  <CloudServiceCards />
+  {/* Deployment Pipeline Section */ }
+  <DeploymentPipeline />
+  {/* Everything you can Deploy Section */ }
+  <Features />
+  {/* Resource Documentation section */ }
+  <ResourcesDocumentation />
+      </main >
+    </div >
   );
 }
 

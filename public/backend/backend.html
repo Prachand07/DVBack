@@ -6,14 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>🚀Deploy Static Website</title>
   <link rel="stylesheet" href="styles.css">
-
-  </style>
 </head>
 
 <body>
   <div class="container">
     <h1 class="title">Let's<span> Meet Cloud</span></h1>
-
     <div class="content">
       <div class="timeline">
         <div class="step">
@@ -106,7 +103,7 @@
             <polyline class="bike__front" points="32.5 2,38.5 19" stroke-dasharray="19 19" />
           </g>
         </svg>
-        <p>Processing files... Please wait.</p>
+        <p style="color: white;">Processing files... Please wait.</p>
       </div>
     </div>
   </div>
@@ -132,17 +129,35 @@
 
       steps[0].classList.add("active");
       fileInput.addEventListener("change", async () => {
-        if (usernameInput.value.trim() === "") {
+        // Clear previous response message
+        responseDiv.innerText = "";
+        responseDiv.style.color = "";
+
+        let username = usernameInput.value.trim().toLowerCase().replace(/\s+/g, "");
+        let projectName = projectNameInput.value.trim();
+        console.log(username);
+
+        if (!username) {
           responseDiv.textContent = "Username is required!";
           responseDiv.style.color = "red";
           return;
         }
-        if (projectNameInput.value.trim() === "") {
+
+        if (!projectName) {
           responseDiv.textContent = "Project name is required!";
           responseDiv.style.color = "red";
           return;
         }
-
+        if (/^\d/.test(username)) {
+          responseDiv.textContent = "Error: Username cannot start with a number.";
+          responseDiv.style.color = "red";
+          return;
+        }
+        if (!/^[a-zA-Z][a-zA-Z0-9]*$/.test(username)) {
+          responseDiv.textContent = "Error: Username can only contain letters, numbers and must start with a letter";
+          responseDiv.style.color = "red";
+          return;
+        }
         const files = fileInput.files;
         if (files.length === 0) return;
 
@@ -169,14 +184,14 @@
         for (const file of files) {
           formData.append("files", file);
         }
-        formData.append("username", usernameInput.value);
+        formData.append("username", username);
         formData.append("projectname", projectNameInput.value);
 
         try {
-          // Simulating Upload Progress (Since fetch does not support progress natively)
+
           setTimeout(() => steps[1].classList.add("active"), 1000);
 
-          const response = await fetch("http://13.60.85.61:8090/upload-folder", {
+          const response = await fetch("http://localhost:8090/upload-folder", {
             method: "POST",
             body: formData,
           });
