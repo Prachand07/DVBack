@@ -6,7 +6,7 @@
   --text-secondary: #b0bec5;
   --accent-primary: #4fc3f7;
   --accent-secondary: #29b6f6;
-  
+  --button-color: #D4D4D4;
   --card-bg: #1e1e1e;
 }
 
@@ -193,7 +193,7 @@ nav {
 
 .see-apps-btn {
   padding: 10px 20px;
-  background-color: var(--accent-primary);
+  background-color: var(--button-color);
   color: var(--bg-primary);
  
   border-radius: 25px;
@@ -214,7 +214,8 @@ nav {
   align-items: center; /* Align buttons vertically */
   justify-content: center; /* Center them horizontally */
   gap: 20px; /* Add spacing between buttons */
-  flex-wrap: wrap; /* Ensure they wrap on smaller screens */
+  flex-wrap: wrap; 
+ 
 }
 
 
@@ -224,11 +225,11 @@ nav {
   justify-content: center;
   width: 24px; 
   height: 24px;
+
 }
 
 
 .see-apps-btn:hover {
-  background-color: var(--accent-secondary);
   transform: translateY(-2px);
 }
 

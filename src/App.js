@@ -14,7 +14,9 @@ import virtualPrivateCloud from "./images/Virtual Private Cloud.png";
 import terraform from "./images/Terraform.png";
 
 //importing other components
-import CloudServiceCards from "./CloudServiceCards";
+// import CloudServiceCards from "./CloudServiceCards";
+// import CloudCards from "./CloudCards";
+import MyCloudCards from "./MyCloudCards";
 import DeploymentPipeline from "./DeploymentPipeline";
 import Features from "./Features";
 import ResourcesDocumentation from "./ResourceDocumentation";
@@ -22,33 +24,27 @@ import ResourcesDocumentation from "./ResourceDocumentation";
 function App() {
   return (
     <div className="homepage">
-      {/* Navigation Bar */}
       <header className="navbar">
         <div className="logo-container">
           <img src="logo.jpg" alt="Logo" className="logo" />
         </div>
         <nav>
           <ul className="nav-links">
-
             <li>Dashboard</li>
-            <li>Services </li>
-            {/* <li>Documentation</li> */}
+            <li>Services</li>
             <li>Pricing</li>
             <li>Support</li>
-
           </ul>
         </nav>
-
         <div className="nav-buttons">
           <a href="/backend/backend.html"><button className="cta">Try Me</button></a>
           <button className="cta">Sign In</button>
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="content">
         <div className="apps-section">
-          <div className="side-logos left-side" >
+          <div className="side-logos left-side">
             <img src={ec2} alt="EC2" />
             <img src={docker} alt="Docker" />
             <img src={simpleStorageService} alt="Simple Storage Service" />
@@ -57,12 +53,9 @@ function App() {
             <img src={cloudFront} alt="CloudFront" />
             <img src={cloudWatch} alt="CloudWatch" />
           </div>
-
           <div className="center-text" style={{ fontFamily: 'Poppins, sans-serif', textAlign: 'center' }}>
             <h1 style={{ fontSize: "60px", margin: "10px 0" }}>DeployVerse</h1>
             <p style={{ fontSize: "35px" }}>Where Code Meets Cloud</p>
-
-          
             <div className="button-container">
               <button className="see-apps-btn">
                 See in Action
@@ -70,7 +63,6 @@ function App() {
                   <img alt="Arrow" src="/expand_circle_right1.svg" />
                 </span>
               </button>
-
               <button className="see-apps-btn">
                 Hosting Solutions
                 <span>
@@ -78,29 +70,25 @@ function App() {
                 </span>
               </button>
             </div>
-         
-
+          </div>
+          <div className="side-logos right-middle">
+            <img src={dynamoDB} alt="DynamoDB" />
+            <img src={lambda} alt="Lambda" />
+          </div>
+          <div className="side-logos right-side">
+            <img src={keyManagementService} alt="Key Management Service" />
+            <img src={terraform} alt="terraform" />
+            <img src={virtualPrivateCloud} alt="VPC" />
+          </div>
         </div>
-        <div className="side-logos right-middle">
-          <img src={dynamoDB} alt="DynamoDB" />
-          <img src={lambda} alt="Lambda" />
-        </div>
-        <div className="side-logos right-side">
-          <img src={keyManagementService} alt="Key Management Service" />
-          <img src={terraform} alt="terraform" />
-          <img src={virtualPrivateCloud} alt="VPC" />
-        </div>
+        {/* <CloudServiceCards /> */}
+        {/* <CloudCards /> */}
+        <MyCloudCards />
+        <DeploymentPipeline />
+        <Features />
+        <ResourcesDocumentation />
+      </main>
     </div>
-        {/* Cloud Service Cards */ }
-  <CloudServiceCards />
-  {/* Deployment Pipeline Section */ }
-  <DeploymentPipeline />
-  {/* Everything you can Deploy Section */ }
-  <Features />
-  {/* Resource Documentation section */ }
-  <ResourcesDocumentation />
-      </main >
-    </div >
   );
 }
 
