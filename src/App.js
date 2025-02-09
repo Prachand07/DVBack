@@ -1,4 +1,5 @@
 import React from "react";
+import { useRef } from "react";
 import "./App.css";
 
 // Importing updated images from src/images
@@ -22,6 +23,16 @@ import Features from "./Features";
 import ResourcesDocumentation from "./ResourceDocumentation";
 
 function App() {
+  const servicesRef = useRef(null);
+
+  const scrollToServices = () => {
+    servicesRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <div className="homepage">
       <header className="navbar">
@@ -30,14 +41,14 @@ function App() {
         </div>
         <nav>
           <ul className="nav-links">
-            <li>Dashboard</li>
-            <li>Services</li>
+            <li onClick={scrollToTop} style={{ cursor: "pointer" }}>Dashboard</li>
+            <li onClick={scrollToServices} style={{ cursor: "pointer" }}>Services </li>
             <li>Pricing</li>
             <li>Support</li>
           </ul>
         </nav>
         <div className="nav-buttons">
-          <a href="/backend/backend.html"><button className="cta">Try Me</button></a>
+
           <button className="cta">Sign In</button>
         </div>
       </header>
@@ -63,7 +74,7 @@ function App() {
                   <img alt="Arrow" src="/expand_circle_right1.svg" />
                 </span>
               </button>
-              <button className="see-apps-btn">
+              <button className="see-apps-btn" onClick={scrollToServices} style={{ cursor: "pointer" }}>
                 Hosting Solutions
                 <span>
                   <img alt="Arrow" src="/expand_circle_right1.svg" />
@@ -83,7 +94,9 @@ function App() {
         </div>
         {/* <CloudServiceCards /> */}
         {/* <CloudCards /> */}
-        <MyCloudCards />
+        <div ref={servicesRef}>
+          <MyCloudCards />
+        </div>
         <DeploymentPipeline />
         <Features />
         <ResourcesDocumentation />

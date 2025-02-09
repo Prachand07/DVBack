@@ -5,16 +5,16 @@ body {
     padding: 0;
     background-color: #0D1117;
     color: #e0e0e0;
-  
+
 }
 
 /* Container for Cards */
 .cards-container {
     display: flex;
-    flex-direction: row; 
-    justify-content: center; 
+    flex-direction: row;
+    justify-content: center;
     align-items: center;
-    flex-wrap: wrap; 
+    flex-wrap: wrap;
     gap: 75px;
     padding: 50px;
     margin-top: 50px;
@@ -22,12 +22,12 @@ body {
     overflow: hidden;
 }
 
-/* Individual Card */
+
 .card {
     /* background: #003566; */
     background: #1b263b;
-    padding: 20px;
-    width: 350px; 
+    padding: 15px;
+    width: 350px;
     border-radius: 10px;
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
     text-align: center;
@@ -62,10 +62,29 @@ body {
     transition: color 0.3s ease;
 }
 
-.change-color:hover {
-    color:#1bf691;
-    filter: invert(41%) sepia(96%) hue-rotate(100deg) saturate(363%) brightness(106%);
+.s3:hover .card-header h2,
+.s3:hover .card-header img {
+    color: #3b8423;
+    filter: invert(41%) sepia(60%) saturate(635%) hue-rotate(60deg) brightness(89%) contrast(82%);
 }
+
+.ec2:hover .card-header h2,
+.ec2:hover .card-header img {
+    color: #f4820b;
+    filter: invert(47%) sepia(81%) saturate(545%) hue-rotate(350deg) brightness(105%) contrast(98%);
+}
+
+.rds:hover .card-header h2 {
+
+
+    color: #f6bd60;
+    /* color: rgba(0, 0, 255, 255) */
+}
+
+.rds:hover .card-header img {
+    content: url("./images/upd-rdec.png");
+}
+
 
 /* Description */
 .card p {
@@ -86,8 +105,8 @@ body {
 }
 
 .feature img {
-    width: 25px;
-    height: 25px;
+    width: 40px;
+    height: 40px;
     margin-right: 10px;
     transition: transform 0.3s ease;
     filter: brightness(0) invert(1);
@@ -101,6 +120,7 @@ body {
     font-size: 0.9rem;
     color: #d0d0d0;
     position: relative;
+    text-align: left;
     transition: color 0.3s ease, transform 0.3s ease;
 }
 
@@ -111,6 +131,7 @@ body {
 
 .feature p strong {
     color: #ffffff;
+    text-align: center;
 }
 
 /* Animation Delays */
@@ -140,6 +161,7 @@ body {
     margin-top: 15px;
     padding: 10px 15px;
     border: 2px solid #ffffff;
+
     border-radius: 5px;
     cursor: pointer;
     transition: background 0.3s, color 0.3s;
@@ -150,4 +172,21 @@ body {
     background: #ffffff;
     color: #1a1a1a;
     box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+}
+
+.s3 .learn-more {
+    
+    color: white;
+}
+
+.s3 .learn-more:hover {
+    background-color: white;
+
+}
+.s3 .learn-more a{
+    text-decoration: none;
+}
+
+.s3 .learn-more a:hover{
+    color:black;
 }

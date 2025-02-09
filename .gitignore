@@ -10,7 +10,10 @@ public/backend/node_modules
 
 # production
 /build
-
+CloudCards.js
+CloudServiceCards.js
+Cards.css
+CloudServiceCards.css
 # misc
 .DS_Store
 .env.local
