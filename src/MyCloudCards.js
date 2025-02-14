@@ -80,7 +80,7 @@ const MyCloudCards = () => {
 
           <div className="learn-more">
             {card.title.includes("Static") ? (
-              <a href="/backend/backend.html">Get Started →</a>
+              <a href="/backend/SignUp.html">Get Started →</a>
             ) : (
               "Coming Soon !!"
             )}

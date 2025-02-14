@@ -49,7 +49,10 @@ function App() {
         </nav>
         <div className="nav-buttons">
 
-          <button className="cta">Sign In</button>
+          <a href="/backend/SignUp.html">
+            <button className="cta">Sign In</button>
+          </a>
+
         </div>
       </header>
 
