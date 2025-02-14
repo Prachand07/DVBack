@@ -5,10 +5,29 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>🚀Deploy Static Website</title>
+
   <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
+  <!-- <header class="navbar">
+    <div class="logo-container">
+      <img src="/public/logo.jpg" alt="Logo" class="logo">
+    </div>
+    <nav>
+      <ul class="nav-links">
+        <li>Dashboard</li> 
+        <li>Services</li>
+        <li>Pricing</li>
+        <li>Support</li>
+      </ul>
+    </nav>
+    <div class="nav-buttons">
+      <a href="/backend/SignUp.html">
+        <button class="cta">Sign In</button>
+      </a>
+    </div>
+  </header> -->
   <div class="container">
     <h1 class="title">Let's<span> Meet Cloud</span></h1>
     <div class="content">
@@ -49,10 +68,7 @@
 
       <div class="upload-section" id="uploadSection">
         <div class="upload-box" id="uploadBox">
-          <div class="input-group">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" placeholder="Enter your username" required />
-          </div>
+
           <div class="input-group">
             <label for="projectName">Project Name:</label>
             <input type="text" id="projectName" name="projectname" placeholder="Enter project name" required />
@@ -63,7 +79,7 @@
                 d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
           </div>
-          <div class="upload-text">Click npmto Upload a File</div>
+          <div class="upload-text">Click to Upload a File</div>
           <input type="file" id="fileInput" multiple />
           <button class="custom-file-input" onclick="document.getElementById('fileInput').click()">
             Choose File
@@ -108,150 +124,134 @@
     </div>
   </div>
   <script>
+    function getTokenFromCookies() {
+      const cookies = document.cookie.split("; ");
+      for (let cookie of cookies) {
+        const [name, value] = cookie.split("=");
+        if (name === "authToken") return value;
+      }
+      return null;
+    }
+
     document.addEventListener("DOMContentLoaded", () => {
+      console.log("Token from backend:", getTokenFromCookies());
+
       const fileInput = document.getElementById("fileInput");
       const uploadSection = document.getElementById("uploadSection");
       const loadingSpinner = document.getElementById("loadingSpinner");
       const responseDiv = document.getElementById("response");
       const steps = document.querySelectorAll(".step");
-      const downloadButton = document.getElementById("downloadButton");
       const usernameInput = document.getElementById("username");
       const projectNameInput = document.getElementById("projectName");
+      const token = getTokenFromCookies();
+
       const validFileTypes = [
-        "image/jpeg",
-        "image/png",
-        "image/jpg",
-        "text/html",
-        "text/css",
-        "text/javascript",
-        "application/javascript",
+        "image/jpeg", "image/png", "image/jpg",
+        "text/html", "text/css", "text/javascript", "application/javascript"
       ];
 
       steps[0].classList.add("active");
+
       fileInput.addEventListener("change", async () => {
-        // Clear previous response message
         responseDiv.innerText = "";
         responseDiv.style.color = "";
 
-        let username = usernameInput.value.trim().toLowerCase().replace(/\s+/g, "");
+
         let projectName = projectNameInput.value.trim();
-        console.log(username);
 
-        if (!username) {
-          responseDiv.textContent = "Username is required!";
-          responseDiv.style.color = "red";
-          return;
-        }
 
-        if (!projectName) {
-          responseDiv.textContent = "Project name is required!";
-          responseDiv.style.color = "red";
-          return;
-        }
-        if (/^\d/.test(username)) {
-          responseDiv.textContent = "Error: Username cannot start with a number.";
-          responseDiv.style.color = "red";
-          return;
-        }
-        if (!/^[a-zA-Z][a-zA-Z0-9]*$/.test(username)) {
-          responseDiv.textContent = "Error: Username can only contain letters, numbers and must start with a letter";
-          responseDiv.style.color = "red";
-          return;
-        }
+        if (!projectName) return displayError("Project name is required!");
+
+
         const files = fileInput.files;
         if (files.length === 0) return;
 
-        // Hide Upload Section & Show Spinner
-        uploadSection.style.display = "none";
-        loadingSpinner.style.display = "block";
-        steps.forEach((step) => step.classList.remove("active")); // Reset Steps
-        steps[0].classList.add("active");
-
         for (let file of files) {
           if (!validFileTypes.includes(file.type)) {
-            responseDiv.textContent = `Invalid file type: ${file.name}.`;
-            responseDiv.style.color = "red";
-            fileInput.value = "";
-            uploadSection.style.display = "block"; // Restore Upload Section
-            loadingSpinner.style.display = "none"; // Hide Spinner
-            return;
+            return displayError(`Invalid file type: ${file.name}.`);
           }
         }
 
-        responseDiv.textContent = "";
+        toggleUploadSpinner(true);
+        steps[0].classList.add("active");
 
         const formData = new FormData();
-        for (const file of files) {
-          formData.append("files", file);
-        }
-        formData.append("username", username);
-        formData.append("projectname", projectNameInput.value);
+        for (const file of files) formData.append("files", file);
+
+        formData.append("projectname", projectName);
 
         try {
-
           setTimeout(() => steps[1].classList.add("active"), 1000);
 
-          const response = await fetch("http://13.60.85.61:8090/upload-folder", {
+          const response = await fetch("http://localhost:8091/upload-folder", {
             method: "POST",
             body: formData,
+            headers: {
+              "Authorization": `Bearer ${token}`
+            }
           });
 
           const result = await response.json();
-
           if (response.ok) {
-            let fileUrl = result.message;
-            let mainurl = fileUrl.match(/http[s]?:\/\/[^\s]+/)?.[0] || fileUrl;
-
-            steps[2].classList.add("active"); // Final Step Highlight
-            uploadSection.style.display = "block";
-            responseDiv.style.color = "green";
-            loadingSpinner.style.display = "none";
-            document.getElementById("uploadBox").style.display = "none";
-
-            const blob = new Blob([fileUrl], { type: "text/plain" });
-            const fileDownloadUrl = URL.createObjectURL(blob);
-
-            responseDiv.innerHTML = `
-          <div class="response-container">
-            <h2 class="response-title">Your File is Ready!</h2>
-            <div class="file-info">
-              <input type="text" id="fileUrlInput" value="${mainurl}" readonly>
-            </div>
-            <div class="action-buttons">
-              <button id="copyButton" class="btn btn-primary">Copy URL</button>
-              <a id="downloadButton" class="btn btn-success" href="${fileDownloadUrl}" download>Download File</a>
-            </div>
-            <button id="newProjectButton" class="btn btn-secondary">Start New Project</button>
-          </div>
-        `;
-
-            document.getElementById("copyButton").addEventListener("click", () => {
-              const fileUrlInput = document.getElementById("fileUrlInput");
-              fileUrlInput.select();
-              document.execCommand("copy");
-              alert("URL copied to clipboard!");
-            });
-
-            document.getElementById("newProjectButton").addEventListener("click", () => {
-              location.reload();
-            });
+            handleSuccess(result.message);
           } else {
-            responseDiv.textContent = result.message;
-            responseDiv.style.color = "red";
-            uploadSection.style.display = "block";
-            loadingSpinner.style.display = "none";
+            displayError(result.message);
           }
         } catch (error) {
-          responseDiv.textContent = "An error occurred during file upload.";
-          responseDiv.style.color = "red";
-          uploadSection.style.display = "block";
-          loadingSpinner.style.display = "none";
           console.error("Upload Error:", error);
+          displayError("An error occurred during file upload.");
         }
       });
 
+      function displayError(message) {
+        responseDiv.textContent = message;
+        responseDiv.style.color = "red";
+        toggleUploadSpinner(false);
+      }
+
+      function toggleUploadSpinner(isUploading) {
+        uploadSection.style.display = isUploading ? "none" : "block";
+        loadingSpinner.style.display = isUploading ? "block" : "none";
+      }
+
+      function handleSuccess(fileUrl) {
+        let mainUrl = fileUrl.match(/http[s]?:\/\/[^\s]+/)?.[0] || fileUrl;
+        steps[2].classList.add("active");
+        toggleUploadSpinner(false);
+        document.getElementById("uploadBox").style.display = "none";
+
+        const blob = new Blob([fileUrl], { type: "text/plain" });
+        const fileDownloadUrl = URL.createObjectURL(blob);
+
+        responseDiv.innerHTML = `
+      <div class="response-container">
+        <h2 class="response-title">Your File is Ready!</h2>
+        <div class="file-info">
+          <input type="text" id="fileUrlInput" value="${mainUrl}" readonly>
+        </div>
+        <div class="action-buttons">
+          <button id="copyButton" class="btn btn-primary">Copy URL</button>
+          <a id="downloadButton" class="btn btn-success" href="${fileDownloadUrl}" download>Download File</a>
+        </div>
+        <button id="newProjectButton" class="btn btn-secondary">Start New Project</button>
+      </div>
+    `;
+
+        document.getElementById("copyButton").addEventListener("click", () => {
+          const fileUrlInput = document.getElementById("fileUrlInput");
+          fileUrlInput.select();
+          document.execCommand("copy");
+          alert("URL copied to clipboard!");
+        });
+
+        document.getElementById("newProjectButton").addEventListener("click", () => {
+          location.reload();
+        });
+      }
+
       loadingSpinner.style.display = "none";
     });
+
   </script>
 
 </body>

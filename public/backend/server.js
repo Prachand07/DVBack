@@ -27,10 +27,9 @@ const upload = multer({
 
 
 app.get("/verify", (req, res) => {
-  const token =req.headers.authorization?.split(" ")[1]; // Support both methods
+  const token = req.headers.authorization?.split(" ")[1]; // Support both methods
 
-  console.log("Received Token:", token); // ✅ Log the token for debugging
-
+  console.log("Received Token:", token);
   if (!token) {
     return res.status(401).json({ valid: false, message: "No token provided" });
   }
@@ -62,16 +61,16 @@ app.post("/signup", async (req, res) => {
     await user.save();
     console.log("User saved successfully:", user);
     const token = jwt.sign(
-      { userId: user._id, email: user.email }, 
-      process.env.JWT_SECRET, 
+      { userId: user._id, email: user.email, username: user.name },
+      process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
-    res.status(201).json({ 
-      message: "Signup successful", 
-      token,  
-      redirect: "/backend.html" 
+    res.status(201).json({
+      message: "Signup successful",
+      token,
+      redirect: "/backend.html"
     });
-    
+
   } catch (err) {
     console.error("Signup error:", err);
     res.status(500).json({ message: "Server error", error: err.message });
@@ -95,14 +94,14 @@ app.post("/signin", async (req, res) => {
 
     // Generate JWT token with email
     const token = jwt.sign(
-      { userId: user._id, email: user.email }, 
-      process.env.JWT_SECRET, 
+      { userId: user._id, email: user.email, username: user.name },
+      process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
     console.log(token);
     // Store token in HTTP-only cookie
-    
-   res.status(200).json({ message: "Login successful!", token });
+
+    res.status(200).json({ message: "Login successful!", token });
   } catch (err) {
     console.error("Signin error:", err);
     res.status(500).json({ message: "Server error", error: err.message });
@@ -112,11 +111,19 @@ app.post("/signin", async (req, res) => {
 
 app.post("/upload-folder", upload.array("files", 30), async (req, res) => {
   console.log(`Received a request to upload files`);
+  // Extract the token from the Authorization header
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    console.error(`Authorization token missing or invalid`);
+    return res.status(401).json({ message: "Unauthorized: Missing or invalid token" });
+  }
 
-  
-  let username = req.body.username;
-  username = username.toLowerCase();
-  console.log(username);
+  const token = authHeader.split(" ")[1];
+  console.log(`Received token in uploadfolder: ${token}`);
+  const decoded = jwt.verify(token,process.env.JWT_SECRET);
+  console.log(decoded);
+  const username = decoded.username?.toLowerCase().trim().replace(/\s+/g, "");
+  console.log("Token username ",username);
   const projectname = req.body.projectname;
   console.log(projectname);
   if (!req.files || req.files.length === 0) {
