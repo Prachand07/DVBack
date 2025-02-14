@@ -124,7 +124,6 @@ document.getElementById("signin-form").addEventListener("submit", async function
                 icon: "success",
                 title: "Sign-in Successful!",
                 text: "Redirecting...",
-                
                 backdrop: false,
                 timer: 2000,
             });
