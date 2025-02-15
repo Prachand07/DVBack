@@ -5,6 +5,9 @@
 /.pnp
 .pnp.js
 public/backend/node_modules
+rough.txt
+exec.bat
+
 # testing
 /coverage
 

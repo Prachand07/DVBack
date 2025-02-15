@@ -9,7 +9,7 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();
 const generateBucketName = (username) => {
   const randomString = crypto.randomBytes(4).toString("hex");
   const timestamp = Date.now();
-  const bucketName = `${username}-${randomString}-${timestamp}`;
+  const bucketName = `${username}-${randomString}${timestamp}`;
   console.log(`Generated bucket name: ${bucketName}`);
   return bucketName;
 };

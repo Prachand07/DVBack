@@ -72,6 +72,7 @@ body {
 .ec2:hover .card-header img {
     color: #f4820b;
     filter: invert(47%) sepia(81%) saturate(545%) hue-rotate(350deg) brightness(105%) contrast(98%);
+   
 }
 
 .rds:hover .card-header h2 {
