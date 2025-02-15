@@ -30,7 +30,7 @@ async function verifyToken() {
             return;
         }
 
-        const response = await fetch("http://localhost:8091/verify", {
+        const response = await fetch("http://13.60.85.61:8090/verify", {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -58,7 +58,7 @@ document.getElementById("signup-form").addEventListener("submit", async function
     const password = document.getElementById("password").value;
 
     try {
-        const response = await fetch("http://localhost:8091/signup", {
+        const response = await fetch("http://13.60.85.61:8090/signup", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ name, email, password }),
@@ -109,7 +109,7 @@ document.getElementById("signin-form").addEventListener("submit", async function
     const password = document.getElementById("signin-password").value;
 
     try {
-        const response = await fetch("http://localhost:8091/signin", {
+        const response = await fetch("http://13.60.85.61:8090/signin", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, password }),

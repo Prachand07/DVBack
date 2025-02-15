@@ -10,25 +10,7 @@
 </head>
 
 <body>
-  <!-- <header class="navbar">
-    <div class="logo-container">
-      <img src="/public/logo.jpg" alt="Logo" class="logo">
-    </div>
-    <nav>
-      <ul class="nav-links">
-        <li>Dashboard</li> 
-        <li>Services</li>
-        <li>Pricing</li>
-        <li>Support</li>
-      </ul>
-    </nav>
-    <div class="nav-buttons">
-      <a href="/backend/SignUp.html">
-        <button class="cta">Sign In</button>
-      </a>
-    </div>
-  </header> -->
-  <div class="container">
+   <div class="container">
     <h1 class="title">Let's<span> Meet Cloud</span></h1>
     <div class="content">
       <div class="timeline">
@@ -183,7 +165,7 @@
         try {
           setTimeout(() => steps[1].classList.add("active"), 1000);
 
-          const response = await fetch("http://localhost:8091/upload-folder", {
+          const response = await fetch("http://13.60.85.61:8090/upload-folder", {
             method: "POST",
             body: formData,
             headers: {
