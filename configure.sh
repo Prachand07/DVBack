@@ -3,7 +3,7 @@ sudo yum update -y
 sudo yum install -y httpd
 sudo systemctl start httpd
 sudo systemctl enable httpd
-cd /var/www/html/backend
+cd /var/www/html/Backend
 REPO_FILE="/etc/yum.repos.d/mongodb-org-8.0.repo"
 echo "[mongodb-org-8.0]
 name=MongoDB Repository
