@@ -71,7 +71,7 @@ cardData.forEach((card, index) => {
     const learnMore = document.createElement('div');
     learnMore.className = 'learn-more';
     if (card.title.includes("Static")) {
-        learnMore.innerHTML = `<a href="./SignUp.html">Get Started →</a>`;
+        learnMore.innerHTML = `<a href="../Frontend/SignUp.html">Get Started →</a>`;
     } else {
         learnMore.textContent = "Coming Soon !!";
     }

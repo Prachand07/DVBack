@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DeployVerse</title>
-  <link rel="stylesheet" href="App.css">
+  <link rel="stylesheet" href="./Frontend/App.css">
 
 </head>
 
@@ -90,10 +90,10 @@
     }
 
     function GotoSignLogin() {
-      window.location.href = './SignUp.html';  // Replace with the desired URL
+      window.location.href = './Frontend/SignUp.html';  // Replace with the desired URL
 
     }
-    fetch('./CloudCards.html')
+    fetch('./Frontend/CloudCards.html')
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok: ' + response.statusText);
@@ -105,7 +105,7 @@
 
 
         let script = document.createElement('script');
-        script.src = 'ServiceCards.js';
+        script.src = './Frontend/ServiceCards.js';
         document.body.appendChild(script);
       })
       .catch(error => console.error('Error loading content:', error));
