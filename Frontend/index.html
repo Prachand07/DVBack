@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DeployVerse</title>
+  <link rel="stylesheet" href="App.css">
+
+</head>
+
+<body>
+  <div class="homepage">
+    <header class="navbar">
+      <div class="logo-container">
+        <img src="../images/logo.jpg" alt="Logo" class="logo">
+      </div>
+      <nav>
+        <ul class="nav-links">
+          <li onclick="scrollToTop()" style="cursor: pointer;">Dashboard</li>
+          <li onclick="scrollToServices()" style="cursor: pointer;">Services</li>
+          <li>Pricing</li>
+          <li>Support</li>
+        </ul>
+      </nav>
+      <div class="nav-buttons">
+        <button onclick="GotoSignLogin()" class="cta">Sign In</a></button>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="apps-section">
+        <div class="side-logos left-side">
+          <img src="../images/EC2.png" alt="EC2">
+          <img src="../images/DockerSample2.png" alt="Docker">
+          <img src="../images/Simple Storage Service.png" alt="Simple Storage Service">
+        </div>
+        <div class="side-logos left-middle">
+          <img src="../images/CloudFront.png" alt="CloudFront">
+          <img src="../images/CloudWatch.png" alt="CloudWatch">
+        </div>
+        <div class="center-text" style="font-family: 'Poppins', sans-serif; text-align: center;">
+          <h1 style="font-size: 60px; margin: 10px 0;">DeployVerse</h1>
+          <p style="font-size: 35px;">Where Code Meets Cloud</p>
+          <div class="button-container">
+            <button class="see-apps-btn">
+              See in Action
+              <span>
+                <img alt="Arrow" src="../images/expand_circle_right1.svg">
+              </span>
+            </button>
+            <button class="see-apps-btn" onclick="scrollToServices()" style="cursor: pointer;">
+              Hosting Solutions
+              <span>
+                <img alt="Arrow" src="../images/expand_circle_right1.svg">
+              </span>
+            </button>
+          </div>
+        </div>
+        <div class="side-logos right-middle">
+          <img src="../images/DynamoDB.png" alt="DynamoDB">
+          <img src="../images/Lambda.png" alt="Lambda">
+        </div>
+        <div class="side-logos right-side">
+          <img src="../images/Key Management Service.png" alt="Key Management Service">
+          <img src="../images/Terraform.png" alt="Terraform">
+          <img src="../images/Virtual Private Cloud.png" alt="VPC">
+        </div>
+      </div>
+      <div id="services"></div>
+      <div>
+        <!-- DeploymentPipeline content goes here -->
+      </div>
+      <div>
+        <!-- Features content goes here -->
+      </div>
+      <div>
+        <!-- ResourcesDocumentation content goes here -->
+      </div>
+    </main>
+  </div>
+
+  <script>
+    function scrollToServices() {
+      document.getElementById('services').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function GotoSignLogin() {
+      window.location.href = './SignUp.html';  // Replace with the desired URL
+
+    }
+    fetch('./CloudCards.html')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok: ' + response.statusText);
+        }
+        return response.text();
+      })
+      .then(data => {
+        document.getElementById('services').innerHTML = data;
+
+
+        let script = document.createElement('script');
+        script.src = 'ServiceCards.js';
+        document.body.appendChild(script);
+      })
+      .catch(error => console.error('Error loading content:', error));
+  </script>
+</body>
+
+</html>

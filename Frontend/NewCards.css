@@ -1,0 +1,205 @@
+/* General Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #0D1117;
+    color: #e0e0e0;
+
+}
+
+/* Container for Cards */
+.cards-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 75px;
+    padding: 50px;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    overflow: hidden;
+}
+
+
+.card {
+   
+    background: #1b263b;
+    padding: 15px;
+    width: 330px;
+    border-radius: 10px;
+    margin-top: 60px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+}
+
+
+
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+/* Card Header */
+.card-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.card-header img {
+    width: 60px;
+    height: 60px;
+    transition: filter 0.3s ease;
+}
+
+.card-header h2 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin: 0;
+    transition: color 0.3s ease;
+}
+
+.s3:hover .card-header h2,
+.s3:hover .card-header img {
+    color: #3b8423;
+    filter: invert(41%) sepia(60%) saturate(635%) hue-rotate(60deg) brightness(89%) contrast(82%);
+}
+
+.ec2:hover .card-header h2,
+.ec2:hover .card-header img {
+    color: #f4820b;
+    filter: invert(47%) sepia(81%) saturate(545%) hue-rotate(350deg) brightness(105%) contrast(98%);
+   
+}
+
+.rds:hover .card-header h2 {
+
+
+    color: #f6bd60;
+   
+}
+
+.rds:hover .card-header img {
+    content: url("../images/upd-rdec.png");
+}
+
+
+/* Description */
+.card p {
+    font-size: 0.9rem;
+    color: #b0b0b0;
+    margin-bottom: 25px;
+}
+
+
+.feature {
+    display: flex;
+    align-items: center; /* Align image and text vertically */
+    width: 100%; 
+    padding: 8px 0; /* Adjust spacing inside the feature block */
+   
+    margin-bottom: 10px;
+    position: relative; 
+}
+
+
+.feature img {
+    width: 45px;  /* Ensures all icons have the same width */
+    height: 45px;
+    object-fit: contain;
+    flex-shrink: 0;  /* Prevents icons from shrinking */
+    transition: transform 0.3s ease;
+    filter: brightness(0) invert(1);
+}
+
+
+
+.feature:hover img {
+    transform: scale(1.4) rotate(360deg);
+}
+
+.feature p {
+    font-size: 0.9rem;
+    color: #d0d0d0;
+    margin: 0; /* Remove any default margins */
+    text-align: left;
+    line-height: 1.5; 
+    flex-grow: 1; /* Ensure text occupies the remaining space */
+    word-wrap: break-word; /* Prevent text overflow */
+}
+
+
+.feature p:hover {
+    color: #ffffff;
+    transform: translateX(10px);
+}
+
+.feature p strong {
+    color: #ffffff;
+    text-align: center;
+}
+
+/* Animation Delays */
+.feature:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.feature:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+.feature:nth-child(4) {
+    animation-delay: 0.6s;
+}
+
+/* Fade In Animation */
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Learn More Button */
+.learn-more {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 15px;
+    border: 2px solid #ffffff;
+
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+    font-weight: 600;
+}
+
+.learn-more:hover {
+    background: #ffffff;
+    color: #1a1a1a;
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+}
+
+.s3 .learn-more {
+    
+    color: white;
+}
+
+.s3 .learn-more:hover {
+    background-color: white;
+
+}
+.s3 .learn-more a{
+    text-decoration: none;
+    color: #68d743;
+}
+
+.s3 .learn-more a:hover{
+    color:black;
+}
