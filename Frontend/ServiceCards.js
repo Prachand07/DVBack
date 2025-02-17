@@ -16,7 +16,7 @@ const cardData = [
         image: "Images/ec2-nbgr.png",
         description: "Powering both frontend & backend on EC2.",
         features: [
-            { icon: "Iimages/laptop.png",  text: "Run your Frontend and Backend code at one place" },
+            { icon: "Images/laptop.png",  text: "Run your Frontend and Backend code at one place" },
             { icon: "Images/lightning.png", text: "Seamless, high-speed, and dependable execution on EC2 " },
             { icon: "Images/globe.png", text: "Get a public IP to access your hosted application" },
             { icon: "Images/tools.png", text: "No manual configurations—just upload and go!" }
