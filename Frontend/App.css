@@ -105,6 +105,111 @@ nav {
   color: white;
 }
 
+
+.user-menu {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+
+.user-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #007bff;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  margin-right: 10px;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  top: 65px;
+  right: 0;
+  min-width: 250px;
+  z-index: 10;
+  padding: 10px;
+  text-align: left;
+}
+
+.show {
+  display: block;
+}
+
+.user-details {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.avatar {
+  width: 60px;
+  height: 60px;
+  background-color: #007bff;
+  color: white;
+  border-radius: 50%;
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.user-name {
+  font-weight: bold;
+  font-size: 18px;
+  color: #0d1117;
+}
+
+
+
+.menu-items {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-items li {
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  margin-left: 10px;
+  color: #333;
+}
+
+
+.menu-items li:hover {
+  background-color: #f0f0f0;
+}
+
+.logout-btn {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background-color: #007bff;
+  cursor: pointer;
+  font-size: 14px;
+  color: white;
+  margin-top:5px;
+  border-radius: 5px;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.logout-btn:hover {
+  background-color: blue;
+}
+
+
 .content {
   display: flex;
   justify-content: center;
@@ -205,7 +310,26 @@ nav {
   transform: translateY(-2px);
 }
 
-/* Responsive styles */
+
+
+
+/* Additional responsive styles */
+@media (max-width: 768px) {
+  .user-info {
+      font-size: 14px;
+      padding: 8px 12px;
+  }
+
+  .user-icon {
+      width: 30px;
+      height: 30px;
+      font-size: 16px;
+  }
+
+
+
+
+
 @media (max-width: 1200px) {
   .navbar {
     padding: 12px 30px;
@@ -330,4 +454,4 @@ nav {
     font-size: 12px;
   }
 }
-
+}
