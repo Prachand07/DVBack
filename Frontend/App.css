@@ -21,7 +21,7 @@ body {
   color: var(--text-primary);
 }
 
-.nav-links li:hover {
+/* .nav-links li:hover {
   color: var(--accent-primary);
 }
 
@@ -207,7 +207,7 @@ nav {
 
 .logout-btn:hover {
   background-color: blue;
-}
+} */
 
 
 .content {

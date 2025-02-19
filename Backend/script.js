@@ -1,6 +1,8 @@
-const container = document.getElementById("container");
+const container = document.getElementById("container"); 
 const registerBtn = document.getElementById("register");
 const loginBtn = document.getElementById("login");
+
+
 
 registerBtn.addEventListener("click", () => {
     container.classList.add("active");
@@ -30,7 +32,7 @@ async function verifyToken() {
             return;
         }
 
-        const response = await fetch("http://51.21.169.97:8090/verify", {
+        const response = await fetch("http://localhost:8090/verify", {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -39,7 +41,7 @@ async function verifyToken() {
 
         const data = await response.json();
         if (data.valid) {
-            window.location.href = "../Frontend/S3hosting.html";
+            window.location.href = "../Frontend/S3Hosting.html";
         } else {
             console.error("Invalid token.");
         }
@@ -58,7 +60,7 @@ document.getElementById("signup-form").addEventListener("submit", async function
     const password = document.getElementById("password").value;
 
     try {
-        const response = await fetch("http:/51.21.169.97:8090/signup", {
+        const response = await fetch("http://localhost:8090/signup", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ name, email, password }),
@@ -79,7 +81,7 @@ document.getElementById("signup-form").addEventListener("submit", async function
             });
 
             setTimeout(() => {
-                window.location.href = "../Frontned/SignUp.html";
+                window.location.href = "../index.html";
             }, 1000);
         } else {
             Swal.fire({
@@ -109,7 +111,7 @@ document.getElementById("signin-form").addEventListener("submit", async function
     const password = document.getElementById("signin-password").value;
 
     try {
-        const response = await fetch("http://51.21.169.97:8090/signin", {
+        const response = await fetch("http://localhost:8090/signin", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, password }),
@@ -129,7 +131,7 @@ document.getElementById("signin-form").addEventListener("submit", async function
             });
 
             setTimeout(() => {
-                window.location.href = "../Frontend/S3hosting.html";
+                window.location.href = "../index.html";
             }, 1000);
         } else {
             Swal.fire({
@@ -149,3 +151,5 @@ document.getElementById("signin-form").addEventListener("submit", async function
         });
     }
 });
+
+
