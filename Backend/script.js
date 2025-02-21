@@ -58,11 +58,13 @@ function validateSignupForm() {
     // Username validation (must start with a letter)
     const usernameRegex = /^[a-zA-Z]/;
     if (!usernameRegex.test(username)) {
-        Swal.fire(
-            "Invalid Username",
-            "Username must start with a letter (a-z or A-Z).",
-            "error"
-        );
+        Swal.fire({
+            icon: "error",
+            title: "Invalid Username",
+            text: "Username must start with a letter.",
+            backdrop: false, // Prevent white background
+            confirmButtonText: "OK",
+        });
         return false;
     }
 
@@ -70,11 +72,13 @@ function validateSignupForm() {
     const passwordRegex =
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
     if (!passwordRegex.test(password)) {
-        Swal.fire(
-            "Invalid Password",
-            "Password must be at least 8 characters long and include 1 number, 1 special character, 1 lowercase letter, and 1 uppercase letter.",
-            "error"
-        );
+        Swal.fire({
+            icon: "error",
+            title: "Invalid Password",
+            text: "Please enter a password that contains at least 8 Characters(with at least 1 uppercase), 1 Number,1 special character",
+            backdrop: false, // Prevent white background
+            confirmButtonText: "OK",
+        });
         return false;
     }
 
@@ -130,8 +134,8 @@ document.getElementById("signup-form").addEventListener("submit", async function
         Swal.fire({
             icon: "error",
             title: "Error",
-            text: "Something went wrong. Please try again.",
             backdrop: false,
+            text: "Something went wrong. Please try again.",
             confirmButtonText: "OK",
         });
     }
@@ -181,6 +185,7 @@ document.getElementById("signin-form").addEventListener("submit", async function
         Swal.fire({
             icon: "error",
             title: "Error",
+            backdrop: false,
             text: "Something went wrong. Please try again.",
         });
     }
