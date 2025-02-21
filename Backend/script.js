@@ -1,8 +1,6 @@
-const container = document.getElementById("container"); 
+const container = document.getElementById("container");
 const registerBtn = document.getElementById("register");
 const loginBtn = document.getElementById("login");
-
-
 
 registerBtn.addEventListener("click", () => {
     container.classList.add("active");
@@ -52,8 +50,44 @@ async function verifyToken() {
 
 verifyToken();
 
+// Function to validate the signup form
+function validateSignupForm() {
+    const username = document.getElementById("name").value;
+    const password = document.getElementById("password").value;
+
+    // Username validation (must start with a letter)
+    const usernameRegex = /^[a-zA-Z]/;
+    if (!usernameRegex.test(username)) {
+        Swal.fire(
+            "Invalid Username",
+            "Username must start with a letter (a-z or A-Z).",
+            "error"
+        );
+        return false;
+    }
+
+    // Password validation (at least 8 characters, 1 number, 1 special char, 1 uppercase, 1 lowercase)
+    const passwordRegex =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+    if (!passwordRegex.test(password)) {
+        Swal.fire(
+            "Invalid Password",
+            "Password must be at least 8 characters long and include 1 number, 1 special character, 1 lowercase letter, and 1 uppercase letter.",
+            "error"
+        );
+        return false;
+    }
+
+    return true;
+}
+
+// Signup form submission
 document.getElementById("signup-form").addEventListener("submit", async function (event) {
     event.preventDefault();
+
+    if (!validateSignupForm()) {
+        return; // Stop request if validation fails
+    }
 
     const name = document.getElementById("name").value;
     const email = document.getElementById("email").value;
@@ -70,7 +104,6 @@ document.getElementById("signup-form").addEventListener("submit", async function
 
         if (response.ok) {
             document.cookie = `authToken=${data.token}; path=/; max-age=3600; Samesite=Lax`;
-            console.log(data);
             Swal.fire({
                 icon: "success",
                 title: "Signup Successful!",
@@ -104,6 +137,7 @@ document.getElementById("signup-form").addEventListener("submit", async function
     }
 });
 
+// Sign-in form submission
 document.getElementById("signin-form").addEventListener("submit", async function (event) {
     event.preventDefault();
 
@@ -151,5 +185,3 @@ document.getElementById("signin-form").addEventListener("submit", async function
         });
     }
 });
-
-
