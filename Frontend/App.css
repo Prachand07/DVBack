@@ -1,4 +1,23 @@
+:root {
+  --bg-primary: #0d1117;
+  --bg-secondary: #161b22;
+  --terminal-bg: #0c0c0c;
+  --text-primary: #ffffff;
+  --text-secondary: #8b949e;
+  --button-color: #d4d4d4;
+  --text-faded: #6e7681;
+  --accent-secondary: #29b6f6;
+  --accent-primary: #58a6ff;
+  --heading-color: #79c0ff;
+  --code-keyword: #ff7b72;
+  --code-string: #a5d6a7;
+  --code-comment: #8b949e;
+  --user-root-color: #7ee787;
+  --host-color: #7ee787;
+  --path-color: #58a6ff;
+  --prompt-char-color: #f0883e;
 
+}
 
 
 body {

@@ -1,5 +1,9 @@
 * {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+ 
+
 }
 
 :root {
@@ -17,21 +21,106 @@ body {
   margin: 0;
   background-color: #0D1117;
   color: var(--text-primary);
-  overflow-y: hidden;
 }
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 64px 20px;
-  margin-top: 50px;
+
+}
+
+.nav-links li:hover {
+  color: var(--accent-primary);
+}
+
+.navbar:hover {
+  background-color: var(--bg-secondary);
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  position: fixed;
+  align-items: center;
+  padding: 12px 50px;
+  background-color: var(--bg-secondary);
+  box-shadow: 0 2px 4px rgb(3, 3, 3);
+  
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+}
+
+.navbar .logo-container {
+  display: flex;
+  align-items: center;
+
+}
+
+.nav-links {
+  display: flex;
+  gap: 30px;
+  list-style: none;
+  align-items: center;
+  font-family: 'Poppins', 'sans-serif';
+  font-size: medium;
+  font-weight: 300;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 15px;
+  margin-left: 10px;
+}
+
+.logo {
+  height: 75px;
+  width: 250px;
+  margin-right: 10px;
+}
+
+nav {
+  margin-left: auto;
+}
+
+.login {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 2px solid var(--accent-primary);
+  padding: 10px 16px;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out;
+}
+
+
+.login:hover {
+  background-color: blue;
+  color: white;
+  border-color: #4fc3f7;
 
 }
 
 
+.cta {
+  background-color: #4caf50;
+  color: white;
+  margin-left: 35px;
+  padding: 10px 16px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+
+.cta:hover {
+  background-color: blue;
+  color: white;
+}
+
 .title {
   text-align: center;
   font-size: 2.5rem;
+  margin-top: 45px;
   margin-bottom: 64px;
   color: white;
 }
