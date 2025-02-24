@@ -24,9 +24,6 @@ const upload = multer({
   storage: multer.memoryStorage(),
 });
 
-app.get('/get-ip', (req, res) => {
-  res.json({ ip: process.env.PUBLIC_IP || "IP not set" });
-});
 
 
 app.get("/verify", (req, res) => {

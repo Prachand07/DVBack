@@ -105,7 +105,7 @@
       </div>
     </div>
   </div>
-
+  <script src="config.js"></script>
   <script>
     function getTokenFromCookies() {
       const cookies = document.cookie.split("; ");
@@ -118,7 +118,7 @@
 
     document.addEventListener("DOMContentLoaded", () => {
       console.log("Token from backend:", getTokenFromCookies());
-
+      const ipAddress = CONFIG.PUBLIC_IP;
       const fileInput = document.getElementById("fileInput");
       const uploadSection = document.getElementById("uploadSection");
       const loadingSpinner = document.getElementById("loadingSpinner");
@@ -166,7 +166,7 @@
         try {
           setTimeout(() => steps[1].classList.add("active"), 1000);
 
-          const response = await fetch("http://51.21.169.97:8090/upload-folder", {
+          const response = await fetch(`http://${ipAddress}:8090/upload-folder`, {
             method: "POST",
             body: formData,
             headers: {
