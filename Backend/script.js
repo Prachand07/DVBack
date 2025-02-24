@@ -43,7 +43,7 @@ async function verifyToken() {
 
         const data = await response.json();
         if (data.valid) {
-            window.location.href = "../Frontend/S3Hosting.html";
+            window.location.href = "../Frontend/S3hosting.html";
         } else {
             console.error("Invalid token.");
         }
