@@ -1,6 +1,23 @@
 const container = document.getElementById("container");
 const registerBtn = document.getElementById("register");
 const loginBtn = document.getElementById("login");
+const ipAddress = CONFIG.PUBLIC_IP;
+// let ipAddress = null; // Declare globally
+
+// async function getIPAddress() {
+//     try {
+//         const response = await fetch('http://localhost:8090/get-ip');
+//         const data = await response.json();
+//         ipAddress = data.ip; // Update the global variable
+//         console.log("Your IP Address:", ipAddress);
+//     } catch (error) {
+//         console.error('Error fetching IP:', error);
+//     }
+// }
+
+// // Fetch and update the global IP address when the script loads
+// getIPAddress();
+
 
 registerBtn.addEventListener("click", () => {
     container.classList.add("active");
@@ -30,7 +47,9 @@ async function verifyToken() {
             return;
         }
 
-        const response = await fetch("http://localhost:8090/verify", {
+        
+
+        const response = await fetch(`http://${ipAddress}:8090/verify`, {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -98,7 +117,7 @@ document.getElementById("signup-form").addEventListener("submit", async function
     const password = document.getElementById("password").value;
 
     try {
-        const response = await fetch("http://localhost:8090/signup", {
+        const response = await fetch(`http://${ipAddress}:8090/signup`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ name, email, password }),
@@ -149,7 +168,8 @@ document.getElementById("signin-form").addEventListener("submit", async function
     const password = document.getElementById("signin-password").value;
 
     try {
-        const response = await fetch("http://localhost:8090/signin", {
+        
+        const response = await fetch(`http://${ipAddress}:8090/signin`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, password }),

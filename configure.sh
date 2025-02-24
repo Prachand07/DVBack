@@ -14,6 +14,7 @@ gpgkey=https://pgp.mongodb.com/server-8.0.asc" | sudo tee $REPO_FILE > /dev/null
 sudo yum install -y mongodb-org
 sudo systemctl start mongod
 sudo systemctl enable mongod
+sudo echo "CONFIG = { PUBLIC_IP: '$(curl -s ifconfig.me)' };" > config.js
 sudo yum install -y nodejs
 sudo npm install -g pm2
 sudo pm2 start server.js
