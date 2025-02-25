@@ -1,14 +1,3 @@
-function scrollToTop() {
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-function scrollToServices() {
-  document.getElementById("services").scrollIntoView({ behavior: "smooth" });
-}
-
-
-
-
 fetch("./Frontend/Navbar.html")
   .then((response) => response.text())
   .then((data) => {
@@ -52,24 +41,6 @@ fetch("./Frontend/CloudCards.html")
   })
   .catch((error) => console.error("Error loading content:", error));
 
-// fetch("./Frontend/terminal.html")
-//   .then((response) => {
-//     if (!response.ok) {
-//       throw new Error("Network response was not ok: " + response.statusText);
-//     }
-//     return response.text();
-//   })
-//   .then((data) => {
-//     document.getElementById("terminal").innerHTML = data;
-//     let link = document.createElement("link");
-//     link.rel = "stylesheet";
-//     link.href = "./Frontend/Terminal.css";
-//     document.head.appendChild(link);
-//     let script = document.createElement("script");
-//     script.src = "./Frontend/Terminal.js";
-//     document.body.appendChild(script);
-//   })
-//   .catch((error) => console.error("Error loading content:", error));
 
 fetch("./Frontend/terminal.html")
   .then((response) => {

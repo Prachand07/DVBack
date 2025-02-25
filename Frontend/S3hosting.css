@@ -2,7 +2,15 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
- }
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+
 
 :root {
   --bg-primary: #0D1117;
@@ -45,7 +53,7 @@ body {
   padding: 12px 50px;
   background-color: var(--bg-secondary);
   box-shadow: 0 2px 4px rgb(3, 3, 3);
-  
+
   top: 0;
   z-index: 1000;
   width: 100%;

@@ -18,13 +18,20 @@ function getTokenFromCookies() {
     return null;
 }
 function scrollToTop() {
-    window.location.href = "../index.html";
-  }
-  
-  function scrollToServices() {
+    if (window.location.pathname.endsWith("index.html") || window.location.pathname === "/") {
+        // If on the main page, smoothly scroll to the top
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+        // If on another page, redirect to index.html
+        window.location.href = "../index.html";
+    }
+}
+
+
+function scrollToServices() {
     document.getElementById("services").scrollIntoView({ behavior: "smooth" });
-  }
-  
+}
+
 
 
 
