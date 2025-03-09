@@ -7,7 +7,7 @@ window.addEventListener("load", function () {
 
     if (navbar.innerHTML.trim() !== "" && services.innerHTML.trim() !== "" && terminal.innerHTML.trim() !== "") {
       clearInterval(checkReady); // Stop checking
-      
+
       // Smoothly fade out preloader
       document.getElementById("preloader").style.opacity = "0";
       setTimeout(() => {
@@ -15,6 +15,11 @@ window.addEventListener("load", function () {
         document.body.style.overflow = "auto"; // Enable scrolling
       }, 500); // Delay for smooth transition
     }
+
+    video.onended = () => {
+      preloader.style.display = "none"; // Hide preloader after video ends
+      document.body.style.overflow = "auto"; // Enable scrolling
+    };
   }, 100); // Check every 100ms
 });
 
