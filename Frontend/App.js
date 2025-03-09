@@ -1,13 +1,28 @@
+window.addEventListener("load", function () {
+  // Wait for navbar and other components to be fully inserted
+  let checkReady = setInterval(() => {
+    let navbar = document.getElementById("navbar-container");
+    let services = document.getElementById("services");
+    let terminal = document.getElementById("terminal");
+
+    if (navbar.innerHTML.trim() !== "" && services.innerHTML.trim() !== "" && terminal.innerHTML.trim() !== "") {
+      clearInterval(checkReady); // Stop checking
+      
+      // Smoothly fade out preloader
+      document.getElementById("preloader").style.opacity = "0";
+      setTimeout(() => {
+        document.getElementById("preloader").style.display = "none";
+        document.body.style.overflow = "auto"; // Enable scrolling
+      }, 500); // Delay for smooth transition
+    }
+  }, 100); // Check every 100ms
+});
+
+
 fetch("./Frontend/Navbar.html")
   .then((response) => response.text())
   .then((data) => {
     document.getElementById("navbar-container").innerHTML = data; // Insert navbar HTML
-
-    // Load CSS
-    let link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = "./Frontend/Navbar.css";
-    document.head.appendChild(link);
 
     // Load JS dynamically and wait for it to finish loading
     let script = document.createElement("script");

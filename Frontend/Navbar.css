@@ -1,14 +1,8 @@
-
-
-
 body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
    
 }
-
-
-
 .nav-links li:hover {
     color: var(--accent-primary);
 }
