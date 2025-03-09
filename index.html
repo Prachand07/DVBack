@@ -17,10 +17,11 @@
   <style>
     #preloader {
       position: fixed;
+      top: 0;
+      left: 0;
       width: 100vw;
       height: 100vh;
       background: black;
-      /* Change if needed */
       display: flex;
       justify-content: center;
       align-items: center;
@@ -28,9 +29,13 @@
     }
 
     #preloader video {
-      width: 100%;
-      height: auto;
+      width: 100vw;
+      height: 100vh;
       object-fit: cover;
+      /* Ensures the video fully covers the screen */
+      position: absolute;
+      top: 0;
+      left: 0;
     }
   </style>
 </head>
@@ -38,7 +43,7 @@
 <body>
   <div id="preloader">
     <video autoplay muted playsinline id="preloader-video">
-      <source src="Images/best.mp4" type="video/mp4">
+      <source src="Video/best.mp4" type="video/mp4">
       Your browser does not support the video tag.
     </video>
   </div>

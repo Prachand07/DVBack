@@ -1,27 +1,47 @@
-window.addEventListener("load", function () {
-  // Wait for navbar and other components to be fully inserted
-  let checkReady = setInterval(() => {
-    let navbar = document.getElementById("navbar-container");
-    let services = document.getElementById("services");
-    let terminal = document.getElementById("terminal");
+if (!sessionStorage.getItem("preloaderShown")) {
+  // Set flag in sessionStorage so it doesn't show again
+  sessionStorage.setItem("preloaderShown", "true");
 
-    if (navbar.innerHTML.trim() !== "" && services.innerHTML.trim() !== "" && terminal.innerHTML.trim() !== "") {
-      clearInterval(checkReady); // Stop checking
+  window.addEventListener("load", function () {
+    let checkReady = setInterval(() => {
+      let navbar = document.getElementById("navbar-container");
+      let services = document.getElementById("services");
+      let terminal = document.getElementById("terminal");
+      let preloader = document.getElementById("preloader");
+      let video = preloader?.querySelector("video");
 
-      // Smoothly fade out preloader
-      document.getElementById("preloader").style.opacity = "0";
-      setTimeout(() => {
-        document.getElementById("preloader").style.display = "none";
-        document.body.style.overflow = "auto"; // Enable scrolling
-      }, 500); // Delay for smooth transition
-    }
+      if (navbar?.innerHTML.trim() !== "" && services?.innerHTML.trim() !== "" && terminal?.innerHTML.trim() !== "") {
+        clearInterval(checkReady);
 
-    video.onended = () => {
-      preloader.style.display = "none"; // Hide preloader after video ends
-      document.body.style.overflow = "auto"; // Enable scrolling
-    };
-  }, 100); // Check every 100ms
-});
+        // Smooth fade-out of preloader
+        preloader.style.opacity = "0";
+        preloader.style.display = "none"; // Hide after fade out
+        document.documentElement.style.overflow = "auto"; // Enable scrolling
+        document.body.style.overflow = "auto";
+
+      }
+
+      // Hide preloader when the video ends
+      if (video) {
+        video.onended = () => {
+          preloader.style.opacity = "0";
+          setTimeout(() => {
+            preloader.style.display = "none";
+            document.body.style.overflow = "auto";
+          }, 1500);
+        };
+      }
+    }, 1500);
+  });
+} else {
+  // If the preloader has already been shown, hide it immediately
+  document.getElementById("preloader").style.display = "none";
+  document.documentElement.style.overflow = "auto";
+  document.body.style.overflow = "auto";
+}
+
+
+
 
 
 fetch("./Frontend/Navbar.html")
