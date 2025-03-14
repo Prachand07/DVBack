@@ -114,7 +114,7 @@ document.getElementById("signup-form").addEventListener("submit", async function
             document.cookie = `authToken=${data.token}; path=/; max-age=3600; Samesite=Lax`;
             Swal.fire({
                 icon: "success",
-                title: "Signup Successful!",
+                title: "Signup Successful! Go ahead and choose your desired hosting option",
                 backdrop: false,
                 text: "Redirecting...",
                 showConfirmButton: false,
@@ -122,7 +122,7 @@ document.getElementById("signup-form").addEventListener("submit", async function
             });
 
             setTimeout(() => {
-                window.location.href = "../index.html";
+                window.location.href = "../index.html#services";
             }, 1000);
         } else {
             Swal.fire({
@@ -167,14 +167,14 @@ document.getElementById("signin-form").addEventListener("submit", async function
 
             Swal.fire({
                 icon: "success",
-                title: "Sign-in Successful!",
+                title: "Sign-in Successful! Go ahead and choose your desired hosting option ",
                 text: "Redirecting...",
                 backdrop: false,
                 timer: 2000,
             });
 
             setTimeout(() => {
-                window.location.href = "../index.html";
+                window.location.href = "../index.html#services";
             }, 1000);
         } else {
             Swal.fire({
