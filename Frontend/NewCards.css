@@ -202,3 +202,43 @@ body {
 .s3 .learn-more a:hover{
     color:black;
 }
+
+/* Small Devices (Mobile Phones) */
+@media (max-width: 576px) {
+    .cards-container {
+        flex-direction: column; /* Stack cards vertically */
+        gap: 30px; 
+        padding: 20px;
+    }
+
+    .card {
+        width: 100%; /* Full-width cards for smaller screens */
+        padding: 15px;
+        margin-top: 20px;
+        max-width: 90%;
+    }
+
+    .card-header h2 {
+        font-size: 1.2rem; /* Slightly smaller text */
+    }
+
+    .feature {
+        flex-direction: row; /* Align feature icon and text horizontally */
+        gap: 10px; 
+    }
+
+    .feature img {
+        width: 30px; 
+        height: 30px;
+    }
+
+    .feature p {
+        font-size: 0.85rem; /* Compact text for small screens */
+    }
+
+    .learn-more {
+        width: 100%; /* Full-width buttons for better accessibility */
+        padding: 10px;
+        text-align: center;
+    }
+}

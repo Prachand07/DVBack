@@ -275,3 +275,87 @@ body {
   }
 }
 }
+
+
+@media (max-width: 576px) {
+
+  body {
+    overflow: auto; /* Prevents content from being cut off */
+  }
+
+  .content {
+    padding: 30px 15px;
+    margin-top: 2%;
+    max-width: 100%; ;
+  }
+
+  .center-text {
+    margin: 20px 20px;
+    max-width: 100%;
+    justify-content: center;
+  }
+
+  .center-text h1 {
+    font-size: 1.5rem;
+    line-height: 1.2;
+    background: linear-gradient(90deg, #00e5ff 0%, #007bff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    justify-content: center;
+  }
+
+  .center-text p {
+    font-size: 0.95rem;
+    margin: 10px 0;
+    color: var(--text-secondary);
+  }
+
+  .apps-section {
+    gap: 20px;
+    flex-direction: column;
+  }
+
+  .side-logos {
+    gap: 15px;
+    flex-direction: row;
+    justify-content: center;
+    margin: 0;
+  }
+
+  .side-logos img {
+    width: 90px;
+    height: 90px;
+    border-radius: 8px;
+  }
+
+  .button-container {
+    flex-direction: column;
+    gap: 8px;
+    width: 10%;
+  }
+
+  .see-apps-btn {
+    width: 50%;
+    padding: 10px 0;
+    font-size: 1rem;
+    border-radius: 20px;
+  }
+
+  .see-apps-btn:hover {
+    transform: translateY(-1px);
+  }
+
+  .navbar {
+    padding: 8px 10px;
+  }
+
+  .logo {
+    height: 30px;
+  }
+
+  .login,
+  .cta {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+}
