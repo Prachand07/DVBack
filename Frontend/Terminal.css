@@ -271,4 +271,82 @@
     .prompt {
         font-size: 0.85em;
     }
+    @media (max-width: 576px) {
+
+        .terminal-main-heading {
+            text-align: center;
+            margin: 1.5rem 0 2.5rem; /* Balanced spacing */
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-shadow: 0 0 12px rgba(121, 192, 255, 0.3);
+        }
+    
+        .terminal-container {
+            max-width: 90%;
+            padding: 0 1rem;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 100vh; /* Full page height */
+        }
+    
+        .terminal-window {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0px 0px 40px 8px #023e8a;
+            margin: 20px 0; /* Balanced top and bottom spacing */
+        }
+    
+        .terminal-header {
+            padding: 8px 12px;
+            gap: 6px;
+        }
+    
+        .window-button {
+            width: 10px;
+            height: 10px;
+        }
+    
+        .terminal-title {
+            font-size: 12px;
+        }
+    
+        #terminal {
+            min-height: 450px; /* Improved height control */
+            padding: 16px;
+            margin-top: 30px; /* Balanced spacing */
+        }
+    
+        .terminal-content {
+            padding: 16px;
+            height: 350px; /* Reduced height for smaller screens */
+            background-size: 25px 25px;
+            background-position: -12px -12px;
+        }
+    
+        .code-line {
+            margin: 4px 0;
+            padding: 2px 0;
+            font-size: 0.9em; /* Slightly smaller text for readability */
+        }
+    
+        .prompt {
+            margin-right: 10px;
+            font-size: 0.85em;
+        }
+    
+        .output {
+            padding-left: 20px;
+            font-size: 0.9em;
+        }
+    
+        .code-line:last-child::after {
+            width: 6px;
+            height: 16px;
+            margin-left: 3px;
+        }
+    }
+    
 }
