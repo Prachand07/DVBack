@@ -236,7 +236,7 @@ body {
     }
 
     .learn-more {
-        width: 100%; /* Full-width buttons for better accessibility */
+        width: 90%; /* Full-width buttons for better accessibility */
         padding: 10px;
         text-align: center;
     }
