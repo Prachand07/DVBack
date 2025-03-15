@@ -236,12 +236,17 @@ body {
     font-size: 14px;
   }
 }
+body, html {
+  overflow-x: hidden;
+  width: 100%;
+}
 
-@media (max-width: 480px) {
 
-  body {
-    overflow: auto; /* Prevents content from being cut off */
-  }
+@media (max-width: 576px) {
+
+  body, html {
+    overflow-x: hidden;
+}
 
   .content {
     padding: 30px 15px;
@@ -250,8 +255,7 @@ body {
   }
 
   .center-text {
-    margin-right: 20px;
-    margin-left: 20px;
+    margin: 0 auto;
     max-width: 100%;
     justify-content: center;
     margin-top: 5%;
@@ -281,10 +285,10 @@ body {
   }
 
   .side-logos {
-    gap: 19px;
+    gap: 50px;
     flex-direction: row;
     justify-content: center;
-    margin-top: 0px;
+    margin-top: 20px;
   }
 
   .side-logos img {
@@ -311,7 +315,7 @@ body {
   }
 
   .navbar {
-    padding: 8px 10px;
+    padding: 8px 5%;
   }
 
   .logo {
@@ -323,4 +327,7 @@ body {
     padding: 8px 10px;
     font-size: 12px;
   }
+  *, *::before, *::after {
+    box-sizing: border-box;
+}
 }
