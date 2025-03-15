@@ -237,7 +237,7 @@ body {
   }
 }
 
-@media (max-width: 576px) {
+@media (max-width: 480px) {
 
   body {
     overflow: auto; /* Prevents content from being cut off */
@@ -251,9 +251,11 @@ body {
 
   .center-text {
     margin-right: 20px;
-    margin-left: 0px;
+    margin-left: 20px;
     max-width: 100%;
     justify-content: center;
+    margin-top: 5%;
+    margin-bottom: 15%;
 
   }
 
@@ -279,10 +281,10 @@ body {
   }
 
   .side-logos {
-    gap: 15px;
+    gap: 19px;
     flex-direction: row;
     justify-content: center;
-    margin: 0;
+    margin-top: 0px;
   }
 
   .side-logos img {

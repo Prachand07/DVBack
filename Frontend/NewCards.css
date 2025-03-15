@@ -208,6 +208,7 @@ body {
         flex-direction: column; /* Stack cards vertically */
         gap: 30px; 
         padding: 20px;
+        margin-left: 20px;
     }
 
     .card {
