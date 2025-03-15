@@ -26,7 +26,7 @@ body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
   overflow: hidden;
-  
+
 }
 
 
@@ -136,14 +136,14 @@ body {
 /* Additional responsive styles */
 @media (max-width: 768px) {
   .user-info {
-      font-size: 14px;
-      padding: 8px 12px;
+    font-size: 14px;
+    padding: 8px 12px;
   }
 
   .user-icon {
-      width: 30px;
-      height: 30px;
-      font-size: 16px;
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
   }
 
 }
@@ -197,12 +197,34 @@ body {
 }
 
 @media (max-width: 768px) {
+  .content {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 5vh 5px;
+    box-sizing: border-box;
+    flex-grow: 1;
+  }
+
+  .main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+
   .navbar {
     padding: 10px 15px;
   }
 
   .nav-links {
-    display: none; /* Hide nav links on mobile */
+    display: none;
+    /* Hide nav links on mobile */
   }
 
   .nav-buttons {
@@ -236,78 +258,118 @@ body {
     font-size: 14px;
   }
 }
-body, html {
+
+body,
+html {
   overflow-x: hidden;
   width: 100%;
 }
 
-
 @media (max-width: 576px) {
 
-  body, html {
+  /* Prevent horizontal scrolling */
+  html,
+  body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
     overflow-x: hidden;
-}
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
 
   .content {
-    padding: 30px 15px;
-    margin-top: 20%;
-    max-width: 100%; ;
-  }
-
-  .center-text {
-    margin: 0 auto;
-    max-width: 100%;
-    justify-content: center;
-    margin-top: 5%;
-    margin-bottom: 15%;
-
-  }
-
-  .center-text h1 {
-    font-size: 1.5rem;
-    line-height: 1.2;
-    background: linear-gradient(90deg, #00e5ff 0%, #007bff 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    justify-content: center;
-
-  }
-
-  .center-text p {
-    font-size: 0.95rem;
-    margin: 10px 0;
-    color: var(--text-secondary);
-  }
-
-  .apps-section {
-    gap: 20px;
+    min-height: calc(100dvh - 50px);
+    /* Adjusts height dynamically */
+    display: flex;
     flex-direction: column;
-  }
-
-  .side-logos {
-    gap: 50px;
-    flex-direction: row;
     justify-content: center;
-    margin-top: 20px;
+    align-items: center;
+    padding: 5vh 5px;
+    box-sizing: border-box;
   }
 
-  .side-logos img {
-    width: 90px;
-    height: 90px;
-    border-radius: 8px;
-  }
-
-  .button-container {
+  .main {
+    flex-grow: 1;
+    display: flex;
     flex-direction: column;
-    gap: 8px;
+    justify-content: center;
+    align-items: center;
     width: 100%;
   }
 
+
+  /* Centered Text */
+  .center-text {
+    margin: 0 auto;
+    max-width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .center-text h1 {
+    font-size: 2.4rem !important;
+    line-height: 1;
+    background: linear-gradient(90deg, #00e5ff 0%, #007bff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .center-text p {
+    font-size: 1.8rem !important;
+    margin: 4px 0;
+    margin-bottom: 10px;
+    color: var(--text-secondary);
+  }
+
+  /* App Section */
+  .apps-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: -25px;
+    margin-bottom: -25px;
+    align-items: center;
+    text-align: center;
+  }
+
+  /* Logos */
+  .side-logos {
+    display: flex;
+    gap: 30px;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .side-logos img {
+    width: 85px;
+    height: 85px;
+    border-radius: 8px;
+  }
+
+  /* Button Container */
+  .button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 100%;
+    align-items: center;
+  }
+
   .see-apps-btn {
-    width: 50%;
-    padding: 10px 0;
-    font-size: 1rem;
+    width: 65%;
+    padding: 6px 0;
+    font-size: 0.75rem;
     border-radius: 20px;
+    text-align: center;
   }
 
   .see-apps-btn:hover {
@@ -315,19 +377,7 @@ body, html {
   }
 
   .navbar {
-    padding: 8px 5%;
+    display: none !important;
   }
-
-  .logo {
-    height: 30px;
-  }
-
-  .login,
-  .cta {
-    padding: 8px 10px;
-    font-size: 12px;
-  }
-  *, *::before, *::after {
-    box-sizing: border-box;
 }
-}
+

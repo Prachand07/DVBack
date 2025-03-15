@@ -1,8 +1,9 @@
 body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
-   
+
 }
+
 .nav-links li:hover {
     color: var(--accent-primary);
 }
@@ -192,4 +193,124 @@ nav {
 
 .logout-btn:hover {
     background-color: blue;
+}
+
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    top: 65px;
+    right: 0;
+    min-width: 250px;
+    z-index: 10;
+    padding: 10px;
+    text-align: left;
+}
+
+.show {
+    display: block;
+}
+
+/* Menu Items */
+.menu-items {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu-items li {
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    margin-left: 10px;
+    color: #333;
+}
+
+.menu-items li:hover {
+    background-color: #f0f0f0;
+}
+
+/* Logout Button */
+.logout-btn {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #007bff;
+    cursor: pointer;
+    font-size: 14px;
+    color: white;
+    margin-top: 5px;
+    border-radius: 5px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.logout-btn:hover {
+    background-color: blue;
+}
+
+/* Mobile Navbar - Hidden by Default */
+.hamburger {
+    display: none;
+    font-size: 30px;
+    cursor: pointer;
+    color: white;
+    margin-right: 10px;
+}
+
+@media (max-width: 768px) {
+
+    /* Hide Nav Links & Buttons Initially */
+    .nav-links,
+    .nav-buttons {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        right: 0;
+        background-color: var(--bg-secondary);
+        width: 100%;
+        padding: 15px 0;
+        text-align: center;
+    }
+
+    .nav-links.show,
+    .nav-buttons.show {
+        display: flex;
+    }
+
+    /* Hamburger Menu */
+    .hamburger {
+        display: block;
+    }
+
+    /* Make Navbar More Compact */
+    .navbar {
+        padding: 10px;
+    }
+
+    /* Adjust Logo */
+    .logo {
+        height: 50px;
+        width: 150px;
+    }
+
+    /* User Icon */
+    .user-icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    /* Buttons */
+    .login,
+    .cta {
+        width: 80%;
+        text-align: center;
+        font-size: 14px;
+    }
 }
