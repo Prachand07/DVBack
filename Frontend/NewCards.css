@@ -14,7 +14,7 @@ body {
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    gap: 75px;
+    gap: clamp(20px, 5vw, 75px);
     padding: 50px;
     margin-top: 20px;
     margin-bottom: 30px;
@@ -211,6 +211,31 @@ body {
     color: black;
 }
 
+@media (max-width:1512px) {
+    .apps-section{
+        gap: 80px;
+    }
+}
+@media (max-width:1442px) {
+    .apps-section{
+        gap: 30px;
+    }
+    .cards-container{
+        gap:35px;
+    }
+}
+
+
+@media (max-width: 1250px)
+{
+    .apps-section{
+        gap: 25px;
+    }
+    .cards-container{
+        gap: 18px;
+    }
+}
+
 @media (max-width: 576px) {
     .cards-container {
         flex-direction: column;
@@ -271,3 +296,7 @@ body {
     }
 
 }
+
+
+
+
