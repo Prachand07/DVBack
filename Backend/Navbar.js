@@ -9,6 +9,14 @@ function logout() {
     window.location.href = "../index.html";
 }
 
+function toggleMenu() {
+    const navLinks = document.getElementById("navLinks");
+    const navButtons=document.querySelector(".nav-buttons")
+    navLinks.classList.toggle("active");
+    navButtons.classList.toggle("active");
+}
+
+
 function getTokenFromCookies() {
     const cookies = document.cookie.split("; ");
     for (let cookie of cookies) {
@@ -111,14 +119,3 @@ function updateNavbar() {
 }
 
 window.updateNavbar = updateNavbar;
-
-document.addEventListener("DOMContentLoaded", function() {
-    const hamburger = document.querySelector(".hamburger");
-    const navLinks = document.querySelector(".nav-links");
-    const navButtons = document.querySelector(".nav-buttons");
-
-    hamburger.addEventListener("click", function() {
-        navLinks.classList.toggle("show");
-        navButtons.classList.toggle("show");
-    });
-});

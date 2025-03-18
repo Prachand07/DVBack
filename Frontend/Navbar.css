@@ -215,11 +215,6 @@ nav {
 }
 
 /* Menu Items */
-.menu-items {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
 
 .menu-items li {
     padding: 10px;
@@ -255,49 +250,46 @@ nav {
 }
 
 /* Mobile Navbar - Hidden by Default */
-.hamburger {
-    display: none;
-    font-size: 30px;
+.menu-icon {
+    font-size: 28px;
     cursor: pointer;
-    color: white;
-    margin-right: 10px;
+    display: none;
 }
 
 @media (max-width: 768px) {
 
-    /* Hide Nav Links & Buttons Initially */
+
+    .menu-icon {
+        display: block;
+        font-size: 32px;
+    }
+    .navbar{
+        background-color: transparent;
+        border: none;
+        box-shadow: none;
+    }
     .nav-links,
-    .nav-buttons {
-        display: flex;
+    .nav-buttons{
+        display: none;
         flex-direction: column;
         position: absolute;
-        top: 60px;
-        right: 0;
-        background-color: var(--bg-secondary);
-        width: 100%;
-        padding: 15px 0;
         text-align: center;
+        top: 50px;
+        left: 0;
+        width: 100%;
+        background-color: #333;
+        text-align: center;
+        padding: 10px 0;
     }
 
-    .nav-links.show,
-    .nav-buttons.show {
+    .nav-links.active,
+    .nav-buttons.active {
         display: flex;
     }
-
     /* Hamburger Menu */
-    .hamburger {
-        display: block;
-    }
-
-    /* Make Navbar More Compact */
-    .navbar {
-        padding: 10px;
-    }
-
     /* Adjust Logo */
     .logo {
-        height: 50px;
-        width: 150px;
+       display: none;
     }
 
     /* User Icon */
@@ -312,5 +304,8 @@ nav {
         width: 80%;
         text-align: center;
         font-size: 14px;
+        margin: auto;
+        font-size: medium;
+        font-weight: bold;
     }
 }

@@ -44,7 +44,7 @@ body {
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 100px;
+  gap: 80px;
   margin: 0 auto;
 }
 
@@ -202,10 +202,7 @@ body {
     padding: 10px 15px;
   }
 
-  .nav-links {
-    display: flex;
-    /* Hide nav links on mobile */
-  }
+
 
   .nav-buttons {
     margin-left: auto;
@@ -281,7 +278,9 @@ html {
     padding: 5vh 5px;
     box-sizing: border-box;
   }
-
+  #terminal{
+    display: none !important;
+  }
   .main {
     flex-grow: 1;
     display: flex;
@@ -366,7 +365,4 @@ html {
     transform: translateY(-1px);
   }
 
- .navbar{
-  display : none !important;
- }
 }

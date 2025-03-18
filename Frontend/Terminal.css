@@ -83,7 +83,7 @@
 }
 
 #terminal {
-    display: block !important;
+    display: block ;
     width: 100%;
     max-width: 1000px;
     margin: 0 auto;
@@ -278,6 +278,9 @@
 
 /* Mobile Responsiveness */
 @media (max-width: 576px) {
+    #terminal{
+        display: none;
+    }
     .terminal-main-heading {
         font-size: 1.75rem;
         margin: 1rem 0 1.5rem;
