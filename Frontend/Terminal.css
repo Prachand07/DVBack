@@ -5,7 +5,6 @@
     font-weight: 700;
     color: var(--heading-color);
     letter-spacing: 2px;
-    
     text-transform: uppercase;
     text-shadow: 0 0 15px rgba(121, 192, 255, 0.3);
 }
@@ -13,7 +12,6 @@
 .terminal-container {
     max-width: 1000px;
     width: 100%;
-   
     margin: 0 auto;
     padding: 0 1rem;
 }
@@ -27,11 +25,11 @@
     border: 1px solid rgba(88, 166, 255, 0.2);
     transition: all 0.3s ease;
     width: 100%;
+    aspect-ratio: 1.8 / 1; /* Maintain aspect ratio */
 }
 
 .terminal-window:hover {
     transform: translateY(-5px);
-    
 }
 
 .terminal-header {
@@ -78,6 +76,10 @@
     font-size: 13px;
     font-weight: 500;
     letter-spacing: 0.5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 60%;
 }
 
 #terminal {
@@ -90,10 +92,9 @@
     padding: 20px;
 }
 
-
 .terminal-content {
     padding: 20px 24px;
-    height: 520px;
+    height: calc(100% - 40px); /* Adjust height based on container */
     overflow-y: auto;
     position: relative;
     -ms-overflow-style: none;
@@ -172,13 +173,9 @@
     color: var(--text-primary);
     font-weight: 600;
     letter-spacing: 0px;
-    /* Ensure no extra space between letters */
     word-spacing: -2px;
-    /* Reduce space between words */
     margin-right: 1px;
-    /* Minimize right margin */
 }
-
 
 .output {
     color: var(--text-secondary);
@@ -199,13 +196,11 @@
     font-style: italic;
 }
 
-/* Add a slightly brighter background to the current directory line */
 .code-line:has(.keyword) {
     background-color: rgba(255, 255, 255, 0.03);
     border-radius: 3px;
 }
 
-/* Add delay to terminal lines for typing effect with alternating delays */
 .code-line:nth-child(2n+1) {
     animation-delay: 0.15s;
 }
@@ -214,7 +209,6 @@
     animation-delay: 0.25s;
 }
 
-/* Add a subtle blinking cursor at the end of the last line */
 .code-line:last-child::after {
     content: "";
     display: inline-block;
@@ -227,12 +221,9 @@
 }
 
 @keyframes blink {
-
-    0%,
-    100% {
+    0%, 100% {
         opacity: 0;
     }
-
     50% {
         opacity: 1;
     }
@@ -250,104 +241,194 @@
         opacity: 0;
         transform: translateY(20px);
     }
-
     to {
         opacity: 1;
         transform: translateY(0);
     }
 }
 
+/* Tablet Responsiveness */
 @media (max-width: 768px) {
-    .main-heading {
+    .terminal-main-heading {
         font-size: 2rem;
         margin: 1.5rem 0 2rem;
+    }
+    
+    .terminal-window {
+        aspect-ratio: 1.6 / 1; /* Slightly adjusted aspect ratio */
     }
 
     .terminal-content {
         padding: 16px;
-        height: 400px;
     }
 
     .prompt {
         font-size: 0.85em;
     }
-    @media (max-width: 576px) {
-
-        .terminal-title {
-            font-size: 12px;  /* Adjust text size for readability */
-            white-space: nowrap;  /* Prevents text from wrapping */
-            overflow: hidden;     /* Hides any overflow text */
-            text-overflow: ellipsis; /* Adds '...' for overflow content */
-            max-width: 100%;      /* Ensures it stays within the header */
-            margin-left: 20%;
-        }
     
-        .terminal-container {
-            max-width: 90%;
-            padding: 0 1rem;
-            margin-left: 0px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            min-height: 0vh; /* Full page height */
-        }
-    
-        .terminal-window {
-            width: 100%;
-            border-radius: 8px;
-            box-shadow: 0px 0px 40px 8px #023e8a;
-            margin: 20px 0; /* Balanced top and bottom spacing */
-            margin-left: 0px;
-        }
-    
-        .terminal-header {
-            padding: 8px 12px;
-            gap: 6px;
-        }
-    
-        .window-button {
-            width: 10px;
-            height: 10px;
-        }
-    
-        .terminal-title {
-            font-size: 12px;
-        }
-    
-        #terminal {
-            min-height: 450px; /* Improved height control */
-            padding: 16px;
-            margin-top: 30px; /* Balanced spacing */
-        }
-    
-        .terminal-content {
-            padding: 16px;
-            height: 350px; /* Reduced height for smaller screens */
-            background-size: 25px 25px;
-            background-position: -12px -12px;
-        }
-    
-        .code-line {
-            margin: 4px 0;
-            padding: 2px 0;
-            font-size: 0.9em; /* Slightly smaller text for readability */
-        }
-    
-        .prompt {
-            margin-right: 10px;
-            font-size: 0.85em;
-        }
-    
-        .output {
-            padding-left: 20px;
-            font-size: 0.9em;
-        }
-    
-        .code-line:last-child::after {
-            width: 6px;
-            height: 16px;
-            margin-left: 3px;
-        }
+    .code-line {
+        font-size: 0.9em;
     }
     
+    .output {
+        font-size: 0.85em;
+        padding-left: 20px;
+    }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 576px) {
+    .terminal-main-heading {
+        font-size: 1.75rem;
+        margin: 1rem 0 1.5rem;
+    }
+    
+    .terminal-container {
+        max-width: 100%;
+        padding: 0 0.5rem;
+    }
+    
+    .terminal-window {
+        aspect-ratio: 1.4 / 1; /* More square-like for mobile */
+        box-shadow: 0px 0px 30px 5px #023e8a;
+    }
+    
+    .terminal-header {
+        padding: 6px 8px;
+        gap: 5px;
+    }
+    
+    .window-button {
+        width: 8px;
+        height: 8px;
+    }
+    
+    .terminal-title {
+        font-size: 8px;
+        max-width: 70%;
+        letter-spacing: 0;
+    }
+    
+    .terminal-content {
+        padding: 8px;
+        background-size: 15px 15px;
+        background-position: -7px -7px;
+    }
+    
+    .code-line {
+        margin: 2px 0;
+        padding: 1px 0;
+        font-size: 0.45em;
+        line-height: 1.2;
+        letter-spacing: 0.2;
+    }
+    
+    .prompt {
+        margin-right: 4px;
+        font-size: 0.45em;
+    }
+    
+    .output {
+        padding-left: 8px;
+        font-size: 0.45em;
+    }
+    
+    .code-line:last-child::after {
+        width: 4px;
+        height: 10px;
+        margin-left: 2px;
+    }
+    
+    /* Ensure no text wrapping */
+    .prompt, .keyword, .output {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    /* Reduce letter and word spacing */
+    .terminal-content * {
+        letter-spacing: -0.2px;
+        word-spacing: -1px;
+    }
+}
+
+/* Small Mobile Devices */
+@media (max-width: 375px) {
+    .terminal-window {
+        aspect-ratio: 1.2 / 1;
+    }
+    
+    .terminal-title {
+        font-size: 7px;
+        max-width: 55%;
+    }
+    
+    .terminal-content {
+        padding: 6px;
+    }
+    
+    .code-line {
+        font-size: 0.5em;
+        margin: 2px 0;
+    }
+    
+    .prompt {
+        font-size: 0.5em;
+        margin-right: 3px;
+    }
+    
+    .output {
+        font-size: 0.5em;
+        padding-left: 6px;
+    }
+    
+    .directory {
+        margin-left: 2px;
+        margin-right: 2px;
+    }
+    
+    .prompt-char {
+        margin-left: 1px;
+    }
+}
+
+/* Extra Small Mobile Devices */
+@media (max-width: 320px) {
+    .terminal-title {
+        font-size: 6px;
+    }
+    
+    .code-line, .prompt, .output {
+        font-size: 0.45em;
+    }
+    
+    .window-button {
+        width: 5px;
+        height: 5px;
+        margin-right: 3px;
+    }
+    
+    .terminal-content {
+        padding: 5px;
+    }
+    
+    /* Further reduce spacing */
+    .prompt {
+        margin-right: 2px;
+    }
+    
+    .at {
+        margin: 0;
+    }
+    
+    .directory {
+        margin-left: 1px;
+        margin-right: 1px;
+    }
+    
+    .terminal-header {
+        padding: 5px;
+        gap: 3px;
+    }
 }

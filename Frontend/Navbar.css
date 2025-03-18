@@ -268,7 +268,7 @@ nav {
     /* Hide Nav Links & Buttons Initially */
     .nav-links,
     .nav-buttons {
-        display: none;
+        display: flex;
         flex-direction: column;
         position: absolute;
         top: 60px;

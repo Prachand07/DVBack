@@ -203,7 +203,7 @@ body {
   }
 
   .nav-links {
-    display: none;
+    display: flex;
     /* Hide nav links on mobile */
   }
 
@@ -366,7 +366,7 @@ html {
     transform: translateY(-1px);
   }
 
-  .navbar {
-    display: none !important;
-  }
+ .navbar{
+  display : none !important;
+ }
 }
