@@ -11,33 +11,32 @@
   <body>
     <div id="navbar-container"></div>
     <div class="container" id="container">
+      <!-- Sign Up Form -->
       <div class="form-container sign-up">
         <form id="signup-form" onsubmit="return validateSignupForm()">
           <h1>Create Account</h1>
           <input type="text" id="name" placeholder="Name" required />
           <input type="email" id="email" placeholder="Email" required />
-          <input
-            type="password"
-            id="password"
-            placeholder="Password"
-            required
-          />
+          <input type="password" id="password" placeholder="Password" required />
           <button type="submit">Sign Up</button>
+          <!-- Mobile only "Back to Sign In" button -->
+          <button type="button" class="mobile-back-btn" id="mobile-back">Back to Sign In</button>
         </form>
       </div>
+
+      <!-- Sign In Form -->
       <div class="form-container sign-in">
         <form id="signin-form">
           <h1>Sign In</h1>
           <input type="email" id="signin-email" placeholder="Email" required />
-          <input
-            type="password"
-            id="signin-password"
-            placeholder="Password"
-            required
-          />
+          <input type="password" id="signin-password" placeholder="Password" required />
           <button type="submit">Sign In</button>
+          <!-- Mobile only sign-up button -->
+          <button type="button" class="mobile-signup-btn" id="mobile-signup">Sign Up</button>
         </form>
       </div>
+
+      <!-- Toggle Container (Desktop Only) -->
       <div class="toggle-container">
         <div class="toggle">
           <div class="toggle-panel toggle-left">
@@ -55,6 +54,38 @@
     </div>
 
     <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const container = document.getElementById("container");
+        const registerBtn = document.getElementById("register");
+        const loginBtn = document.getElementById("login");
+        const mobileSignupBtn = document.getElementById("mobile-signup");
+        const mobileBackBtn = document.getElementById("mobile-back");
+
+        // Desktop toggle functionality
+        registerBtn.addEventListener("click", () => {
+          container.classList.add("active");
+        });
+
+        loginBtn.addEventListener("click", () => {
+          container.classList.remove("active");
+        });
+
+        // Mobile signup functionality
+        if (mobileSignupBtn) {
+          mobileSignupBtn.addEventListener("click", () => {
+            container.classList.add("active");
+          });
+        }
+
+        // Mobile "Back to Sign In" functionality
+        if (mobileBackBtn) {
+          mobileBackBtn.addEventListener("click", () => {
+            container.classList.remove("active");
+          });
+        }
+      });
+
+      // Load Navbar
       fetch("../Frontend/Navbar.html")
         .then((response) => response.text())
         .then((data) => {
