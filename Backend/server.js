@@ -48,10 +48,13 @@ app.post("/signup", async (req, res) => {
     const { name, email, password } = req.body;
     console.log(`Signup attempt: ${name} - ${email}`);
 
-    let user = await User.findOne({ email });
+    let user = await User.findOne({ 
+      $or: [{ email }, { username }] 
+    });
     console.log("User found:", user);
-    if (user) return res.status(400).json({ message: "User already exists" });
-
+    if (user) {
+      return res.status(400).json({ message: "Email or Username already exists" });
+    }
     const salt = await bcrypt.genSalt(10);
     console.log("Salt generated:", salt);
     const hashedPassword = await bcrypt.hash(password, salt);
