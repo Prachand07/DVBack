@@ -47,7 +47,11 @@ app.post("/signup", async (req, res) => {
   try {
     const { name, email, password } = req.body;
     console.log(`Signup attempt: ${name} - ${email}`);
-
+    const length=name.length;
+    if(length>30)
+    {
+      return res.status(400).json({ message: "Not valid Username" });
+    }
     let user = await User.findOne({ 
       $or: [{ email }, { username }] 
     });
