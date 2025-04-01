@@ -14,6 +14,9 @@
     <label>Backend Name:</label>
     <input type="text" id="backendName" placeholder="Enter backend folder name" required />
 
+    <label>Backend File Name:</label>
+    <input type="text" id="backendFileName" placeholder="Enter backend File name" required />
+
     <label>Select ZIP File:</label>
     <input type="file" id="zipFileInput" accept=".zip" required />
 
@@ -25,10 +28,11 @@
         async function uploadZip() {
             const frontendName = document.getElementById("frontendName").value.trim();
             const backendName = document.getElementById("backendName").value.trim();
+            const backendFileName=document.getElementById("backendFileName").value.trim();
             const fileInput = document.getElementById("zipFileInput");
 
             // Validation before sending request
-            if (!frontendName || !backendName) {
+            if (!frontendName || !backendName || backendFileName) {
                 document.getElementById("responseMessage").innerText = "Both frontend and backend names are required.";
                 return;
             }
@@ -42,6 +46,7 @@
             formData.append("frontend_name", frontendName);
             formData.append("backend_name", backendName);
             formData.append("zipFile", fileInput.files[0]);
+            formData.append("backend_file_name",backendFileName);
 
             try {
                 const response = await fetch("/dynamicHosting", {

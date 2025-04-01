@@ -123,8 +123,8 @@ app.post("/signin", async (req, res) => {
 });
 
 app.post("/dynamicHosting",upload.single('zipFile'),(req,res)=>{ 
-  const {frontend_name,backend_name} = req.body;
-  if(!frontend_name || !backend_name)
+  const {frontend_name,backend_name,backend_file_name} = req.body;
+  if(!frontend_name || !backend_name || !backend_file_name)
   {
     return res.status(400).json({ error: "Provide both frontend and backend names" });
   }
