@@ -25,12 +25,12 @@ const upload = multer({
   storage: multer.memoryStorage(),
 });
 
-const validateZip = (buffer,frontend_name,backend_name) => {
+const validateZip = (buffer,frontend_name,backend_name, backend_file_name) => {
   try {
       const zip = new AdmZip(buffer);
       const zipEntries = zip.getEntries().map(entry => entry.entryName);
 
-      const requiredFiles = ['.env', 'package.json', `${frontend_name}/`, `${backend_name}/`];
+      const requiredFiles = [`${backend_file_name}`,'package.json', `${frontend_name}/`, `${backend_name}/`];
 
       return requiredFiles.every(file => zipEntries.some(entry => entry.includes(file)));
   } catch (error) {
@@ -131,8 +131,8 @@ app.post("/dynamicHosting",upload.single('zipFile'),(req,res)=>{
   if (!req.file) {
     return res.status(400).json({ error: "No file uploaded" });
 }
-  const isValid = validateZip(req.file.buffer,frontend_name,backend_name);
-  console.log(url);
+  const isValid = validateZip(req.file.buffer,frontend_name,backend_name, backend_file_name);
+
   if (isValid) {
     return res.status(200).json({ message: "Valid ZIP file" });
 } else {

@@ -30,9 +30,10 @@
             const backendName = document.getElementById("backendName").value.trim();
             const backendFileName=document.getElementById("backendFileName").value.trim();
             const fileInput = document.getElementById("zipFileInput");
-
+            console.log(frontendName + backendFileName +backendName);
+            
             // Validation before sending request
-            if (!frontendName || !backendName || backendFileName) {
+            if (!frontendName || !backendName || !backendFileName) {
                 document.getElementById("responseMessage").innerText = "Both frontend and backend names are required.";
                 return;
             }
@@ -49,7 +50,7 @@
             formData.append("backend_file_name",backendFileName);
 
             try {
-                const response = await fetch("/dynamicHosting", {
+                const response = await fetch("http://localhost:8090/dynamicHosting", {
                     method: "POST",
                     body: formData
                 });
