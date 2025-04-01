@@ -8,6 +8,7 @@ const verifyToken = require("./authMiddleware");
 const cookieParser = require("cookie-parser");
 const User = require("./models/user");
 const path = require("path");
+const AdmZip = require('adm-zip');
 
 const bcrypt = require("bcryptjs");
 require("dotenv").config();
@@ -24,6 +25,19 @@ const upload = multer({
   storage: multer.memoryStorage(),
 });
 
+const validateZip = (buffer,frontend_name,backend_name) => {
+  try {
+      const zip = new AdmZip(buffer);
+      const zipEntries = zip.getEntries().map(entry => entry.entryName);
+
+      const requiredFiles = ['.env', 'package.json', `${frontend_name}/`, `${backend_name}/`];
+
+      return requiredFiles.every(file => zipEntries.some(entry => entry.includes(file)));
+  } catch (error) {
+      console.error("Error processing ZIP file:", error);
+      return false;
+  }
+};
 
 
 app.get("/verify", (req, res) => {
@@ -108,9 +122,22 @@ app.post("/signin", async (req, res) => {
   }
 });
 
-app.post("/dynamicHosting",(req,res)=>{ 
-  const url=req.body;
+app.post("/dynamicHosting",upload.single('zipFile'),(req,res)=>{ 
+  const {frontend_name,backend_name} = req.body;
+  if(!frontend_name || !backend_name)
+  {
+    return res.status(400).json({ error: "Provide both frontend and backend names" });
+  }
+  if (!req.file) {
+    return res.status(400).json({ error: "No file uploaded" });
+}
+  const isValid = validateZip(req.file.buffer,frontend_name,backend_name);
   console.log(url);
+  if (isValid) {
+    return res.status(200).json({ message: "Valid ZIP file" });
+} else {
+    return res.status(400).json({ error: "ZIP file is missing required files or folders" });
+}
 })
 
 
