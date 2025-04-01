@@ -108,6 +108,11 @@ app.post("/signin", async (req, res) => {
   }
 });
 
+app.post("/dynamicHosting",(req,res)=>{ 
+  const url=req.body;
+  console.log(url);
+})
+
 
 app.post("/upload-folder", upload.array("files", 30), async (req, res) => {
   console.log(`Received a request to upload files`);
