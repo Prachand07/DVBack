@@ -13,8 +13,8 @@ const AdmZip = require('adm-zip');
 const bcrypt = require("bcryptjs");
 require("dotenv").config();
 
-
-const { generateBucketName, checkLimit, bucketCreateandhost, storeProjectDetails, } = require("./aws-sdk");
+const {createEC2Instance }=require("./ec2-aws-sdk");
+const { generateBucketName, checkLimit, bucketCreateandhost, storeProjectDetails, } = require("./s3-aws-sdk");
 
 const app = express();
 app.use(cors())
@@ -25,17 +25,17 @@ const upload = multer({
   storage: multer.memoryStorage(),
 });
 
-const validateZip = (buffer,frontend_name,backend_name, backend_file_name) => {
+const validateZip = (buffer, frontend_name, backend_name, backend_file_name) => {
   try {
-      const zip = new AdmZip(buffer);
-      const zipEntries = zip.getEntries().map(entry => entry.entryName);
+    const zip = new AdmZip(buffer);
+    const zipEntries = zip.getEntries().map(entry => entry.entryName);
 
-      const requiredFiles = [`${backend_file_name}`,'package.json', `${frontend_name}/`, `${backend_name}/`];
+    const requiredFiles = [`${backend_file_name}`, 'package.json', `${frontend_name}/`, `${backend_name}/`];
 
-      return requiredFiles.every(file => zipEntries.some(entry => entry.includes(file)));
+    return requiredFiles.every(file => zipEntries.some(entry => entry.includes(file)));
   } catch (error) {
-      console.error("Error processing ZIP file:", error);
-      return false;
+    console.error("Error processing ZIP file:", error);
+    return false;
   }
 };
 
@@ -122,22 +122,24 @@ app.post("/signin", async (req, res) => {
   }
 });
 
-app.post("/dynamicHosting",upload.single('zipFile'),(req,res)=>{ 
-  const {frontend_name,backend_name,backend_file_name} = req.body;
-  if(!frontend_name || !backend_name || !backend_file_name)
-  {
+app.post("/dynamicHosting", upload.single('zipFile'), async(req, res) => {
+  const { frontend_name, backend_name, backend_file_name } = req.body;
+  if (!frontend_name || !backend_name || !backend_file_name) {
     return res.status(400).json({ error: "Provide both frontend and backend names" });
   }
   if (!req.file) {
     return res.status(400).json({ error: "No file uploaded" });
-}
-  const isValid = validateZip(req.file.buffer,frontend_name,backend_name, backend_file_name);
+  }
+  const isValid = validateZip(req.file.buffer, frontend_name, backend_name, backend_file_name);
 
   if (isValid) {
+    await(createEC2Instance(req.file));
+   
     return res.status(200).json({ message: "Valid ZIP file" });
-} else {
+
+  } else {
     return res.status(400).json({ error: "ZIP file is missing required files or folders" });
-}
+  }
 })
 
 
@@ -152,10 +154,10 @@ app.post("/upload-folder", upload.array("files", 30), async (req, res) => {
 
   const token = authHeader.split(" ")[1];
   console.log(`Received token in uploadfolder: ${token}`);
-  const decoded = jwt.verify(token,process.env.JWT_SECRET);
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
   console.log(decoded);
   const username = decoded.username?.toLowerCase().trim().replace(/\s+/g, "");
-  console.log("Token username ",username);
+  console.log("Token username ", username);
   const projectname = req.body.projectname;
   console.log(projectname);
   if (!req.files || req.files.length === 0) {
