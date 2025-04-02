@@ -13,7 +13,7 @@ const AdmZip = require('adm-zip');
 const bcrypt = require("bcryptjs");
 require("dotenv").config();
 
-const {createEC2Instance }=require("./ec2-aws-sdk");
+const { createEC2Instance, getPublicIP, copyFiles } = require("./ec2-aws-sdk");
 const { generateBucketName, checkLimit, bucketCreateandhost, storeProjectDetails, } = require("./s3-aws-sdk");
 
 const app = express();
@@ -122,25 +122,75 @@ app.post("/signin", async (req, res) => {
   }
 });
 
-app.post("/dynamicHosting", upload.single('zipFile'), async(req, res) => {
+app.post("/dynamicHosting", upload.single('zipFile'), async (req, res) => {
   const { frontend_name, backend_name, backend_file_name } = req.body;
+
   if (!frontend_name || !backend_name || !backend_file_name) {
     return res.status(400).json({ error: "Provide both frontend and backend names" });
   }
+
   if (!req.file) {
     return res.status(400).json({ error: "No file uploaded" });
   }
+
   const isValid = validateZip(req.file.buffer, frontend_name, backend_name, backend_file_name);
 
   if (isValid) {
-    await(createEC2Instance(req.file));
-   
-    return res.status(200).json({ message: "Valid ZIP file" });
+    try {
+     
+      const instanceId = await createEC2Instance();  
+      const publicIp = await getPublicIP(instanceId);  
 
+      console.log("Public IP: ", publicIp);
+   
+      try {
+        console.log(req.file.path);
+        console.log("Attempting to copy file to EC2 instance...");
+        console.log("Copying file to:", publicIp, req.file.path);
+        await copyFiles(publicIp, req.file.path);  
+      } catch (err) {
+        console.error("Error copying file:", err);
+        return res.status(500).json({ error: `Error copying file: ${err.message || err}` });
+      }
+
+      return res.status(200).json({ message: "ZIP file transferred to EC2" });
+    } catch (err) {
+      console.error("Error:", err);
+      return res.status(500).json({ error: `Error transferring files: ${err.message || err}` });
+    }
   } else {
     return res.status(400).json({ error: "ZIP file is missing required files or folders" });
   }
-})
+});
+
+
+
+
+
+// app.post("/dynamicHosting", upload.single('zipFile'), async (req, res) => {
+//   const { frontend_name, backend_name, backend_file_name } = req.body;
+//   if (!frontend_name || !backend_name || !backend_file_name) {
+//     return res.status(400).json({ error: "Provide both frontend and backend names" });
+//   }
+//   if (!req.file) {
+//     return res.status(400).json({ error: "No file uploaded" });
+//   }
+//   const isValid = validateZip(req.file.buffer, frontend_name, backend_name, backend_file_name);
+
+//   if (!isValid) {
+//     return res.status(400).json({ error: "ZIP file is missing required files or folders" });
+//   }
+
+//   const instanceId = await createEC2Instance();
+//   const publicIp = await getPublicIP(instanceId);
+//   console.log(publicIp);
+//   try {
+//     await copyFiles(publicIp, req.file.path);
+//     return res.status(200).json({ message: "ZIP file transferred to EC2" });
+//   } catch (err) {
+//     return res.status(500).json({ error: err });
+//   }
+// });
 
 
 app.post("/upload-folder", upload.array("files", 30), async (req, res) => {
@@ -189,7 +239,7 @@ app.post("/upload-folder", upload.array("files", 30), async (req, res) => {
     console.log(`Generated bucket name: ${bucketName}`);
 
     console.log(`Starting bucket creation and configuration for: ${bucketName}`);
-    const websiteUrl = await bucketCreateandhost(bucketName, req.files);
+    const websiteUrl = await bucketCreateandhost(bucketName, req.file.buffer, req.file.originalname);
     console.log(`Static website hosted successfully at: ${websiteUrl}`);
 
     const storedURL = await storeProjectDetails(username, projectname, websiteUrl);
