@@ -7,7 +7,8 @@
 </head>
 <body>
     <h2>Upload ZIP for Dynamic Hosting</h2>
-
+    <label>UserName:</label>
+    <input type="text" id="UserName" placeholder="Enter user name" required />
     <label>Frontend Name:</label>
     <input type="text" id="frontendName" placeholder="Enter frontend folder name" required />
 
@@ -26,6 +27,7 @@
 
     <script>
         async function uploadZip() {
+            const UserName = document.getElementById("UserName").value.trim();
             const frontendName = document.getElementById("frontendName").value.trim();
             const backendName = document.getElementById("backendName").value.trim();
             const backendFileName=document.getElementById("backendFileName").value.trim();
@@ -44,6 +46,7 @@
             }
 
             const formData = new FormData();
+            formData.append("user_name", UserName.toLowerCase());
             formData.append("frontend_name", frontendName);
             formData.append("backend_name", backendName);
             formData.append("zipFile", fileInput.files[0]);

@@ -13,7 +13,7 @@ const AdmZip = require('adm-zip');
 const bcrypt = require("bcryptjs");
 require("dotenv").config();
 
-const { createEC2Instance, getPublicIP, copyFiles } = require("./ec2-aws-sdk");
+const { createEC2Instance, getPublicIP, bucketCreate, copyFromS3ToEC2 } = require("./ec2-aws-sdk");
 const { generateBucketName, checkLimit, bucketCreateandhost, storeProjectDetails, } = require("./s3-aws-sdk");
 
 const app = express();
@@ -123,8 +123,8 @@ app.post("/signin", async (req, res) => {
 });
 
 app.post("/dynamicHosting", upload.single('zipFile'), async (req, res) => {
-  const { frontend_name, backend_name, backend_file_name } = req.body;
-
+  const { user_name, frontend_name, backend_name, backend_file_name } = req.body;
+  
   if (!frontend_name || !backend_name || !backend_file_name) {
     return res.status(400).json({ error: "Provide both frontend and backend names" });
   }
@@ -137,17 +137,18 @@ app.post("/dynamicHosting", upload.single('zipFile'), async (req, res) => {
 
   if (isValid) {
     try {
-     
-      const instanceId = await createEC2Instance();  
-      const publicIp = await getPublicIP(instanceId);  
-
+      const bucketName= await bucketCreate(user_name, req.file);
+      
+      const instanceId = await createEC2Instance(user_name);
+      const publicIp = await getPublicIP(instanceId);
+      
       console.log("Public IP: ", publicIp);
-   
+
       try {
-        console.log(req.file.path);
+
         console.log("Attempting to copy file to EC2 instance...");
-        console.log("Copying file to:", publicIp, req.file.path);
-        await copyFiles(publicIp, req.file.path);  
+        copyFromS3ToEC2(publicIp, bucketName, req.file.originalname);
+        
       } catch (err) {
         console.error("Error copying file:", err);
         return res.status(500).json({ error: `Error copying file: ${err.message || err}` });

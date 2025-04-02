@@ -1,13 +1,30 @@
 const AWS = require("aws-sdk");
 const scp2 = require('scp2');
+const path = require('path');
+const crypto = require('crypto');
+const mime = require("mime-types");
 const fs = require('fs');
+const { exec } = require('child_process');
 AWS.config.update({ region: 'ap-south-1' });
 const ec2 = new AWS.EC2();
+const s3 = new AWS.S3();
 
 async function getDefaultVpcId() {
     const vpcs = await ec2.describeVpcs({}).promise();
     return vpcs.Vpcs.find(vpc => vpc.IsDefault).VpcId;
 }
+
+const generateBucketName = async (username) => {
+    const randomString = crypto.randomBytes(4).toString("hex");
+    const timestamp = Date.now();
+    const bucketName = `${username}-${randomString}${timestamp}`;
+    console.log(`Generated bucket name: ${bucketName}`);
+    await s3.createBucket({ Bucket: bucketName }).promise();
+    console.log(`S3 bucket created: ${bucketName}`);
+    return bucketName;
+};
+
+
 async function createSecurityGroup() {
     const securityGroupName = "DynamicSG-" + Date.now();
 
@@ -42,7 +59,8 @@ async function createSecurityGroup() {
     }
 }
 
-async function createEC2Instance() {
+async function createEC2Instance(user_name) {
+
     try {
         const securityGroupId = await createSecurityGroup();
 
@@ -53,10 +71,13 @@ async function createEC2Instance() {
             MinCount: 1,
             MaxCount: 1,
             SecurityGroupIds: [securityGroupId],
+            IamInstanceProfile: {
+                Name: "S3full"
+            },
             TagSpecifications: [
                 {
                     ResourceType: "instance",
-                    Tags: [{ Key: "Name", Value: "MyEC2Instance" }],
+                    Tags: [{ Key: "Name", Value: `${user_name}` }],
                 },
             ],
         };
@@ -82,68 +103,73 @@ async function getPublicIP(instanceId) {
     return publicIp;
 }
 
-async function copyFiles(publicIp, fileBuffer, fileName) {
-    const privateKeyPath = './DV.pem'; // Adjust your path to the private key
-    const remotePath = `/home/ec2-user/${fileName}`;  // Path on EC2 where you want to store the file
-
+const bucketCreate = async (user_name, file) => {
+    const bucketName = await generateBucketName(user_name);
     try {
-        if (!fileBuffer || !fileName) {
-            throw new Error('File buffer or file name is missing.');
-        }
+        const uploadParams = {
+            Bucket: bucketName,
+            Key: file.originalname,
+            Body: file.buffer,
+            ContentType: mime.lookup(file.originalname) || "application/zip",
+        };
 
-        console.log("Attempting to copy file to EC2 instance...");
-        console.log(`Copying file to: ${publicIp} with filename: ${fileName}`);
-
-        await new Promise((resolve, reject) => {
-            scp2.scp({
-                host: publicIp,
-                username: 'ec2-user',
-                privateKey: fs.readFileSync(privateKeyPath),  // Use your private key to authenticate
-                path: remotePath,
-                file: fileBuffer,
-            }, (err) => {
-                if (err) {
-                    reject(new Error(`Error copying file: ${err.message}`));
-                } else {
-                    resolve();
-                }
-            });
-        });
-
-        console.log(`File successfully copied to EC2 instance at ${remotePath}`);
+        await s3.upload(uploadParams).promise();
+        console.log(`File uploaded successfully to: s3://${bucketName}/${file.originalname}`);
+        return bucketName;
     } catch (error) {
-        console.error('Error copying file:', error);
-        throw new Error(`Error copying file: ${error.message}`);
+        console.error("S3 Upload Error:", error);
+        throw error;
     }
-}
-//   try {
-//     // Use scp2 to copy the file
-//     await new Promise((resolve, reject) => {
-//       scp2.send({
-//         host: publicIp,
-//         username: 'ec2-user',
-//         privateKey: fs.readFileSync(privateKeyPath),  // Use your private key to authenticate
-//         path: remotePath,
-//         file: fileBuffer,
-//       }, (err) => {
-//         if (err) {
-//           reject(new Error(`Error copying file: ${err.message}`));
-//         } else {
-//           resolve();
-//         }
-//       });
-//     });
+};
 
 
 
+const copyFromS3ToEC2 = async (publicIp, bucketName, fileName) => {
+    const sshCommand = `ssh -o StrictHostKeyChecking=no -i "DV.pem" ec2-user@${publicIp} `
+        + `"aws s3 cp s3://${bucketName}/${fileName} /home/ec2-user/ && echo 'File copied successfully!' || echo 'S3 file does not exist.';"`;
 
+    return new Promise((resolve, reject) => {
+        exec(sshCommand, async(error, stdout, stderr) => {
 
+            if (error) {
+                console.error("Error copying file from S3:", stderr);
+                reject(error);
+            } else {
+                console.log("File copied to EC2:", stdout);
+               await bashCopy(publicIp);
+                resolve();
 
+            }
+        });
+    });
+};
 
+const bashCopy = async (publicIp) => {
+    const fixedBucketName = "dvbucket11212121";  // Replace with your fixed bucket
+    const fixedFileName = "script.sh";  // Replace with your script name
+
+    const sshCommand = `ssh -o StrictHostKeyChecking=no -i "DV.pem" ec2-user@${publicIp} `
+        + `"aws s3 cp s3://${fixedBucketName}/${fixedFileName} /home/ec2-user/ && `
+        + `chmod +x /home/ec2-user/${fixedFileName} && `
+        + `/home/ec2-user/${fixedFileName} && echo 'Script executed successfully!' || echo 'Error executing script.';"`;
+
+    return new Promise((resolve, reject) => {
+        exec(sshCommand, (error, stdout, stderr) => {
+            if (error) {
+                console.error("Error executing Bash script:", stderr);
+                reject(error);
+            } else {
+                console.log("Bash script executed on EC2:", stdout);
+                resolve();
+            }
+        });
+    });
+};
 
 module.exports = {
     createEC2Instance,
     getPublicIP,
-    copyFiles
+    bucketCreate,
+    copyFromS3ToEC2
 }
 
