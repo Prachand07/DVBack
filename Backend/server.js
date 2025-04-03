@@ -123,7 +123,18 @@ app.post("/signin", async (req, res) => {
 });
 
 app.post("/dynamicHosting", upload.single('zipFile'), async (req, res) => {
-  const { user_name, frontend_name, backend_name, backend_file_name } = req.body;
+  const {frontend_name, backend_name, backend_file_name } = req.body;
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    console.error(`Authorization token missing or invalid`);
+    return res.status(401).json({ message: "Unauthorized: Missing or invalid token" });
+  }
+
+  const token = authHeader.split(" ")[1];
+  console.log(`Received token in uploadfolder: ${token}`);
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  console.log(decoded);
+  const user_name = decoded.username?.toLowerCase().trim().replace(/\s+/g, "");
   
   if (!frontend_name || !backend_name || !backend_file_name) {
     return res.status(400).json({ error: "Provide both frontend and backend names" });
@@ -154,7 +165,7 @@ app.post("/dynamicHosting", upload.single('zipFile'), async (req, res) => {
         return res.status(500).json({ error: `Error copying file: ${err.message || err}` });
       }
 
-      return res.status(200).json({ message: "ZIP file transferred to EC2" });
+      return res.status(200).json({ ip_address:publicIp });
     } catch (err) {
       console.error("Error:", err);
       return res.status(500).json({ error: `Error transferring files: ${err.message || err}` });
