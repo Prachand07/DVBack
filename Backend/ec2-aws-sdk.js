@@ -124,19 +124,19 @@ const bucketCreate = async (user_name, file) => {
 
 
 
-const copyFromS3ToEC2 = async (publicIp, bucketName, fileName) => {
+const copyFromS3ToEC2 = async (publicIp, bucketName, fileName, backend_file_name, backend_name, frontend_name) => {
     const sshCommand = `ssh -o StrictHostKeyChecking=no -i "DV.pem" ec2-user@${publicIp} `
         + `"aws s3 cp s3://${bucketName}/${fileName} /home/ec2-user/ && echo 'File copied successfully!' || echo 'S3 file does not exist.';"`;
 
     return new Promise((resolve, reject) => {
-        exec(sshCommand, async(error, stdout, stderr) => {
+        exec(sshCommand, async (error, stdout, stderr) => {
 
             if (error) {
                 console.error("Error copying file from S3:", stderr);
                 reject(error);
             } else {
                 console.log("File copied to EC2:", stdout);
-               await bashCopy(publicIp);
+                await bashCopy(publicIp, fileName, backend_file_name, backend_name, frontend_name);
                 resolve();
 
             }
@@ -144,14 +144,15 @@ const copyFromS3ToEC2 = async (publicIp, bucketName, fileName) => {
     });
 };
 
-const bashCopy = async (publicIp) => {
-    const fixedBucketName = "dvbucket11212121";  // Replace with your fixed bucket
-    const fixedFileName = "script.sh";  // Replace with your script name
+const bashCopy = async (publicIp, fileName, backend_file_name, backend_name, frontend_name) => {
+    const fixedBucketName = "dvbucket11212121";
+    const fixedFileName = "script.sh";
 
     const sshCommand = `ssh -o StrictHostKeyChecking=no -i "DV.pem" ec2-user@${publicIp} `
         + `"aws s3 cp s3://${fixedBucketName}/${fixedFileName} /home/ec2-user/ && `
         + `chmod +x /home/ec2-user/${fixedFileName} && `
-        + `/home/ec2-user/${fixedFileName} && echo 'Script executed successfully!' || echo 'Error executing script.';"`;
+        + `bash -c '/home/ec2-user/${fixedFileName} "${fileName}" "${backend_name}" "${backend_file_name}" "${frontend_name}"' && `
+        + `echo 'Script executed successfully!' || echo 'Error executing script.';"`;
 
     return new Promise((resolve, reject) => {
         exec(sshCommand, (error, stdout, stderr) => {

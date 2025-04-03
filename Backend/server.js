@@ -147,7 +147,7 @@ app.post("/dynamicHosting", upload.single('zipFile'), async (req, res) => {
       try {
 
         console.log("Attempting to copy file to EC2 instance...");
-        copyFromS3ToEC2(publicIp, bucketName, req.file.originalname);
+        copyFromS3ToEC2(publicIp, bucketName, req.file.originalname, backend_file_name, backend_name, frontend_name);
         
       } catch (err) {
         console.error("Error copying file:", err);
@@ -165,33 +165,6 @@ app.post("/dynamicHosting", upload.single('zipFile'), async (req, res) => {
 });
 
 
-
-
-
-// app.post("/dynamicHosting", upload.single('zipFile'), async (req, res) => {
-//   const { frontend_name, backend_name, backend_file_name } = req.body;
-//   if (!frontend_name || !backend_name || !backend_file_name) {
-//     return res.status(400).json({ error: "Provide both frontend and backend names" });
-//   }
-//   if (!req.file) {
-//     return res.status(400).json({ error: "No file uploaded" });
-//   }
-//   const isValid = validateZip(req.file.buffer, frontend_name, backend_name, backend_file_name);
-
-//   if (!isValid) {
-//     return res.status(400).json({ error: "ZIP file is missing required files or folders" });
-//   }
-
-//   const instanceId = await createEC2Instance();
-//   const publicIp = await getPublicIP(instanceId);
-//   console.log(publicIp);
-//   try {
-//     await copyFiles(publicIp, req.file.path);
-//     return res.status(200).json({ message: "ZIP file transferred to EC2" });
-//   } catch (err) {
-//     return res.status(500).json({ error: err });
-//   }
-// });
 
 
 app.post("/upload-folder", upload.array("files", 30), async (req, res) => {
