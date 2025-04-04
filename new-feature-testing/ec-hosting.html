@@ -8,6 +8,12 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/lucide-icons@0.284.0/dist/umd/lucide.min.css"
     />
+    <!-- SweetAlert2 CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
+      rel="stylesheet"
+    />
+
     <link rel="stylesheet" href="ecstyle.css" />
   </head>
   <body>
@@ -386,10 +392,39 @@
         const contentAreas = document.querySelectorAll(".content-area");
         const responseMessage = document.getElementById("responseMessage");
         const token = getTokenFromCookies();
+        const fileInput = document.getElementById("zipFileInput");
+        const fileNameDisplay = document.getElementById("file-name");
+        const uploadText = document.getElementById("uploadText");
+        const uploadIcon = document.getElementById("uploadIcon");
+        const fileButton = document.getElementById("fileButton");
 
         // Initialize UI
         updateUI();
 
+        function resetFileUploadUI() {
+          fileInput.value = "";
+          fileNameDisplay.textContent = "No file chosen";
+          uploadText.textContent = "Upload a ZIP file";
+          uploadText.style.color = "#6c757d"; // Default grey color
+          uploadIcon.style.stroke = "#6c757d"; // Reset icon color
+          fileButton.textContent = "Choose File";
+          fileButton.style.backgroundColor = "";
+          fileButton.style.color = "";
+        }
+
+        fileInput.addEventListener("change", function () {
+          const file = fileInput.files[0];
+          if (file) {
+            fileNameDisplay.textContent = `Uploaded: ${file.name}`;
+            uploadText.textContent = "File Uploaded Successfully!";
+            uploadText.style.color = "green";
+
+            uploadIcon.style.stroke = "#28a745"; // Change icon color to green
+            fileButton.textContent = "Change File";
+            fileButton.style.backgroundColor = "#d4edda";
+            fileButton.style.color = "#155724";
+          }
+        });
         // Event listener
         nextButton.addEventListener("click", handleNextStep);
 
@@ -419,18 +454,28 @@
             .value.trim();
           const fileInput = document.getElementById("zipFileInput");
 
-          // Validation before sending request
           if (!frontendName || !backendName || !backendFileName) {
-            responseMessage.innerText = "All fields are required.";
+            Swal.fire({
+              icon: "warning",
+              title: "Validation Error",
+              text: "All fields are required.",
+            });
             nextButton.textContent = "Submit";
             nextButton.disabled = false;
+            activeStep = 0;
+            updateUI();
             return;
           }
 
           if (!fileInput.files.length) {
-            responseMessage.innerText = "Please select a ZIP file.";
+            Swal.fire({
+              icon: "warning",
+              title: "No File Selected",
+              text: "Please select a ZIP file.",
+            });
             nextButton.textContent = "Submit";
             nextButton.disabled = false;
+            resetFileUploadUI();
             return;
           }
 
@@ -440,60 +485,80 @@
           formData.append("zipFile", fileInput.files[0]);
           formData.append("backend_file_name", backendFileName);
 
-          // Move to Step 2 (Processing)
           activeStep = 2;
           updateUI();
 
           try {
             const response = await fetch(
-              `http://${ipAddress}:8090/dynamicHosting`,
+              "http://localhost:8090/dynamicHosting",
               {
                 method: "POST",
                 body: formData,
                 headers: {
-              "Authorization": `Bearer ${token}`
-             }
+                  Authorization: `Bearer ${token}`,
+                },
               }
             );
 
             const result = await response.json();
 
-            // Move to Step 3, then Step 4 after delay
-            setTimeout(() => {
-              activeStep = 3;
-              updateUI();
-
-              setTimeout(() => {
-                activeStep = 4;
-                const urlInput = document.querySelector(".url-input");
-                const fileUrl = result.ip_address;
-                urlInput.value = fileUrl;
-
-                // Copy URL to clipboard
-                document
-                  .getElementById("copyButton")
-                  .addEventListener("click", function () {
-                    urlInput.select();
-                    document.execCommand("copy");
-                    alert("URL copied to clipboard!");
-                  });
-
-                // Download File
-                document
-                  .getElementById("downloadButton")
-                  .addEventListener("click", function () {
-                    const link = document.createElement("a");
-                    link.href = fileUrl;
-                    link.download = "your-ec2-credentials.txt"; // Adjust filename and extension
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                  });
+            if (!response.ok || result.error) {
+              const errorMsg =
+                result.error || "Something went wrong during deployment.";
+              Swal.fire({
+                icon: "error",
+                title: "Deployment Failed",
+                text: errorMsg,
+              }).then(() => {
+                activeStep = 0;
                 updateUI();
-              }, 2000);
-            }, 2000);
+                resetFileUploadUI();
+              });
+              nextButton.textContent = "Submit";
+              nextButton.disabled = false;
+              return;
+            }
+
+            // Move to final step directly
+            activeStep = 4;
+            const fileUrl = result.ip_address;
+            const urlInput = document.querySelector(".url-input");
+            urlInput.value = fileUrl;
+
+            document
+              .getElementById("copyButton")
+              .addEventListener("click", function () {
+                urlInput.select();
+                document.execCommand("copy");
+                Swal.fire(
+                  "Copied!",
+                  "The URL has been copied to your clipboard.",
+                  "success"
+                );
+              });
+
+            document
+              .getElementById("downloadButton")
+              .addEventListener("click", function () {
+                const link = document.createElement("a");
+                link.href = fileUrl;
+                link.download = "your-ec2-credentials.txt";
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+              });
+
+            updateUI();
           } catch (error) {
-            responseMessage.innerText = "Error uploading file.";
+            Swal.fire({
+              icon: "error",
+              title: "Network Error",
+              text: "Upload failed. Please try again later.",
+            }).then(() => {
+              activeStep = 0;
+              updateUI();
+              resetFileUploadUI();
+            });
             console.error("Upload Error:", error);
             nextButton.textContent = "Submit";
             nextButton.disabled = false;
@@ -538,29 +603,32 @@
         }
       });
       fetch("../Frontend/Navbar.html")
-      .then((response) => response.text())
-      .then((data) => {
-        document.getElementById("navbar-container").innerHTML = data; // Insert navbar HTML
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("navbar-container").innerHTML = data; // Insert navbar HTML
 
-        // Load CSS
-        let link = document.createElement("link");
-        link.rel = "stylesheet";
-        link.href = "../Frontend/Navbar.css";
-        document.head.appendChild(link);
+          // Load CSS
+          let link = document.createElement("link");
+          link.rel = "stylesheet";
+          link.href = "../Frontend/Navbar.css";
+          document.head.appendChild(link);
 
-        // Load JS dynamically and wait for it to finish loading
-        let script = document.createElement("script");
-        script.src = "../Backend/Navbar.js";
-        script.onload = () => {
-          if (typeof updateNavbar === "function") {
-            updateNavbar(); // Call only after script loads
-          } else {
-            console.error("updateNavbar is not defined even after script load.");
-          }
-        };
-        document.body.appendChild(script);
-      })
-      .catch((error) => console.error("Error loading navbar:", error));
+          // Load JS dynamically and wait for it to finish loading
+          let script = document.createElement("script");
+          script.src = "../Backend/Navbar.js";
+          script.onload = () => {
+            if (typeof updateNavbar === "function") {
+              updateNavbar(); // Call only after script loads
+            } else {
+              console.error(
+                "updateNavbar is not defined even after script load."
+              );
+            }
+          };
+          document.body.appendChild(script);
+        })
+        .catch((error) => console.error("Error loading navbar:", error));
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </body>
 </html>

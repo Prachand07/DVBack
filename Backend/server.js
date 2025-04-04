@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const multer = require("multer");
 const cors = require("cors");
-const connectDB = require("./db");
+// const connectDB = require("./db");
 const jwt = require("jsonwebtoken");
 const verifyToken = require("./authMiddleware");
 const cookieParser = require("cookie-parser");
@@ -26,12 +26,12 @@ const upload = multer({
 });
 
 const validateZip = (buffer, frontend_name, backend_name, backend_file_name) => {
+  console.log('valadeiting')
   try {
     const zip = new AdmZip(buffer);
     const zipEntries = zip.getEntries().map(entry => entry.entryName);
 
     const requiredFiles = [`${backend_file_name}`, 'package.json', `${frontend_name}/`, `${backend_name}/`];
-
     return requiredFiles.every(file => zipEntries.some(entry => entry.includes(file)));
   } catch (error) {
     console.error("Error processing ZIP file:", error);
@@ -121,59 +121,74 @@ app.post("/signin", async (req, res) => {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 });
-
 app.post("/dynamicHosting", upload.single('zipFile'), async (req, res) => {
-  const {frontend_name, backend_name, backend_file_name } = req.body;
+  const { frontend_name, backend_name, backend_file_name } = req.body;
+
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     console.error(`Authorization token missing or invalid`);
-    return res.status(401).json({ message: "Unauthorized: Missing or invalid token" });
+    return res.status(401).json({ error: "Unauthorized: Missing or invalid token" });
   }
 
   const token = authHeader.split(" ")[1];
   console.log(`Received token in uploadfolder: ${token}`);
-  const decoded = jwt.verify(token, process.env.JWT_SECRET);
-  console.log(decoded);
+
+  let decoded;
+  try {
+    decoded = jwt.verify(token, process.env.JWT_SECRET);
+  } catch (err) {
+    console.error("JWT Verification failed:", err.message);
+    return res.status(403).json({ error: "Invalid or expired token" });
+  }
+
   const user_name = decoded.username?.toLowerCase().trim().replace(/\s+/g, "");
-  
+  console.log(user_name);
+  console.log(frontend_name + backend_name + backend_file_name);
+
   if (!frontend_name || !backend_name || !backend_file_name) {
-    return res.status(400).json({ error: "Provide both frontend and backend names" });
+    console.log("1");
+    return res.status(400).json({ error: "Please provide frontend name, backend name, and backend file name." });
   }
 
   if (!req.file) {
-    return res.status(400).json({ error: "No file uploaded" });
+    console.log("2");
+    return res.status(400).json({ error: "No ZIP file uploaded. Please upload a valid project archive." });
   }
 
   const isValid = validateZip(req.file.buffer, frontend_name, backend_name, backend_file_name);
+  console.log(isValid);
 
-  if (isValid) {
+  if (!isValid) {
+    return res.status(400).json({ error: "ZIP file is missing required folders or files. Make sure folder structure is correct." });
+  }
+
+  try {
+    console.log("3");
+    const bucketName = await bucketCreate(user_name, req.file);
+    console.log("4");
+
+    const instanceId = await createEC2Instance(user_name);
+    console.log("5");
+
+    const publicIp = await getPublicIP(instanceId);
+    console.log("Public IP: ", publicIp);
+
     try {
-      const bucketName= await bucketCreate(user_name, req.file);
-      
-      const instanceId = await createEC2Instance(user_name);
-      const publicIp = await getPublicIP(instanceId);
-      
-      console.log("Public IP: ", publicIp);
-
-      try {
-
-        console.log("Attempting to copy file to EC2 instance...");
-        copyFromS3ToEC2(publicIp, bucketName, req.file.originalname, backend_file_name, backend_name, frontend_name);
-        
-      } catch (err) {
-        console.error("Error copying file:", err);
-        return res.status(500).json({ error: `Error copying file: ${err.message || err}` });
-      }
-
-      return res.status(200).json({ ip_address:publicIp });
+      console.log("Attempting to copy file to EC2 instance...");
+      copyFromS3ToEC2(publicIp, bucketName, req.file.originalname, backend_file_name, backend_name, frontend_name);
     } catch (err) {
-      console.error("Error:", err);
-      return res.status(500).json({ error: `Error transferring files: ${err.message || err}` });
+      console.error("Error copying file:", err);
+      return res.status(500).json({ error: `Deployment failed while copying files to EC2: ${err.message || err}` });
     }
-  } else {
-    return res.status(400).json({ error: "ZIP file is missing required files or folders" });
+
+    return res.status(200).json({ ip_address: publicIp });
+
+  } catch (err) {
+    console.error("Error:", err);
+    return res.status(500).json({ error: `Deployment process failed: ${err.message || err}` });
   }
 });
+
 
 
 

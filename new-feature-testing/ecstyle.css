@@ -237,6 +237,20 @@
     background-color: #1D4ED8;
   }
 
+  .file-button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .file-button:hover {
+    background-color: #0056b3;
+  }
+  
   /* Loading Animation */
   .bike {
     display: block;
