@@ -384,7 +384,7 @@
       }
       document.addEventListener("DOMContentLoaded", function () {
         let activeStep = 0;
-        const totalSteps = 4;
+        const totalSteps = 5;
         // const ipAddress = CONFIG.PUBLIC_IP;
         const progressBar = document.getElementById("progress");
         const nextButton = document.getElementById("nextButton");
@@ -518,10 +518,11 @@
               nextButton.disabled = false;
               return;
             }
-
+            
             // Move to final step directly
-            activeStep = 4;
-            const fileUrl = result.ip_address;
+            activeStep = 3;
+            const fileUrl = `http://${result.ip_address}`;
+           
             const urlInput = document.querySelector(".url-input");
             urlInput.value = fileUrl;
 
