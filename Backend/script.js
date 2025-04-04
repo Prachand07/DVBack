@@ -32,8 +32,6 @@ async function verifyToken() {
             return;
         }
 
-        
-
         const response = await fetch(`http://${ipAddress}:8090/verify`, {
             method: "GET",
             headers: {
@@ -43,7 +41,7 @@ async function verifyToken() {
 
         const data = await response.json();
         if (data.valid) {
-            window.location.href = "../Frontend/S3hosting.html";
+            redirectToHostingPage();
         } else {
             console.error("Invalid token.");
         }
@@ -52,6 +50,19 @@ async function verifyToken() {
     }
 }
 
+function redirectToHostingPage() {
+    const selectedHosting = localStorage.getItem("selectedHosting"); // Retrieve stored choice
+
+    if (selectedHosting?.includes("Static")) {
+        window.location.href = "../Frontend/S3hosting.html";
+    } else if (selectedHosting?.includes("EC2")) {
+        window.location.href = "../Frontend/ec2-hosting.html";
+    } else {
+        console.error("No valid hosting type selected.");
+    }
+}
+
+// Ensure token verification runs
 verifyToken();
 
 // Function to validate the signup form

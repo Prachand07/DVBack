@@ -185,20 +185,20 @@ body {
     box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
 }
 
-.s3 .learn-more {
-    
-    color: white;
-}
-
-.s3 .learn-more:hover {
-    background-color: white;
-
-}
 .s3 .learn-more a{
     text-decoration: none;
     color: #68d743;
 }
 
 .s3 .learn-more a:hover{
+    color:black;
+}
+
+.ec2 .learn-more a{
+    text-decoration: none;
+    color: #f6bd60;
+}
+
+.ec2 .learn-more a:hover{
     color:black;
 }

@@ -4,10 +4,10 @@ const cardData = [
         image: "Images/SimpleStorageService-bgr.png",
         description: "Fast, scalable hosting for your static sites.",
         features: [
-            { icon: "Images/stocks.png",  text: "Reliable hosting with minimal downtime" },
+            { icon: "Images/stocks.png", text: "Reliable hosting with minimal downtime" },
             { icon: "Images/lightning.png", text: "Lightning-fast page loads, ensuring seamless content delivery" },
             { icon: "Images/shield.png", text: "Robust Security with SSL and DDoS protection." },
-            { icon: "Images/scaling.png",style: { width: "50px", height: "50px" },  text: "Easy Scaling with support for parallel requests." }
+            { icon: "Images/scaling.png", style: { width: "50px", height: "50px" }, text: "Easy Scaling with support for parallel requests." }
         ]
     },
 
@@ -16,7 +16,7 @@ const cardData = [
         image: "Images/ec2-nbgr.png",
         description: "Powering both frontend & backend on EC2.",
         features: [
-            { icon: "Images/laptop.png",  text: "Run your Frontend and Backend code at one place" },
+            { icon: "Images/laptop.png", text: "Run your Frontend and Backend code at one place" },
             { icon: "Images/lightning.png", text: "Seamless, high-speed, and dependable execution on EC2 " },
             { icon: "Images/globe.png", text: "Get a public IP to access your hosted application" },
             { icon: "Images/tools.png", text: "No manual configurations—just upload and go!" }
@@ -43,9 +43,10 @@ const getCardClass = (title) => {
 
 const cardsContainer = document.querySelector('.cards-container');
 
-cardData.forEach((card, index) => {
+cardData.forEach((card) => {
     const cardElement = document.createElement('div');
     cardElement.className = `card ${getCardClass(card.title)}`;
+    cardElement.title = card.title; // So we can access it easily in events
 
     const cardHeader = document.createElement('div');
     cardHeader.className = 'card-header';
@@ -58,7 +59,7 @@ cardData.forEach((card, index) => {
     description.textContent = card.description;
 
     const featuresContainer = document.createElement('div');
-    card.features.forEach((feature, i) => {
+    card.features.forEach((feature) => {
         const featureElement = document.createElement('div');
         featureElement.className = 'feature';
         featureElement.innerHTML = `
@@ -70,16 +71,30 @@ cardData.forEach((card, index) => {
 
     const learnMore = document.createElement('div');
     learnMore.className = 'learn-more';
-    if (card.title.includes("Static")) {
+
+   
+    if (card.title.includes("Static") || card.title.includes("EC2")) {
         learnMore.innerHTML = `<a href="../Frontend/SignUp.html">Get Started →</a>`;
     } else {
         learnMore.textContent = "Coming Soon !!";
     }
 
+    cardElement.addEventListener("click", () => {
+        const selectedHosting = card.title;
+        localStorage.setItem("selectedHosting", selectedHosting);
+
+        if (selectedHosting.includes("Static") || selectedHosting.includes("EC2")) {
+            learnMore.innerHTML = `<a href="../Frontend/SignUp.html">Get Started →</a>`;
+        } else {
+            learnMore.textContent = "Coming Soon !!";
+        }
+
+        console.log("Hosting type selected:", selectedHosting);
+    });
+
     cardElement.appendChild(cardHeader);
     cardElement.appendChild(description);
     cardElement.appendChild(featuresContainer);
     cardElement.appendChild(learnMore);
-
     cardsContainer.appendChild(cardElement);
 });
