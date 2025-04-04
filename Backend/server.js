@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const multer = require("multer");
 const cors = require("cors");
-// const connectDB = require("./db");
+const connectDB = require("./db");
 const jwt = require("jsonwebtoken");
 const verifyToken = require("./authMiddleware");
 const cookieParser = require("cookie-parser");
@@ -175,7 +175,7 @@ app.post("/dynamicHosting", upload.single('zipFile'), async (req, res) => {
 
     try {
       console.log("Attempting to copy file to EC2 instance...");
-      copyFromS3ToEC2(publicIp, bucketName, req.file.originalname, backend_file_name, backend_name, frontend_name);
+      await copyFromS3ToEC2(publicIp, bucketName, req.file.originalname, backend_file_name, backend_name, frontend_name);
     } catch (err) {
       console.error("Error copying file:", err);
       return res.status(500).json({ error: `Deployment failed while copying files to EC2: ${err.message || err}` });
