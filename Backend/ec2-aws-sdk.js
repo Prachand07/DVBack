@@ -65,14 +65,14 @@ async function createEC2Instance(user_name) {
         const securityGroupId = await createSecurityGroup();
 
         const params = {
-            ImageId: "ami-076c6dbba59aa92e6",
+            ImageId: "ami-002f6e91abff6eb96",
             InstanceType: "t2.micro",
-            KeyName: "DV",
+            KeyName: "Ec2-DV",
             MinCount: 1,
             MaxCount: 1,
             SecurityGroupIds: [securityGroupId],
             IamInstanceProfile: {
-                Name: "S3full"
+                Name: "S3FullAccess"
             },
             TagSpecifications: [
                 {

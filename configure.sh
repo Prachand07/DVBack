@@ -14,8 +14,7 @@ gpgkey=https://pgp.mongodb.com/server-8.0.asc" | sudo tee $REPO_FILE > /dev/null
 sudo yum install -y mongodb-org
 sudo systemctl start mongod
 sudo systemctl enable mongod
-echo "JWT_SECRET=$(aws ssm get-parameter --name "JWT_SECRET" --with-decryption --query "Parameter.Value" --output text)" >> .env
-echo "MONGO_URL=$(aws ssm get-parameter --name "MONGO_URL" --with-decryption --query "Parameter.Value" --output text)" >> .env
+aws ssm get-parameters --names "JWT_SECRET" "MONGO_URL" --with-decryption --query "Parameters[*].{Name:Name,Value:Value}" --output text | awk '{print $1 "=" $2}' > .env
 aws ssm get-parameter --name "KP" --with-decryption --query "Parameter.Value" --output text >/var/www/html/Backend/DV.pem              
 sudo echo "CONFIG = { PUBLIC_IP: '$(curl -s ifconfig.me)' };" > config.js
 sudo yum install -y nodejs
