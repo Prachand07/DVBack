@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const multer = require("multer");
 const cors = require("cors");
-const connectDB = require("./db");
+// const connectDB = require("./db");
 const jwt = require("jsonwebtoken");
 const verifyToken = require("./authMiddleware");
 const cookieParser = require("cookie-parser");
@@ -25,14 +25,39 @@ const upload = multer({
   storage: multer.memoryStorage(),
 });
 
+
 const validateZip = (buffer, frontend_name, backend_name, backend_file_name) => {
-  console.log('valadeiting')
+  console.log('Validating ZIP file structure...');
+
   try {
     const zip = new AdmZip(buffer);
-    const zipEntries = zip.getEntries().map(entry => entry.entryName);
+    const zipEntries = zip.getEntries()
+      .map(entry => entry.entryName)
+      .filter(entry => !entry.startsWith('*/node_modules/')); // ignore node_modules
 
-    const requiredFiles = [`${backend_file_name}`, 'package.json', `${frontend_name}/`, `${backend_name}/`];
-    return requiredFiles.every(file => zipEntries.some(entry => entry.includes(file)));
+    console.log('Filtered ZIP Entries (excluding node_modules):');
+    console.log(zipEntries);
+
+    const hasFrontendIndex = zipEntries.includes(`${frontend_name}/index.html`);
+    console.log(`Checking for index.html in frontend folder (${frontend_name}/index.html):`, hasFrontendIndex);
+
+    const hasBackendFile = zipEntries.includes(`${backend_name}/${backend_file_name}`);
+    console.log(`Checking for backend file (${backend_name}/${backend_file_name}):`, hasBackendFile);
+
+    const hasFrontendFolder = zipEntries.some(entry => entry.startsWith(`${frontend_name}/`));
+    console.log(`Checking for frontend folder (${frontend_name}/):`, hasFrontendFolder);
+
+    const hasBackendFolder = zipEntries.some(entry => entry.startsWith(`${backend_name}/`));
+    console.log(`Checking for backend folder (${backend_name}/):`, hasBackendFolder);
+
+    const hasPackageJson = zipEntries.includes('package.json');
+    console.log('Checking for package.json at root:', hasPackageJson);
+
+    const allValid = hasFrontendIndex && hasBackendFile && hasFrontendFolder && hasBackendFolder && hasPackageJson;
+
+    console.log('Validation result:', allValid);
+    return allValid;
+
   } catch (error) {
     console.error("Error processing ZIP file:", error);
     return false;
