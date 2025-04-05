@@ -96,7 +96,7 @@ const bucketCreateandhost = async (bucketName, files) => {
 const storeProjectDetails = async (username, projectname, websiteURL) => {
   try {
     const params = {
-      TableName: "ProjectDetails",  
+      TableName: "S3ProjectDetails",  
       Item: {
         username: username,
         projectname: projectname,

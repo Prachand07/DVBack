@@ -13,7 +13,7 @@ const AdmZip = require('adm-zip');
 const bcrypt = require("bcryptjs");
 require("dotenv").config();
 
-const { createEC2Instance, getPublicIP, bucketCreate, copyFromS3ToEC2 } = require("./ec2-aws-sdk");
+const { createEC2Instance, getPublicIP, bucketCreate, copyFromS3ToEC2, storeDetails } = require("./ec2-aws-sdk");
 const { generateBucketName, checkLimit, bucketCreateandhost, storeProjectDetails, } = require("./s3-aws-sdk");
 
 const app = express();
@@ -100,9 +100,17 @@ app.post("/signup", async (req, res) => {
     const { name, email, password } = req.body;
     console.log(`Signup attempt: ${name} - ${email}`);
 
-    let user = await User.findOne({ email });
+    const length = name.length;
+    if (length > 30) {
+      return res.status(400).json({ message: "Not valid Username" });
+    }
+    let user = await User.findOne({
+      $or: [{ email }, { username }]
+    });
     console.log("User found:", user);
-    if (user) return res.status(400).json({ message: "User already exists" });
+    if (user) {
+      return res.status(400).json({ message: "Email or Username already exists" });
+    }
 
     const salt = await bcrypt.genSalt(10);
     console.log("Salt generated:", salt);
@@ -120,7 +128,7 @@ app.post("/signup", async (req, res) => {
     res.status(201).json({
       message: "Signup successful",
       token,
-      redirect: "../Frontend/S3hosting.html"
+
     });
 
   } catch (err) {
@@ -159,8 +167,9 @@ app.post("/signin", async (req, res) => {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 });
+
 app.post("/dynamicHosting", upload.single('zipFile'), async (req, res) => {
-  const { frontend_name, backend_name, backend_file_name } = req.body;
+  const { projectname, frontend_name, backend_name, backend_file_name } = req.body;
 
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
@@ -201,19 +210,15 @@ app.post("/dynamicHosting", upload.single('zipFile'), async (req, res) => {
   }
 
   try {
-    console.log("3");
     const bucketName = await bucketCreate(user_name, req.file);
-    console.log("4");
-
     const instanceId = await createEC2Instance(user_name);
-    console.log("5");
-
     const publicIp = await getPublicIP(instanceId);
     console.log("Public IP: ", publicIp);
 
     try {
       console.log("Attempting to copy file to EC2 instance...");
       await copyFromS3ToEC2(publicIp, bucketName, req.file.originalname, backend_file_name, backend_name, frontend_name);
+      await storeDetails(user_name, projectname, publicIp);
     } catch (err) {
       console.error("Error copying file:", err);
       return res.status(500).json({ error: `Deployment failed while copying files to EC2: ${err.message || err}` });

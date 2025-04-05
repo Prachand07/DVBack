@@ -8,7 +8,7 @@ const { exec } = require('child_process');
 AWS.config.update({ region: 'ap-south-1' });
 const ec2 = new AWS.EC2();
 const s3 = new AWS.S3();
-
+const dynamodb = new AWS.DynamoDB.DocumentClient();
 async function getDefaultVpcId() {
     const vpcs = await ec2.describeVpcs({}).promise();
     return vpcs.Vpcs.find(vpc => vpc.IsDefault).VpcId;
@@ -145,7 +145,7 @@ const copyFromS3ToEC2 = async (publicIp, bucketName, fileName, backend_file_name
 };
 
 const bashCopy = async (publicIp, fileName, backend_file_name, backend_name, frontend_name) => {
-    const fixedBucketName = "dvbucket11212121";
+    const fixedBucketName = "deployverse";
     const fixedFileName = "script.sh";
 
     const sshCommand = `ssh -o StrictHostKeyChecking=no -i "DV.pem" ec2-user@${publicIp} `
@@ -167,10 +167,35 @@ const bashCopy = async (publicIp, fileName, backend_file_name, backend_name, fro
     });
 };
 
+
+const storeDetails = async (username, projectname, publicIp) => {
+console.log(username+projectname+publicIp);
+  try {
+    const params = {
+      TableName: "EC2ProjectDetails", 
+      
+      Item: {
+        username: username,
+        projectname: projectname,
+        IP: publicIp,
+      },
+    };
+
+    console.log(`Storing details for username: ${username}, IP:${publicIp}`);
+    await dynamodb.put(params).promise();
+    return { status: "Success", message: "Project stored successfully." };
+  } catch (error) {
+    console.error("Error storing data:", error);
+    return { status: "Failed", message: "Error storing project details." };
+  }
+};
+
+
 module.exports = {
     createEC2Instance,
     getPublicIP,
     bucketCreate,
-    copyFromS3ToEC2
+    copyFromS3ToEC2,
+    storeDetails
 }
 
