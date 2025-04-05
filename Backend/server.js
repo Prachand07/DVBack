@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const multer = require("multer");
 const cors = require("cors");
-// const connectDB = require("./db");
+const connectDB = require("./db");
 const jwt = require("jsonwebtoken");
 const verifyToken = require("./authMiddleware");
 const cookieParser = require("cookie-parser");
@@ -25,9 +25,12 @@ const upload = multer({
   storage: multer.memoryStorage(),
 });
 
-
 const validateZip = (buffer, frontend_name, backend_name, backend_file_name) => {
   console.log('Validating ZIP file structure...');
+  console.log('Received parameters from frontend:');
+  console.log('frontend_name:', frontend_name);
+  console.log('backend_name:', backend_name);
+  console.log('backend_file_name:', backend_file_name);
 
   try {
     const zip = new AdmZip(buffer);
@@ -38,19 +41,29 @@ const validateZip = (buffer, frontend_name, backend_name, backend_file_name) => 
     console.log('Filtered ZIP Entries (excluding node_modules):');
     console.log(zipEntries);
 
-    const hasFrontendIndex = zipEntries.includes(`${frontend_name}/index.html`);
+    const withoutRootDir = zipEntries.map(entry => {
+      const parts = entry.split('/');
+      const normalized = parts.length > 1 ? parts.slice(1).join('/') : entry;
+      return normalized.replace(/\/$/, ''); // remove trailing slash
+    }).filter(entry => entry); // remove empty strings
+
+    console.log('Normalized ZIP Entries:');
+    console.log(withoutRootDir);
+
+
+    const hasFrontendIndex = withoutRootDir.includes(`${frontend_name}/index.html`);
     console.log(`Checking for index.html in frontend folder (${frontend_name}/index.html):`, hasFrontendIndex);
 
-    const hasBackendFile = zipEntries.includes(`${backend_name}/${backend_file_name}`);
+    const hasBackendFile = withoutRootDir.includes(`${backend_name}/${backend_file_name}`);
     console.log(`Checking for backend file (${backend_name}/${backend_file_name}):`, hasBackendFile);
 
-    const hasFrontendFolder = zipEntries.some(entry => entry.startsWith(`${frontend_name}/`));
+    const hasFrontendFolder = withoutRootDir.some(entry => entry.startsWith(`${frontend_name}/`));
     console.log(`Checking for frontend folder (${frontend_name}/):`, hasFrontendFolder);
 
-    const hasBackendFolder = zipEntries.some(entry => entry.startsWith(`${backend_name}/`));
+    const hasBackendFolder = withoutRootDir.some(entry => entry.startsWith(`${backend_name}/`));
     console.log(`Checking for backend folder (${backend_name}/):`, hasBackendFolder);
 
-    const hasPackageJson = zipEntries.includes('package.json');
+    const hasPackageJson = withoutRootDir.includes('package.json');
     console.log('Checking for package.json at root:', hasPackageJson);
 
     const allValid = hasFrontendIndex && hasBackendFile && hasFrontendFolder && hasBackendFolder && hasPackageJson;

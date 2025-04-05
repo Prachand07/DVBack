@@ -125,7 +125,7 @@ document.getElementById("signup-form").addEventListener("submit", async function
             document.cookie = `authToken=${data.token}; path=/; max-age=3600; Samesite=Lax`;
             Swal.fire({
                 icon: "success",
-                title: "Signup Successful! Go ahead and choose your desired hosting option",
+                title: "Signup Successful! Go ahead and deploy!!",
                 backdrop: false,
                 text: "Redirecting...",
                 showConfirmButton: false,
@@ -133,8 +133,23 @@ document.getElementById("signup-form").addEventListener("submit", async function
             });
 
             setTimeout(() => {
-                window.location.href = "../index.html#services";
+                const selectedHosting = localStorage.getItem("selectedHosting");
+
+                if (selectedHosting) {
+                    if (selectedHosting.includes("Static")) {
+                        localStorage.removeItem("selectedHosting");
+                        window.location.href = "../Frontend/S3hosting.html";
+                    } else if (selectedHosting.includes("EC2")) {
+                        localStorage.removeItem("selectedHosting");
+                        window.location.href = "../Frontend/ec2-hosting.html";
+                    } else {
+                        window.location.href = "../index.html#services";
+                    }
+                } else {
+                    window.location.href = "../index.html#services";
+                }
             }, 1000);
+
         } else {
             Swal.fire({
                 icon: "error",
@@ -164,7 +179,7 @@ document.getElementById("signin-form").addEventListener("submit", async function
     const password = document.getElementById("signin-password").value;
 
     try {
-        
+
         const response = await fetch(`http://${ipAddress}:8090/signin`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -178,14 +193,28 @@ document.getElementById("signin-form").addEventListener("submit", async function
 
             Swal.fire({
                 icon: "success",
-                title: "Sign-in Successful! Go ahead and choose your desired hosting option ",
+                title: "Sign-in Successful! Go ahead and deploy your code! ",
                 text: "Redirecting...",
                 backdrop: false,
                 timer: 2000,
             });
 
             setTimeout(() => {
-                window.location.href = "../index.html#services";
+                const selectedHosting = localStorage.getItem("selectedHosting");
+
+                if (selectedHosting) {
+                    if (selectedHosting.includes("Static")) {
+                        localStorage.removeItem("selectedHosting");
+                        window.location.href = "../Frontend/S3hosting.html";
+                    } else if (selectedHosting.includes("EC2")) {
+                        localStorage.removeItem("selectedHosting");
+                        window.location.href = "../Frontend/ec2-hosting.html";
+                    } else {
+                        window.location.href = "../index.html#services";
+                    }
+                } else {
+                    window.location.href = "../index.html#services";
+                }
             }, 1000);
         } else {
             Swal.fire({
