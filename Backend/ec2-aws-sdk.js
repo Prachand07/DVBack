@@ -72,7 +72,7 @@ async function createEC2Instance(user_name) {
             MaxCount: 1,
             SecurityGroupIds: [securityGroupId],
             IamInstanceProfile: {
-                Name: "arn:aws:iam::794038217891:role/S3FullAccess"
+                Arn: "arn:aws:iam::794038217891:role/S3FullAccess"
             },
             TagSpecifications: [
                 {
