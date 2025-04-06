@@ -18,7 +18,7 @@ const generateBucketName = (username) => {
 const checkLimit = async (username) => {
   try {
     const existingProjects = await dynamodb.query({
-      TableName: "ProjectDetails",  
+      TableName: "S3ProjectDetails",  
       KeyConditionExpression: "username = :username",
       ExpressionAttributeValues: {
         ":username": username
