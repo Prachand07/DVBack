@@ -72,7 +72,7 @@ async function createEC2Instance(user_name) {
             MaxCount: 1,
             SecurityGroupIds: [securityGroupId],
             IamInstanceProfile: {
-                Name: "S3FullAccess"
+                Name: "arn:aws:iam::794038217891:role/S3FullAccess"
             },
             TagSpecifications: [
                 {
@@ -125,7 +125,7 @@ const bucketCreate = async (user_name, file) => {
 
 
 const copyFromS3ToEC2 = async (publicIp, bucketName, fileName, backend_file_name, backend_name, frontend_name) => {
-    const sshCommand = `ssh -o StrictHostKeyChecking=no -i "DV.pem" ec2-user@${publicIp} `
+    const sshCommand = `ssh -o StrictHostKeyChecking=no -i "Ec2-DV.pem" ec2-user@${publicIp} `
         + `"aws s3 cp s3://${bucketName}/${fileName} /home/ec2-user/ && echo 'File copied successfully!' || echo 'S3 file does not exist.';"`;
 
     return new Promise((resolve, reject) => {
@@ -148,7 +148,7 @@ const bashCopy = async (publicIp, fileName, backend_file_name, backend_name, fro
     const fixedBucketName = "deployverse";
     const fixedFileName = "script.sh";
 
-    const sshCommand = `ssh -o StrictHostKeyChecking=no -i "DV.pem" ec2-user@${publicIp} `
+    const sshCommand = `ssh -o StrictHostKeyChecking=no -i "Ec2-DV.pem" ec2-user@${publicIp} `
         + `"aws s3 cp s3://${fixedBucketName}/${fixedFileName} /home/ec2-user/ && `
         + `chmod +x /home/ec2-user/${fixedFileName} && `
         + `bash -c '/home/ec2-user/${fixedFileName} "${fileName}" "${backend_name}" "${backend_file_name}" "${frontend_name}"' && `
