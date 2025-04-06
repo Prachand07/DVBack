@@ -5,7 +5,7 @@ const crypto = require('crypto');
 const mime = require("mime-types");
 const fs = require('fs');
 const { exec } = require('child_process');
-AWS.config.update({ region: 'ap-south-1' });
+AWS.config.update({ region: 'eu-north-1' });
 const ec2 = new AWS.EC2();
 const s3 = new AWS.S3();
 const dynamodb = new AWS.DynamoDB.DocumentClient();
@@ -65,8 +65,8 @@ async function createEC2Instance(user_name) {
         const securityGroupId = await createSecurityGroup();
 
         const params = {
-            ImageId: "ami-002f6e91abff6eb96",
-            InstanceType: "t2.micro",
+            ImageId: "ami-0274f4b62b6ae3bd5",
+            InstanceType: "t3.micro",
             KeyName: "Ec2-DV",
             MinCount: 1,
             MaxCount: 1,
