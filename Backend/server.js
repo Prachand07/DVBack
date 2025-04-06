@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const multer = require("multer");
 const cors = require("cors");
-const connectDB = require("./db");
+// const connectDB = require("./db");
 const jwt = require("jsonwebtoken");
 const verifyToken = require("./authMiddleware");
 const cookieParser = require("cookie-parser");
@@ -282,9 +282,8 @@ app.post("/upload-folder", upload.array("files", 30), async (req, res) => {
     console.log(`Generated bucket name: ${bucketName}`);
 
     console.log(`Starting bucket creation and configuration for: ${bucketName}`);
-    const websiteUrl = await bucketCreateandhost(bucketName, req.file.buffer, req.file.originalname);
+    const websiteUrl = await bucketCreateandhost(bucketName, req.files);
     console.log(`Static website hosted successfully at: ${websiteUrl}`);
-
     const storedURL = await storeProjectDetails(username, projectname, websiteUrl);
     console.log(`Website data stored successfully for username: ${username}`);
 
