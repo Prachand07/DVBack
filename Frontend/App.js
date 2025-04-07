@@ -1,8 +1,8 @@
 // First check if we should redirect to mobile version
 if (window.innerWidth <= 768) {
   // Check if we're already on the mobile page to prevent infinite redirect
-  if (!window.location.pathname.endsWith('/frontend/new.html')) {
-    window.location.href = '/frontend/new.html';
+  if (!window.location.pathname.endsWith('/frontend/phone.html')) {
+    window.location.href = '/frontend/phone.html';
   }
 } else {
   // Only proceed with desktop version if screen is large enough
