@@ -202,3 +202,108 @@ body {
 .ec2 .learn-more a:hover{
     color:black;
 }
+
+@media (max-width:1512px) {
+    .apps-section{
+        gap: 80px;
+    }
+}
+@media (max-width:1442px) {
+    .apps-section{
+        gap: 30px;
+    }
+    .cards-container{
+        gap:35px;
+    }
+}
+
+
+@media (max-width: 1250px)
+{
+    .apps-section{
+        gap: 25px;
+    }
+    .cards-container{
+        gap: 18px;
+    }
+    .ec2 .learn-more a{
+        text-decoration: none;
+        color: #f6bd60;
+    }
+    
+    .ec2 .learn-more a:hover{
+        color:black;
+    }
+    .card{
+        width: 280px;
+        padding: 1px;
+    }
+}
+
+@media (max-width: 576px) {
+    .cards-container {
+        flex-direction: column;
+        gap: 30px;
+        padding: 20px;
+    }
+
+    .card {
+        width: 100%;
+        padding: 15px;
+        margin-top: 20px;
+        max-width: 90%;
+    }
+
+    .card-header h2 {
+        font-size: 1.2rem;
+    }
+
+    .feature {
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .feature img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .feature p {
+        font-size: 0.85rem;
+    }
+
+    .learn-more {
+        width: 90%;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .s3 .card-header h2,
+    .s3 .card-header img {
+        color: #3b8423;
+        filter: invert(41%) sepia(60%) saturate(635%) hue-rotate(60deg) brightness(89%) contrast(82%);
+    }
+
+    .ec2 .card-header h2,
+    .ec2 .card-header img {
+        color: #f4820b;
+        filter: invert(47%) sepia(81%) saturate(545%) hue-rotate(350deg) brightness(105%) contrast(98%);
+    }
+
+    .rds .card-header h2 {
+        color: #f6bd60;
+    }
+
+    .rds .card-header img {
+        content: url("/Images/upd-rdec.png");
+    }
+    .ec2 .learn-more a{
+        text-decoration: none;
+        color: #f6bd60;
+    }
+    
+    .ec2 .learn-more a:hover{
+        color:black;
+    }
+
+}
