@@ -106,4 +106,43 @@ fetch("./Frontend/terminal.html")
     }, 100);
   })
   .catch((error) => console.error("Error loading terminal:", error));
+  fetch("./Frontend/video.html")
+  .then(response => response.text())
+  .then(data => {
+      document.getElementById("video-section").innerHTML = data;
 
+      console.log("✅ video.html loaded, setting up animation...");
+
+      // Function to check if element is in viewport
+      function isInViewport(element) {
+          const rect = element.getBoundingClientRect();
+          return rect.top < window.innerHeight * 0.75 && rect.bottom > 0;
+      }
+
+      function handleScroll() {
+          const headingTop = document.querySelector(".heading-top");
+          const headingBottom = document.querySelector(".heading-bottom");
+
+          if (!headingTop || !headingBottom) {
+              console.error("❌ Headings not found!");
+              return;
+          }
+
+          if (isInViewport(headingTop)) {
+              headingTop.classList.add("active");
+              headingBottom.classList.add("active");
+              console.log("✅ Animation Activated!");
+          } else {
+              headingTop.classList.remove("active");
+              headingBottom.classList.remove("active");
+              console.log("❌ Animation Removed!");
+          }
+      }
+
+      // Run once on page load
+      handleScroll();
+
+      // Attach scroll listener
+      window.addEventListener("scroll", handleScroll);
+  })
+  .catch(error => console.error("❌ Error loading video section:", error));
