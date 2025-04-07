@@ -1,680 +1,552 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>EC2-DualHost</title>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/lucide-icons@0.284.0/dist/umd/lucide.min.css"
-    />
-    <!-- SweetAlert2 CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
-      rel="stylesheet"
-    />
 
-    <link rel="stylesheet" href="ecstyle.css" />
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EC2-DualHost</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lucide-icons@0.284.0/dist/umd/lucide.min.css" />
+  <!-- SweetAlert2 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet" />
 
-  <body>
-    <div id="navbar-container"></div>
-    <div class="container">
-      <h1 class="title">Let's<span> Meet Cloud</span></h1>
+  <link rel="stylesheet" href="ecstyle.css" />
+</head>
 
-      <!-- Timeline Component -->
-      <div class="timeline-container">
-        <div class="progress-bar">
-          <div class="progress" id="progress"></div>
-        </div>
+<body>
+  <div id="navbar-container"></div>
+  <div class="container">
+    <h1 class="title">Let's<span> Meet Cloud</span></h1>
 
-        <div class="timeline-steps">
-          <!-- Step 1: Form -->
-          <div class="step active" data-step="0">
-            <div class="step-icon">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="lucide lucide-file-text"
-              >
-                <path
-                  d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"
-                />
-                <polyline points="14 2 14 8 20 8" />
-                <line x1="16" x2="8" y1="13" y2="13" />
-                <line x1="16" x2="8" y1="17" y2="17" />
-                <line x1="10" x2="8" y1="9" y2="9" />
-              </svg>
-            </div>
-            <div class="step-content">
-              <h3 class="step-title">Project Details</h3>
-              <p class="step-description">Tell us about your project</p>
-            </div>
-          </div>
-
-          <!-- Step 2: Upload -->
-          <div class="step" data-step="1">
-            <div class="step-icon">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="lucide lucide-upload"
-              >
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                <polyline points="17 8 12 3 7 8" />
-                <line x1="12" x2="12" y1="3" y2="15" />
-              </svg>
-            </div>
-            <div class="step-content">
-              <h3 class="step-title">Upload files</h3>
-              <p class="step-description">
-                Got code? Drop it here to take your creation on a thrilling ride
-              </p>
-            </div>
-          </div>
-
-          <!-- Step 3: Processing -->
-          <div class="step" data-step="2">
-            <div class="step-icon">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="lucide lucide-loader-2"
-              >
-                <path d="M21 12a9 9 0 1 1-6.219-8.56" />
-              </svg>
-            </div>
-            <div class="step-content">
-              <h3 class="step-title">Processing files</h3>
-              <p class="step-description">
-                Hang tight! We're handling the heavy lifting behind the scenes!
-              </p>
-            </div>
-          </div>
-
-          <!-- Step 4: Results -->
-          <div class="step" data-step="3">
-            <div class="step-icon">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="lucide lucide-file-text"
-              >
-                <path
-                  d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"
-                />
-                <polyline points="14 2 14 8 20 8" />
-                <line x1="16" x2="8" y1="13" y2="13" />
-                <line x1="16" x2="8" y1="17" y2="17" />
-                <line x1="10" x2="8" y1="9" y2="9" />
-              </svg>
-            </div>
-            <div class="step-content">
-              <h3 class="step-title">Results</h3>
-              <p class="step-description">
-                Your results have landed! Go ahead, take a peek!
-              </p>
-            </div>
-          </div>
-        </div>
+    <!-- Timeline Component -->
+    <div class="timeline-container">
+      <div class="progress-bar">
+        <div class="progress" id="progress"></div>
       </div>
 
-      <!-- Content Areas -->
-      <!-- Step 1: Form -->
-      <div class="content-area active" data-content="0">
-        <div class="form-section">
-          <h2 class="form-title">Project Information</h2>
-
-          <div class="form-grid">
-            <div class="form-group">
-              <label class="form-label" for="name">Project Name</label>
-              <input
-                type="text"
-                id="projectname"
-                name="name"
-                class="form-input"
-                placeholder="Enter project name"
-              />
-            </div>
-
-            <div class="form-group">
-              <label class="form-label" for="text"
-                >Backend-Folder Name(Case Sensitive)</label
-              >
-              <input
-                type="text"
-                id="Backend-FolderName"
-                class="form-input"
-                placeholder="Enter folder name (e.g., backend)"
-              />
-            </div>
-
-            <div class="form-group">
-              <label class="form-label" for="company"
-                >Frontend-Folder Name(Case Sensitive)</label
-              >
-              <input
-                type="text"
-                id="Frontend-FolderName"
-                class="form-input"
-                placeholder="Enter folder name (e.g., frontend)"
-              />
-            </div>
-
-            <div class="form-group">
-              <label class="form-label" for="phone"
-                >Backend-File Name(Case Sensitive)</label
-              >
-              <input
-                type="tel"
-                id="Backend-fileName"
-                class="form-input"
-                placeholder="Enter file name (e.g., server.js)"
-              />
-            </div>
-
-            <div class="form-group">
-              <label class="form-label" for="backend">Backend</label>
-              <select id="backend" name="backend" class="form-input">
-                <option value="">Select Backend</option>
-                <option value="nodejs">Node.js + Express</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="frontend">Frontend</label>
-              <select id="frontend" name="frontend" class="form-input">
-                <option value="">Select Frontend</option>
-                <option value="html">HTML, CSS, JS</option>
-                <option value="react">React + Vite</option>
-              </select>
-            </div>
+      <div class="timeline-steps">
+        <!-- Step 1: Form -->
+        <div class="step active" data-step="0">
+          <div class="step-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              class="lucide lucide-file-text">
+              <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="16" x2="8" y1="13" y2="13" />
+              <line x1="16" x2="8" y1="17" y2="17" />
+              <line x1="10" x2="8" y1="9" y2="9" />
+            </svg>
+          </div>
+          <div class="step-content">
+            <h3 class="step-title">Project Details</h3>
+            <p class="step-description">Tell us about your project</p>
           </div>
         </div>
-      </div>
 
-      <!-- Step 2: Upload -->
-      <div class="content-area" data-content="1">
-        <div class="upload-section">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="upload-icon"
-          >
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-            <polyline points="17 8 12 3 7 8" />
-            <line x1="12" x2="12" y1="3" y2="15" />
-          </svg>
-          <p class="upload-text">Click to Upload a File</p>
-
-          <input
-            type="file"
-            id="zipFileInput"
-            class="file-input"
-            style="display: none"
-          />
-          <button
-            class="file-button"
-            onclick="document.getElementById('zipFileInput').click();"
-          >
-            Choose File
-          </button>
-          <p id="file-name" class="file-name-text"></p>
-        </div>
-      </div>
-
-      <!-- Step 3: Processing -->
-      <div class="content-area" data-content="2">
-        <div class="loading-container">
-          <svg class="bike" viewBox="0 0 48 30">
-            <g
-              fill="none"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="1"
-            >
-              <g transform="translate(9.5,19)">
-                <circle
-                  class="bike__tire"
-                  r="9"
-                  stroke-dasharray="56.549 56.549"
-                />
-                <g
-                  class="bike__spokes-spin"
-                  stroke-dasharray="31.416 31.416"
-                  stroke-dashoffset="-23.562"
-                >
-                  <circle class="bike__spokes" r="5" />
-                  <circle
-                    class="bike__spokes"
-                    r="5"
-                    transform="rotate(180,0,0)"
-                  />
-                </g>
-              </g>
-              <g transform="translate(24,19)">
-                <g
-                  class="bike__pedals-spin"
-                  stroke-dasharray="25.133 25.133"
-                  stroke-dashoffset="-21.991"
-                  transform="rotate(67.5,0,0)"
-                >
-                  <circle class="bike__pedals" r="4" />
-                  <circle
-                    class="bike__pedals"
-                    r="4"
-                    transform="rotate(180,0,0)"
-                  />
-                </g>
-              </g>
-              <g transform="translate(38.5,19)">
-                <circle
-                  class="bike__tire"
-                  r="9"
-                  stroke-dasharray="56.549 56.549"
-                />
-                <g
-                  class="bike__spokes-spin"
-                  stroke-dasharray="31.416 31.416"
-                  stroke-dashoffset="-23.562"
-                >
-                  <circle class="bike__spokes" r="5" />
-                  <circle
-                    class="bike__spokes"
-                    r="5"
-                    transform="rotate(180,0,0)"
-                  />
-                </g>
-              </g>
-              <polyline
-                class="bike__seat"
-                points="14 3,18 3"
-                stroke-dasharray="5 5"
-              />
-              <polyline
-                class="bike__body"
-                points="16 3,24 19,9.5 19,18 8,34 7,24 19"
-                stroke-dasharray="79 79"
-              />
-              <path
-                class="bike__handlebars"
-                d="m30,2h6s1,0,1,1-1,1-1,1"
-                stroke-dasharray="10 10"
-              />
-              <polyline
-                class="bike__front"
-                points="32.5 2,38.5 19"
-                stroke-dasharray="19 19"
-              />
-            </g>
-          </svg>
-          <p class="loading-text">Processing files... Please wait.</p>
-        </div>
-      </div>
-
-      <!-- Step 4: Results -->
-      <div class="content-area" data-content="3">
-        <div class="result-container">
-          <h2 class="result-title">Your File is Ready!</h2>
-          <input
-            type="text"
-            class="url-input"
-            value="https://example.com/your-deployed-site"
-            readonly
-          />
-
-          <div class="action-buttons">
-            <button class="action-button copy-button" id="copyButton">
-              Copy URL
-            </button>
-            <button class="action-button download-button" id="downloadButton">
-              Download File
-            </button>
+        <!-- Step 2: Upload -->
+        <div class="step" data-step="1">
+          <div class="step-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              class="lucide lucide-upload">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="17 8 12 3 7 8" />
+              <line x1="12" x2="12" y1="3" y2="15" />
+            </svg>
           </div>
-
-          <button class="new-project-button" id="newProjectButton">
-            Start New Project
-          </button>
+          <div class="step-content">
+            <h3 class="step-title">Upload files</h3>
+            <p class="step-description">
+              Got code? Drop it here to take your creation on a thrilling ride
+            </p>
+          </div>
         </div>
-      </div>
 
-      <!-- Demo Controls -->
-      <div class="controls">
-        <button class="next-button" id="nextButton">Next Step</button>
+        <!-- Step 3: Processing -->
+        <div class="step" data-step="2">
+          <div class="step-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              class="lucide lucide-loader-2">
+              <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+            </svg>
+          </div>
+          <div class="step-content">
+            <h3 class="step-title">Processing files</h3>
+            <p class="step-description">
+              Hang tight! We're handling the heavy lifting behind the scenes!
+            </p>
+          </div>
+        </div>
+
+        <!-- Step 4: Results -->
+        <div class="step" data-step="3">
+          <div class="step-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              class="lucide lucide-file-text">
+              <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="16" x2="8" y1="13" y2="13" />
+              <line x1="16" x2="8" y1="17" y2="17" />
+              <line x1="10" x2="8" y1="9" y2="9" />
+            </svg>
+          </div>
+          <div class="step-content">
+            <h3 class="step-title">Results</h3>
+            <p class="step-description">
+              Your results have landed! Go ahead, take a peek!
+            </p>
+          </div>
+        </div>
       </div>
     </div>
-    <script src="../Backend/config.js"></script>
-    <script>
-      function getTokenFromCookies() {
-        const cookies = document.cookie.split("; ");
-        for (let cookie of cookies) {
-          const [name, value] = cookie.split("=");
-          if (name === "authToken") return value;
-        }
-        return null;
+
+    <!-- Content Areas -->
+    <!-- Step 1: Form -->
+    <div class="content-area active" data-content="0">
+      <div class="form-section">
+        <h2 class="form-title">Project Information</h2>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label" for="name">Project Name</label>
+            <input type="text" id="projectname" name="name" class="form-input" placeholder="Enter project name" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="text">Backend-Folder Name(Case Sensitive)</label>
+            <input type="text" id="Backend-FolderName" class="form-input"
+              placeholder="Enter folder name (e.g., backend)" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="company">Frontend-Folder Name(Case Sensitive)</label>
+            <input type="text" id="Frontend-FolderName" class="form-input"
+              placeholder="Enter folder name (e.g., frontend)" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="phone">Backend-File Name(Case Sensitive)</label>
+            <input type="tel" id="Backend-fileName" class="form-input"
+              placeholder="Enter file name (e.g., server.js)" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="backend">Backend</label>
+            <select id="backend" name="backend" class="form-input">
+              <option value="">Select Backend</option>
+              <option value="nodejs">Node.js + Express</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="frontend">Frontend</label>
+            <select id="frontend" name="frontend" class="form-input">
+              <option value="">Select Frontend</option>
+              <option value="html">HTML, CSS, JS</option>
+              <option value="react">React + Vite</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2: Upload -->
+    <div class="content-area" data-content="1">
+      <div class="upload-section">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="upload-icon">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+          <polyline points="17 8 12 3 7 8" />
+          <line x1="12" x2="12" y1="3" y2="15" />
+        </svg>
+        <p class="upload-text">Click to Upload a File</p>
+
+        <input type="file" id="zipFileInput" class="file-input" style="display: none" />
+        <button class="file-button" onclick="document.getElementById('zipFileInput').click();">
+          Choose File
+        </button>
+        <p id="file-name" class="file-name-text"></p>
+      </div>
+    </div>
+
+    <!-- Step 3: Processing -->
+    <div class="content-area" data-content="2">
+      <div class="loading-container">
+        <svg class="bike" viewBox="0 0 48 30">
+          <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1">
+            <g transform="translate(9.5,19)">
+              <circle class="bike__tire" r="9" stroke-dasharray="56.549 56.549" />
+              <g class="bike__spokes-spin" stroke-dasharray="31.416 31.416" stroke-dashoffset="-23.562">
+                <circle class="bike__spokes" r="5" />
+                <circle class="bike__spokes" r="5" transform="rotate(180,0,0)" />
+              </g>
+            </g>
+            <g transform="translate(24,19)">
+              <g class="bike__pedals-spin" stroke-dasharray="25.133 25.133" stroke-dashoffset="-21.991"
+                transform="rotate(67.5,0,0)">
+                <circle class="bike__pedals" r="4" />
+                <circle class="bike__pedals" r="4" transform="rotate(180,0,0)" />
+              </g>
+            </g>
+            <g transform="translate(38.5,19)">
+              <circle class="bike__tire" r="9" stroke-dasharray="56.549 56.549" />
+              <g class="bike__spokes-spin" stroke-dasharray="31.416 31.416" stroke-dashoffset="-23.562">
+                <circle class="bike__spokes" r="5" />
+                <circle class="bike__spokes" r="5" transform="rotate(180,0,0)" />
+              </g>
+            </g>
+            <polyline class="bike__seat" points="14 3,18 3" stroke-dasharray="5 5" />
+            <polyline class="bike__body" points="16 3,24 19,9.5 19,18 8,34 7,24 19" stroke-dasharray="79 79" />
+            <path class="bike__handlebars" d="m30,2h6s1,0,1,1-1,1-1,1" stroke-dasharray="10 10" />
+            <polyline class="bike__front" points="32.5 2,38.5 19" stroke-dasharray="19 19" />
+          </g>
+        </svg>
+        <p class="loading-text">Processing files... Please wait.</p>
+      </div>
+    </div>
+
+    <!-- Step 4: Results -->
+    <div class="content-area" data-content="3">
+      <div class="result-container">
+        <h2 class="result-title">Your File is Ready!</h2>
+        <input type="text" class="url-input" value="https://example.com/your-deployed-site" readonly />
+
+        <div class="action-buttons">
+          <button class="action-button copy-button" id="copyButton">
+            Copy URL
+          </button>
+          <button class="action-button download-button" id="downloadButton">
+            Download File
+          </button>
+        </div>
+
+        <button class="new-project-button" id="newProjectButton">
+          Start New Project
+        </button>
+      </div>
+    </div>
+
+    <!-- Demo Controls -->
+    <div class="controls">
+      <button class="next-button" id="nextButton">Next Step</button>
+    </div>
+  </div>
+  <script src="../Backend/config.js"></script>
+  <script>
+    function getTokenFromCookies() {
+      const cookies = document.cookie.split("; ");
+      for (let cookie of cookies) {
+        const [name, value] = cookie.split("=");
+        if (name === "authToken") return value;
       }
-      document.addEventListener("DOMContentLoaded", function () {
-        let activeStep = 0;
-        const totalSteps = 4;
-        const ipAddress = CONFIG.PUBLIC_IP;
-        const progressBar = document.getElementById("progress");
-        const nextButton = document.getElementById("nextButton");
-        const steps = document.querySelectorAll(".step");
-        const contentAreas = document.querySelectorAll(".content-area");
-        const responseMessage = document.getElementById("responseMessage");
-        const token = getTokenFromCookies();
+      return null;
+    }
+    document.addEventListener("DOMContentLoaded", function () {
+      let activeStep = 0;
+      const totalSteps = 4;
+      const ipAddress = CONFIG.PUBLIC_IP;
+      const progressBar = document.getElementById("progress");
+      const nextButton = document.getElementById("nextButton");
+      const steps = document.querySelectorAll(".step");
+      const contentAreas = document.querySelectorAll(".content-area");
+      const responseMessage = document.getElementById("responseMessage");
+      const token = getTokenFromCookies();
+      const fileInput = document.getElementById("zipFileInput");
+      const fileNameDisplay = document.getElementById("file-name");
+      const uploadText = document.getElementById("uploadText");
+      const uploadIcon = document.getElementById("uploadIcon");
+      const fileButton = document.getElementById("fileButton");
+      // Initialize UI
+      updateUI();
+
+      function resetFileUploadUI() {
+        fileInput.value = "";
+        fileNameDisplay.textContent = "No file chosen";
+        uploadText.textContent = "Upload a ZIP file";
+        uploadText.style.color = "#6c757d"; // Default grey color
+        uploadIcon.style.stroke = "#6c757d"; // Reset icon color
+        fileButton.textContent = "Choose File";
+        fileButton.style.backgroundColor = "";
+        fileButton.style.color = "";
+      }
+
+      fileInput.addEventListener("change", function () {
+        const file = fileInput.files[0];
+        if (file) {
+          fileNameDisplay.textContent = `Uploaded: ${file.name}`;
+        }
+      });
+      // Event listener
+      nextButton.addEventListener("click", handleNextStep);
+
+      function handleNextStep() {
+        if (activeStep === 1) {
+          nextButton.textContent = "Submitting...";
+          nextButton.disabled = true;
+          sendDataToBackend();
+        } else {
+          activeStep++;
+          updateUI();
+        }
+      }
+      function resetForm() {
+        document.getElementById("projectname").value.trim() = "";
+        document.getElementById("Frontend-FolderName").value.trim() = "";
+        document.getElementById("Backend-FolderName").value.trim() = "";
+        document.getElementById("Backend-fileName").value.trim() = "";
+        document.getElementById("zipFileInput").value.trim() = "";
+      }
+
+      async function sendDataToBackend() {
+        const projectname = document
+          .getElementById("projectname")
+          .value.trim();
+        const frontendName = document
+          .getElementById("Frontend-FolderName")
+          .value.trim();
+        const backendName = document
+          .getElementById("Backend-FolderName")
+          .value.trim();
+        const backendFileName = document
+          .getElementById("Backend-fileName")
+          .value.trim();
         const fileInput = document.getElementById("zipFileInput");
-        const fileNameDisplay = document.getElementById("file-name");
-        const uploadText = document.getElementById("uploadText");
-        const uploadIcon = document.getElementById("uploadIcon");
-        const fileButton = document.getElementById("fileButton");
-        // Initialize UI
+        const frontend_framefork = document
+          .getElementById("frontend")
+          .value.trim();
+        const backend_framework = document
+          .getElementById("backend")
+          .value.trim();
+        console.log(frontend_framefork);
+        const file = fileInput.files[0];
+
+        if (!backendFileName.endsWith('.js')) {
+
+          Swal.fire({
+            icon: "warning",
+            title: "Validation Error",
+            text: "Backend file name must end with '.js'.",
+          });
+          nextButton.textContent = "Next Step";
+          nextButton.disabled = false;
+           updateUI();
+          resetFileUploadUI();
+          return;
+          } else {
+          console.log("Valid backendFileName.");
+          activeStep++;         
+          }
+
+        if (
+          !frontendName ||
+          !backendName ||
+          !file ||
+          !frontend_framefork ||
+          !backend_framework ||
+          !/^[A-Za-z]/.test(frontendName) ||
+          /\s/.test(frontendName) || // no spaces allowed
+          !/^[A-Za-z]/.test(backendName) ||
+          /\s/.test(backendName) || // no spaces allowed
+          !/^[A-Za-z]/.test(backendFileName) ||
+          /\s/.test(backendFileName) || // no spaces allowed
+          !file.name.toLowerCase().endsWith(".zip") ||
+          /\s/.test(file.name) // no spaces allowed in zip file name
+        ) {
+          Swal.fire({
+            icon: "warning",
+            title: "Validation Error",
+            text: "All fields are required. Names must start with a letter, folder and zip name must not contain spaces, and the uploaded file must be a .zip file. Also, please select both Frontend and Backend frameworks.",
+          });
+          nextButton.textContent = "Submit";
+          nextButton.disabled = false;
+          activeStep = 0;
+          updateUI();
+          resetFileUploadUI();
+          return;
+        }
+
+        if (!fileInput.files.length) {
+          Swal.fire({
+            icon: "warning",
+            title: "No File Selected",
+            text: "Please select a ZIP file.",
+          });
+          nextButton.textContent = "Submit";
+          nextButton.disabled = false;
+          resetFileUploadUI();
+          return;
+        }
+
+        const formData = new FormData();
+        formData.append("frontend_name", frontendName);
+        formData.append("backend_name", backendName);
+        formData.append("zipFile", fileInput.files[0]);
+        formData.append("backend_file_name", backendFileName);
+        formData.append("projectname", projectname);
+        formData.append("frontend_framework", frontend_framefork);
+        formData.append("backend_framework", backend_framework);
+        activeStep = 2;
         updateUI();
 
-        function resetFileUploadUI() {
-          fileInput.value = "";
-          fileNameDisplay.textContent = "No file chosen";
-          uploadText.textContent = "Upload a ZIP file";
-          uploadText.style.color = "#6c757d"; // Default grey color
-          uploadIcon.style.stroke = "#6c757d"; // Reset icon color
-          fileButton.textContent = "Choose File";
-          fileButton.style.backgroundColor = "";
-          fileButton.style.color = "";
-        }
-
-        fileInput.addEventListener("change", function () {
-          const file = fileInput.files[0];
-          if (file) {
-            fileNameDisplay.textContent = `Uploaded: ${file.name}`;
-          }
-        });
-        // Event listener
-        nextButton.addEventListener("click", handleNextStep);
-
-        function handleNextStep() {
-          if (activeStep === 1) {
-            nextButton.textContent = "Submitting...";
-            nextButton.disabled = true;
-            sendDataToBackend();
-          } else {
-            activeStep++;
-            updateUI();
-          }
-        }
-        function resetForm() {
-          document.getElementById("projectname").value = "";
-          document.getElementById("Frontend-FolderName").value = "";
-          document.getElementById("Backend-FolderName").value = "";
-          document.getElementById("Backend-fileName").value = "";
-          document.getElementById("zipFileInput").value = "";
-        }
-
-        async function sendDataToBackend() {
-          const projectname = document
-            .getElementById("projectname")
-            .value.trim();
-          const frontendName = document
-            .getElementById("Frontend-FolderName")
-            .value.trim();
-          const backendName = document
-            .getElementById("Backend-FolderName")
-            .value.trim();
-          const backendFileName = document
-            .getElementById("Backend-fileName")
-            .value.trim();
-          const fileInput = document.getElementById("zipFileInput");
-          const frontend_framefork = document
-            .getElementById("frontend")
-            .value.trim();
-          const backend_framework = document
-            .getElementById("backend")
-            .value.trim();
-          console.log(frontend_framefork);
-          const file = fileInput.files[0];
-
-          if (
-            !frontendName ||
-            !backendName ||
-            !file ||
-            !frontend_framefork ||
-            !backend_framework ||
-            !/^[A-Za-z]/.test(frontendName) ||
-            /\s/.test(frontendName) || // no spaces allowed
-            !/^[A-Za-z]/.test(backendName) ||
-            /\s/.test(backendName) || // no spaces allowed
-            !/^[A-Za-z]/.test(backendFileName) ||
-            /\s/.test(backendFileName) || // no spaces allowed
-            !file.name.toLowerCase().endsWith(".zip") ||
-            /\s/.test(file.name) // no spaces allowed in zip file name
-          ) {
-            Swal.fire({
-              icon: "warning",
-              title: "Validation Error",
-              text: "All fields are required. Names must start with a letter, must not contain spaces, and the uploaded file must be a .zip file. Also, please select both Frontend and Backend frameworks.",
-            });
-            nextButton.textContent = "Submit";
-            nextButton.disabled = false;
-            activeStep = 0;
-            updateUI();
-            resetFileUploadUI();
-            return;
-          }
-
-          if (!fileInput.files.length) {
-            Swal.fire({
-              icon: "warning",
-              title: "No File Selected",
-              text: "Please select a ZIP file.",
-            });
-            nextButton.textContent = "Submit";
-            nextButton.disabled = false;
-            resetFileUploadUI();
-            return;
-          }
-
-          const formData = new FormData();
-          formData.append("frontend_name", frontendName);
-          formData.append("backend_name", backendName);
-          formData.append("zipFile", fileInput.files[0]);
-          formData.append("backend_file_name", backendFileName);
-          formData.append("projectname", projectname);
-          formData.append("frontend_framework", frontend_framefork);
-          formData.append("backend_framework", backend_framework);
-          activeStep = 2;
-          updateUI();
-
-          try {
-            const response = await fetch(
-              `http://${ipAddress}:8090/dynamicHosting`,
-              {
-                method: "POST",
-                body: formData,
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-              }
-            );
-
-            const result = await response.json();
-
-            if (!response.ok || result.error) {
-              const errorMsg =
-                result.error || "Something went wrong during deployment.";
-              Swal.fire({
-                icon: "error",
-                title: "Deployment Failed",
-                text: errorMsg,
-              }).then(() => {
-                activeStep = 0;
-                updateUI();
-                resetFileUploadUI();
-              });
-              nextButton.textContent = "Submit";
-              nextButton.disabled = false;
-              return;
+        try {
+          const response = await fetch(
+            `http://${ipAddress}:8090/dynamicHosting`,
+            {
+              method: "POST",
+              body: formData,
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
             }
+          );
 
-            // Move to final step directly
-            activeStep = 3;
-            const fileUrl = `http://${result.ip_address}`;
+          const result = await response.json();
 
-            const urlInput = document.querySelector(".url-input");
-            urlInput.value = fileUrl;
-
-            document
-              .getElementById("copyButton")
-              .addEventListener("click", function () {
-                urlInput.select();
-                document.execCommand("copy");
-                Swal.fire(
-                  "Copied!",
-                  "The URL has been copied to your clipboard.",
-                  "success"
-                );
-              });
-
-            document
-              .getElementById("downloadButton")
-              .addEventListener("click", function () {
-                const fileContent = `Your deployed project URL:\n${fileUrl}`;
-                const blob = new Blob([fileContent], { type: "text/plain" });
-                const url = URL.createObjectURL(blob);
-
-                const link = document.createElement("a");
-                link.href = url;
-                link.download = "your-ec2-credentials.txt";
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-
-                URL.revokeObjectURL(url); // Clean up the object URL
-              });
-
-            document
-              .getElementById("newProjectButton")
-              .addEventListener("click", function () {
-                activeStep = 0;
-                updateUI();
-                resetForm();
-                resetFileUploadUI();
-              });
-
-            updateUI();
-          } catch (error) {
+          if (!response.ok || result.error) {
+            const errorMsg =
+              result.error || "Something went wrong during deployment.";
             Swal.fire({
               icon: "error",
-              title: "Network Error",
-              text: "Upload failed. Please try again later.",
+              title: "Deployment Failed",
+              text: errorMsg,
             }).then(() => {
               activeStep = 0;
               updateUI();
               resetFileUploadUI();
             });
-            console.error("Upload Error:", error);
             nextButton.textContent = "Submit";
             nextButton.disabled = false;
-          }
-        }
-
-        function updateUI() {
-          // Update progress bar
-          progressBar.style.width = `${(activeStep / (totalSteps - 1)) * 100}%`;
-
-          // Update button visibility and text
-          if (activeStep === 0) {
-            nextButton.textContent = "Next Step";
-            nextButton.style.display = "block";
-            nextButton.disabled = false;
-          } else if (activeStep === 1) {
-            nextButton.textContent = "Submit";
-            nextButton.style.display = "block";
-            nextButton.disabled = false;
-          } else {
-            nextButton.style.display = "none"; // Hide button in steps 3 & 4
+            return;
           }
 
-          // Update steps
-          steps.forEach((step, index) => {
-            step.classList.remove("active", "completed");
+          // Move to final step directly
+          activeStep = 3;
+          const fileUrl = `http://${result.ip_address}`;
 
-            if (index === activeStep) {
-              step.classList.add("active");
-            } else if (index < activeStep) {
-              step.classList.add("completed");
-            }
-          });
+          const urlInput = document.querySelector(".url-input");
+          urlInput.value = fileUrl;
 
-          // Update content areas
-          contentAreas.forEach((content, index) => {
-            content.classList.remove("active");
-            if (index === activeStep) {
-              content.classList.add("active");
-            }
-          });
-        }
-      });
-      fetch("../Frontend/Navbar.html")
-        .then((response) => response.text())
-        .then((data) => {
-          document.getElementById("navbar-container").innerHTML = data; // Insert navbar HTML
-
-          // Load CSS
-          let link = document.createElement("link");
-          link.rel = "stylesheet";
-          link.href = "../Frontend/Navbar.css";
-          document.head.appendChild(link);
-
-          // Load JS dynamically and wait for it to finish loading
-          let script = document.createElement("script");
-          script.src = "../Backend/Navbar.js";
-          script.onload = () => {
-            if (typeof updateNavbar === "function") {
-              updateNavbar(); // Call only after script loads
-            } else {
-              console.error(
-                "updateNavbar is not defined even after script load."
+          document
+            .getElementById("copyButton")
+            .addEventListener("click", function () {
+              urlInput.select();
+              document.execCommand("copy");
+              Swal.fire(
+                "Copied!",
+                "The URL has been copied to your clipboard.",
+                "success"
               );
-            }
-          };
-          document.body.appendChild(script);
-        })
-        .catch((error) => console.error("Error loading navbar:", error));
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  </body>
+            });
+
+          document
+            .getElementById("downloadButton")
+            .addEventListener("click", function () {
+              const fileContent = `Your deployed project URL:\n${fileUrl}`;
+              const blob = new Blob([fileContent], { type: "text/plain" });
+              const url = URL.createObjectURL(blob);
+
+              const link = document.createElement("a");
+              link.href = url;
+              link.download = "your-ec2-credentials.txt";
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+
+              URL.revokeObjectURL(url); // Clean up the object URL
+            });
+
+          document
+            .getElementById("newProjectButton")
+            .addEventListener("click", function () {
+              activeStep = 0;
+              updateUI();
+              resetForm();
+              resetFileUploadUI();
+            });
+
+          updateUI();
+        } catch (error) {
+          Swal.fire({
+            icon: "error",
+            title: "Network Error",
+            text: "Upload failed. Please try again later.",
+          }).then(() => {
+            activeStep = 0;
+            updateUI();
+            resetFileUploadUI();
+          });
+          console.error("Upload Error:", error);
+          nextButton.textContent = "Submit";
+          nextButton.disabled = false;
+        }
+      }
+
+      function updateUI() {
+        // Update progress bar
+        progressBar.style.width = `${(activeStep / (totalSteps - 1)) * 100}%`;
+
+        // Update button visibility and text
+        if (activeStep === 0) {
+          nextButton.textContent = "Next Step";
+          nextButton.style.display = "block";
+          nextButton.disabled = false;
+        } else if (activeStep === 1) {
+          nextButton.textContent = "Submit";
+          nextButton.style.display = "block";
+          nextButton.disabled = false;
+        } else {
+          nextButton.style.display = "none"; // Hide button in steps 3 & 4
+        }
+
+        // Update steps
+        steps.forEach((step, index) => {
+          step.classList.remove("active", "completed");
+
+          if (index === activeStep) {
+            step.classList.add("active");
+          } else if (index < activeStep) {
+            step.classList.add("completed");
+          }
+        });
+
+        // Update content areas
+        contentAreas.forEach((content, index) => {
+          content.classList.remove("active");
+          if (index === activeStep) {
+            content.classList.add("active");
+          }
+        });
+      }
+    });
+    fetch("../Frontend/Navbar.html")
+      .then((response) => response.text())
+      .then((data) => {
+        document.getElementById("navbar-container").innerHTML = data; // Insert navbar HTML
+
+        // Load CSS
+        let link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.href = "../Frontend/Navbar.css";
+        document.head.appendChild(link);
+
+        // Load JS dynamically and wait for it to finish loading
+        let script = document.createElement("script");
+        script.src = "../Backend/Navbar.js";
+        script.onload = () => {
+          if (typeof updateNavbar === "function") {
+            updateNavbar(); // Call only after script loads
+          } else {
+            console.error(
+              "updateNavbar is not defined even after script load."
+            );
+          }
+        };
+        document.body.appendChild(script);
+      })
+      .catch((error) => console.error("Error loading navbar:", error));
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+
 </html>

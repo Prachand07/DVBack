@@ -36,7 +36,7 @@ const validateZip = (buffer, frontend_name, backend_name, backend_file_name) => 
   try {
     const allowedExtensions = [
       '.html', '.css', '.js', '.json', '.jpeg', '.jpg', '.png', '.gif', '.md', '.gitignore',
-      '.ejs', '.svg', '.ts', '.tsx', '.jsx', '.env'
+      '.ejs', '.svg', '.ts', '.tsx', '.jsx', '.env', '.mp4', '.mkv', '.csv', '/'
     ];
 
     const zip = new AdmZip(buffer);
