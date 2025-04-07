@@ -193,3 +193,59 @@ nav {
 .logout-btn:hover {
     background-color: blue;
 }
+
+
+
+@media (max-width: 768px) {
+
+
+    .menu-icon {
+        display: block;
+        font-size: 32px;
+    }
+    .navbar{
+        background-color: transparent;
+        border: none;
+        box-shadow: none;
+    }
+    .nav-links,
+    .nav-buttons{
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        text-align: center;
+        top: 50px;
+        left: 0;
+        width: 100%;
+        background-color: #333;
+        text-align: center;
+        padding: 10px 0;
+    }
+
+    .nav-links.active,
+    .nav-buttons.active {
+        display: flex;
+    }
+    /* Hamburger Menu */
+    /* Adjust Logo */
+    .logo {
+       display: none;
+    }
+
+    /* User Icon */
+    .user-icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    /* Buttons */
+    .login,
+    .cta {
+        width: 80%;
+        text-align: center;
+        font-size: 14px;
+        margin: auto;
+        font-size: medium;
+        font-weight: bold;
+    }
+}

@@ -7,7 +7,6 @@
 html,
 body {
   height: 100%;
-  overflow: hidden;
 }
 
 
@@ -575,7 +574,6 @@ input[type="file"] {
   max-width: 450px;
   margin: 40px auto;
   position: relative;
-  overflow: hidden;
   animation: float 6s ease-in-out infinite;
   text-align: center;
 }
@@ -713,7 +711,12 @@ button:hover {
     transform: translateY(0px);
   }
 }
-
+@media (max-width:1300px)
+{
+  body{
+    overflow: auto;
+  }
+}
 @media (max-width: 480px) {
   .response-container {
     padding: 20px;
