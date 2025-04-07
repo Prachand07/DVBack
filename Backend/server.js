@@ -25,6 +25,7 @@ const upload = multer({
   storage: multer.memoryStorage(),
 });
 
+
 const validateZip = (buffer, frontend_name, backend_name, backend_file_name) => {
   console.log('Validating ZIP file structure...');
   console.log('Received parameters from frontend:');
@@ -33,40 +34,76 @@ const validateZip = (buffer, frontend_name, backend_name, backend_file_name) => 
   console.log('backend_file_name:', backend_file_name);
 
   try {
+    const allowedExtensions = [
+      '.html', '.css', '.js', '.json', '.jpeg', '.jpg', '.png', '.gif', '.md', '.gitignore',
+      '.ejs', '.svg', '.ts', '.tsx', '.jsx', '.env'
+    ];
+
     const zip = new AdmZip(buffer);
-    const zipEntries = zip.getEntries()
+
+    // Step 1: Get all entry names and remove node_modules
+    const zipEntries = zip.getEntries();
+    const entryNames = zipEntries
       .map(entry => entry.entryName)
-      .filter(entry => !entry.startsWith('*/node_modules/')); // ignore node_modules
+      .filter(entry => !entry.includes('node_modules/'));
 
-    console.log('Filtered ZIP Entries (excluding node_modules):');
-    console.log(zipEntries);
+    // Step 2: Identify directories for validation skip
+    const directories = new Set(
+      zipEntries.filter(entry => entry.isDirectory).map(entry => {
+        const parts = entry.entryName.split('/');
+        return parts.length > 1
+          ? parts.slice(1).join('/').replace(/\/$/, '')
+          : entry.entryName.replace(/\/$/, '');
+      })
+    );
 
-    const withoutRootDir = zipEntries.map(entry => {
+    // Step 3: Normalize by removing top-level root folder and trailing slashes
+    const withoutRootDir = entryNames.map(entry => {
       const parts = entry.split('/');
       const normalized = parts.length > 1 ? parts.slice(1).join('/') : entry;
-      return normalized.replace(/\/$/, ''); // remove trailing slash
+      return normalized.replace(/\/$/, '');
     }).filter(entry => entry); // remove empty strings
 
+    console.log('Filtered ZIP Entries (excluding node_modules):');
+    console.log(entryNames);
     console.log('Normalized ZIP Entries:');
     console.log(withoutRootDir);
 
+    // Step 4: Validate file types
+    const invalidFiles = withoutRootDir.filter(file => {
+      if (directories.has(file)) return false; // skip directories
+      const ext = path.extname(file).toLowerCase();
+      return !allowedExtensions.includes(ext) && !file.startsWith('.');
+    });
 
+    if (invalidFiles.length > 0) {
+      console.log('Found invalid file types:', invalidFiles);
+      return false;
+    }
+
+    // Step 5: Validate required structure
     const hasFrontendIndex = withoutRootDir.includes(`${frontend_name}/index.html`);
-    console.log(`Checking for index.html in frontend folder (${frontend_name}/index.html):`, hasFrontendIndex);
-
     const hasBackendFile = withoutRootDir.includes(`${backend_name}/${backend_file_name}`);
-    console.log(`Checking for backend file (${backend_name}/${backend_file_name}):`, hasBackendFile);
-
     const hasFrontendFolder = withoutRootDir.some(entry => entry.startsWith(`${frontend_name}/`));
-    console.log(`Checking for frontend folder (${frontend_name}/):`, hasFrontendFolder);
-
     const hasBackendFolder = withoutRootDir.some(entry => entry.startsWith(`${backend_name}/`));
-    console.log(`Checking for backend folder (${backend_name}/):`, hasBackendFolder);
 
-    const hasPackageJson = withoutRootDir.includes('package.json');
-    console.log('Checking for package.json at root:', hasPackageJson);
+    const hasPackageManifest =
+      withoutRootDir.includes('package.json') ||
+      withoutRootDir.includes('package-lock.json') ||
+      withoutRootDir.includes('yarn.lock');
 
-    const allValid = hasFrontendIndex && hasBackendFile && hasFrontendFolder && hasBackendFolder && hasPackageJson;
+    console.log(`Checking for frontend index.html: ${hasFrontendIndex}`);
+    console.log(`Checking for backend file: ${hasBackendFile}`);
+    console.log(`Checking for frontend folder: ${hasFrontendFolder}`);
+    console.log(`Checking for backend folder: ${hasBackendFolder}`);
+    console.log(`Checking for package manifest (package.json or lock file): ${hasPackageManifest}`);
+
+    const allValid =
+      hasFrontendIndex &&
+      hasBackendFile &&
+      hasFrontendFolder &&
+      hasBackendFolder &&
+      hasPackageManifest;
 
     console.log('Validation result:', allValid);
     return allValid;
@@ -76,7 +113,6 @@ const validateZip = (buffer, frontend_name, backend_name, backend_file_name) => 
     return false;
   }
 };
-
 
 app.get("/verify", (req, res) => {
   const token = req.headers.authorization?.split(" ")[1]; // Support both methods
@@ -105,7 +141,7 @@ app.post("/signup", async (req, res) => {
       return res.status(400).json({ message: "Not valid Username" });
     }
     let user = await User.findOne({
-      $or: [{ email }, { username }]
+      $or: [{ email }, { name }]
     });
     console.log("User found:", user);
     if (user) {
@@ -169,8 +205,9 @@ app.post("/signin", async (req, res) => {
 });
 
 app.post("/dynamicHosting", upload.single('zipFile'), async (req, res) => {
-  const { projectname, frontend_name, backend_name, backend_file_name } = req.body;
-
+  const {backend_framework,frontend_framework,projectname, frontend_name, backend_name, backend_file_name } = req.body;
+   console.log(frontend_framework);
+   console.log(backend_framework);
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     console.error(`Authorization token missing or invalid`);
@@ -206,7 +243,7 @@ app.post("/dynamicHosting", upload.single('zipFile'), async (req, res) => {
   console.log(isValid);
 
   if (!isValid) {
-    return res.status(400).json({ error: "ZIP file is missing required folders or files. Make sure folder structure is correct." });
+    return res.status(400).json({ error: "ZIP file is invalid. It may contain unsupported file types or missing required folders/files." });
   }
 
   try {
