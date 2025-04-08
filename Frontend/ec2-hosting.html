@@ -328,9 +328,10 @@
             title: "Validation Error",
             text: "Backend file name must end with '.js'.",
           });
-          nextButton.textContent = "Next Step";
+          nextButton.textContent = "Submit";
           nextButton.disabled = false;
-           updateUI();
+          activeStep = 0;
+          updateUI();
           resetFileUploadUI();
           return;
           } else {
