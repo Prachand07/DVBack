@@ -26,7 +26,7 @@ const upload = multer({
 });
 
 
-const validateZip = (buffer, frontend_name, backend_name, backend_file_name) => {
+const validateZip = (buffer, frontend_name, backend_name, backend_file_name, res) => {
   console.log('Validating ZIP file structure...');
   console.log('Received parameters from frontend:');
   console.log('frontend_name:', frontend_name);
@@ -38,16 +38,14 @@ const validateZip = (buffer, frontend_name, backend_name, backend_file_name) => 
       '.html', '.css', '.js', '.json', '.jpeg', '.jpg', '.png', '.gif', '.md', '.gitignore',
       '.ejs', '.svg', '.ts', '.tsx', '.jsx', '.env', '.mp4', '.mkv', '.csv', '/'
     ];
-
+    const maxFileSize = 20 * 1024 * 1024;
     const zip = new AdmZip(buffer);
 
-    // Step 1: Get all entry names and remove node_modules
     const zipEntries = zip.getEntries();
     const entryNames = zipEntries
       .map(entry => entry.entryName)
       .filter(entry => !entry.includes('node_modules/'));
 
-    // Step 2: Identify directories for validation skip
     const directories = new Set(
       zipEntries.filter(entry => entry.isDirectory).map(entry => {
         const parts = entry.entryName.split('/');
@@ -57,40 +55,68 @@ const validateZip = (buffer, frontend_name, backend_name, backend_file_name) => 
       })
     );
 
-    // Step 3: Normalize by removing top-level root folder and trailing slashes
     const withoutRootDir = entryNames.map(entry => {
       const parts = entry.split('/');
       const normalized = parts.length > 1 ? parts.slice(1).join('/') : entry;
       return normalized.replace(/\/$/, '');
-    }).filter(entry => entry); // remove empty strings
+    }).filter(entry => entry);
 
     console.log('Filtered ZIP Entries (excluding node_modules):');
     console.log(entryNames);
     console.log('Normalized ZIP Entries:');
     console.log(withoutRootDir);
 
-    // Step 4: Validate file types
-    const invalidFiles = withoutRootDir.filter(file => {
-      if (directories.has(file)) return false; // skip directories
-      const ext = path.extname(file).toLowerCase();
-      return !allowedExtensions.includes(ext) && !file.startsWith('.');
+    const invalidFiles = [];
+    const oversizedFiles = [];
+
+    zipEntries.forEach(entry => {
+      if (!entry.isDirectory && !entry.entryName.includes('node_modules/')) {
+        const parts = entry.entryName.split('/');
+        const normalized = parts.length > 1 ? parts.slice(1).join('/') : entry.entryName;
+
+        const ext = path.extname(normalized).toLowerCase();
+        const isHidden = normalized.startsWith('.');
+
+        if (!allowedExtensions.includes(ext) && !isHidden) {
+          invalidFiles.push(normalized);
+        }
+
+        if (entry.getData().length > maxFileSize) {
+          oversizedFiles.push(normalized);
+        }
+      }
     });
 
     if (invalidFiles.length > 0) {
       console.log('Found invalid file types:', invalidFiles);
-      return false;
+      const errorPayload = {
+        success: false,
+        errorType: 'invalidFiles',
+        files: invalidFiles
+      };
+      if (res) return res.status(400).json(errorPayload);
+      return errorPayload;
     }
 
-    // Step 5: Validate required structure
+    if (oversizedFiles.length > 0) {
+      console.log('Found oversized files (>20MB):', oversizedFiles);
+      const errorPayload = {
+        success: false,
+        errorType: 'oversizedFiles',
+        files: oversizedFiles
+      };
+
+      if (res) return res.status(400).json(errorPayload);
+      return errorPayload;
+    }
+
     const hasFrontendIndex = withoutRootDir.includes(`${frontend_name}/index.html`);
     const hasBackendFile = withoutRootDir.includes(`${backend_name}/${backend_file_name}`);
     const hasFrontendFolder = withoutRootDir.some(entry => entry.startsWith(`${frontend_name}/`));
     const hasBackendFolder = withoutRootDir.some(entry => entry.startsWith(`${backend_name}/`));
-
     const hasPackageManifest =
       withoutRootDir.includes('package.json') ||
-      withoutRootDir.includes('package-lock.json') ||
-      withoutRootDir.includes('yarn.lock');
+      withoutRootDir.includes('package-lock.json');
 
     console.log(`Checking for frontend index.html: ${hasFrontendIndex}`);
     console.log(`Checking for backend file: ${hasBackendFile}`);
@@ -106,11 +132,28 @@ const validateZip = (buffer, frontend_name, backend_name, backend_file_name) => 
       hasPackageManifest;
 
     console.log('Validation result:', allValid);
-    return allValid;
+
+    if (allValid) {
+      return { success: true };
+    } else {
+      const errorPayload = {
+        success: false,
+        errorType: 'structureInvalid',
+        message: 'Required structure is missing'
+      };
+      if (res) return res.status(400).json(errorPayload);
+      return errorPayload;
+    }
 
   } catch (error) {
     console.error("Error processing ZIP file:", error);
-    return false;
+    const errorPayload = {
+      success: false,
+      errorType: 'exception',
+      message: error.message
+    };
+    if (res) return res.status(500).json(errorPayload);
+    return errorPayload;
   }
 };
 
@@ -205,9 +248,9 @@ app.post("/signin", async (req, res) => {
 });
 
 app.post("/dynamicHosting", upload.single('zipFile'), async (req, res) => {
-  const {backend_framework,frontend_framework,projectname, frontend_name, backend_name, backend_file_name } = req.body;
-   console.log(frontend_framework);
-   console.log(backend_framework);
+  const { backend_framework, frontend_framework, projectname, frontend_name, backend_name, backend_file_name } = req.body;
+  console.log(frontend_framework);
+  console.log(backend_framework);
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     console.error(`Authorization token missing or invalid`);
@@ -230,21 +273,38 @@ app.post("/dynamicHosting", upload.single('zipFile'), async (req, res) => {
   console.log(frontend_name + backend_name + backend_file_name);
 
   if (!frontend_name || !backend_name || !backend_file_name) {
-    console.log("1");
+
     return res.status(400).json({ error: "Please provide frontend name, backend name, and backend file name." });
   }
 
   if (!req.file) {
-    console.log("2");
+
     return res.status(400).json({ error: "No ZIP file uploaded. Please upload a valid project archive." });
   }
 
   const isValid = validateZip(req.file.buffer, frontend_name, backend_name, backend_file_name);
   console.log(isValid);
 
-  if (!isValid) {
-    return res.status(400).json({ error: "ZIP file is invalid. It may contain unsupported file types or missing required folders/files." });
+  if (!isValid || isValid.success === false) {
+
+    if (isValid.errorType === "invalidFiles") {
+      errorTitle = "Invalid File Type(s)";
+      errorHtml = `The following files have unsupported extensions:<br><br><code>${isValid.files.join("</code><br><code>")}</code>`;
+    } else if (isValid.errorType === "oversizedFiles") {
+      errorTitle = "File(s) Too Large";
+      errorHtml = `The following files exceed the 20MB limit:<br><br><code>${isValid.files.join("</code><br><code>")}</code>`;
+    } else if (isValid.errorType === "structureInvalid") {
+      errorTitle = "Invalid Project Structure";
+      errorHtml = "Required folders or files are missing from the ZIP archive.";
+    }
+
+    return res.status(400).json({
+      error: "Deployment Failed",
+      errorType: isValid.errorType || "Something went wrong during deployment.",
+      files: isValid.files || [],
+    });
   }
+
 
   try {
     const bucketName = await bucketCreate(user_name, req.file);

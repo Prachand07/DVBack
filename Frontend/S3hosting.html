@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>🚀Deploy Static Website</title>
   <link rel="stylesheet" href="S3hosting.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -130,7 +131,8 @@
 
       const validFileTypes = [
         "image/jpeg", "image/png", "image/jpg",
-        "text/html", "text/css", "text/javascript", "application/javascript"
+        "text/html", "text/css", "text/javascript", "application/javascript", "video/mp4",
+        "video/x-matroska", "text/csv",
       ];
 
       steps[0].classList.add("active");
@@ -141,17 +143,34 @@
 
 
         let projectName = projectNameInput.value.trim();
+        if (!projectName) {
+          return Swal.fire({
+            icon: 'error',
+            title: 'Missing Project Name',
+            text: "Project name is required!"
+          });
+        }
 
-
-        if (!projectName) return displayError("Project name is required!");
-
-
+        const maxSize = 20 * 1024 * 1024;
         const files = fileInput.files;
         if (files.length === 0) return;
 
         for (let file of files) {
           if (!validFileTypes.includes(file.type)) {
-            return displayError(`Invalid file type: ${file.name}.`);
+            return Swal.fire({
+              icon: 'error',
+              title: 'Invalid File Type',
+              text: `Invalid file type: ${file.name}`
+            });
+          }
+
+          // Size check
+          if (file.size > maxSize) {
+            return Swal.fire({
+              icon: 'error',
+              title: 'File Too Large',
+              text: `"${file.name}" exceeds the 20MB limit.`
+            });
           }
         }
 
@@ -178,11 +197,20 @@
           if (response.ok) {
             handleSuccess(result.message);
           } else {
-            displayError(result.message);
+            Swal.fire({
+              icon: 'error',
+              title: 'Upload Failed',
+              text: result.message
+            });
+            toggleUploadSpinner(false);
           }
         } catch (error) {
           console.error("Upload Error:", error);
-          displayError("An error occurred during file upload.");
+          Swal.fire({
+            icon: 'error',
+            title: 'Network Error',
+            text: "An error occurred during file upload."
+          });
         }
       });
 

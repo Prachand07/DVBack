@@ -144,7 +144,7 @@
             <select id="frontend" name="frontend" class="form-input">
               <option value="">Select Frontend</option>
               <option value="html">HTML, CSS, JS</option>
-              <option value="react">React + Vite</option>
+              <!-- <option value="react">React + Vite</option> -->
             </select>
           </div>
         </div>
@@ -261,14 +261,18 @@
       updateUI();
 
       function resetFileUploadUI() {
-        fileInput.value = "";
-        fileNameDisplay.textContent = "No file chosen";
-        uploadText.textContent = "Upload a ZIP file";
-        uploadText.style.color = "#6c757d"; // Default grey color
-        uploadIcon.style.stroke = "#6c757d"; // Reset icon color
-        fileButton.textContent = "Choose File";
-        fileButton.style.backgroundColor = "";
-        fileButton.style.color = "";
+        if (fileInput) fileInput.value = "";
+        if (fileNameDisplay) fileNameDisplay.textContent = "No file chosen";
+        if (uploadText) {
+          uploadText.textContent = "Upload a ZIP file";
+          uploadText.style.color = "#6c757d"; // Default grey color
+        }
+        if (uploadIcon) uploadIcon.style.stroke = "#6c757d"; // Reset icon color
+        if (fileButton) {
+          fileButton.textContent = "Choose File";
+          fileButton.style.backgroundColor = "";
+          fileButton.style.color = "";
+        }
       }
 
       fileInput.addEventListener("change", function () {
@@ -334,10 +338,10 @@
           updateUI();
           resetFileUploadUI();
           return;
-          } else {
+        } else {
           console.log("Valid backendFileName.");
-          activeStep++;         
-          }
+          activeStep++;
+        }
 
         if (
           !frontendName ||
@@ -403,19 +407,29 @@
           );
 
           const result = await response.json();
-
+          console.log("Received error from backend:", result);
           if (!response.ok || result.error) {
-            const errorMsg =
-              result.error || "Something went wrong during deployment.";
+            let errorTitle = "Deployment Failed";
+            let errorHtml = result.error || "Something went wrong during deployment.";
+
+            if (result.errorType === "invalidFiles") {
+              errorTitle = "Invalid File Type(s)";
+              errorHtml = `The following files have unsupported extensions:<br><br><code>${result.files.join("</code><br><code>")}</code>`;
+            } else if (result.errorType === "oversizedFiles") {
+              errorTitle = "File(s) Too Large";
+              errorHtml = `The following files exceed the 20MB limit:<br><br><code>${result.files.join("</code><br><code>")}</code>`;
+            }
+
             Swal.fire({
               icon: "error",
-              title: "Deployment Failed",
-              text: errorMsg,
+              title: errorTitle,
+              html: errorHtml,
             }).then(() => {
               activeStep = 0;
               updateUI();
               resetFileUploadUI();
             });
+
             nextButton.textContent = "Submit";
             nextButton.disabled = false;
             return;
