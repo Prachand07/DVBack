@@ -14,7 +14,7 @@ gpgkey=https://pgp.mongodb.com/server-8.0.asc" | sudo tee $REPO_FILE > /dev/null
 sudo yum install -y mongodb-org
 sudo systemctl start mongod
 sudo systemctl enable mongod
-aws ssm get-parameters --names "JWT_SECRET" "MONGO_URL" --with-decryption --query "Parameters[*].{Name:Name,Value:Value}" --output text | while read name value; do
+aws ssm get-parameters --names "JWT_SECRET" "MONGO_URL" "REDIS_URL" --with-decryption --query "Parameters[*].{Name:Name,Value:Value}" --output text | while read name value; do
   export "$name"="$value"
 done
 
