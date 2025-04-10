@@ -27,7 +27,7 @@ const upload = multer({
 
 
 const redisClient = redis.createClient({
-  url: 'redis://dv-cache-0001-001.dv-cache.m9cmn4.eun1.cache.amazonaws.com:6379',
+  url: process.env.REDIS_URL,
   socket: {
     tls: true, 
   },
