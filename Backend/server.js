@@ -132,7 +132,6 @@ const validateZip = (buffer, frontend_name, backend_name, backend_file_name, res
       hasPackageManifest;
 
     console.log('Validation result:', allValid);
-
     if (allValid) {
       return { success: true };
     } else {
