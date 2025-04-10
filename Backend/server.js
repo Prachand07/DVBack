@@ -9,7 +9,7 @@ const cookieParser = require("cookie-parser");
 const User = require("./models/user");
 const path = require("path");
 const AdmZip = require('adm-zip');
-
+const redis = require('redis');
 const bcrypt = require("bcryptjs");
 require("dotenv").config();
 
@@ -17,7 +17,7 @@ const { createEC2Instance, getPublicIP, bucketCreate, copyFromS3ToEC2, storeDeta
 const { generateBucketName, checkLimit, bucketCreateandhost, storeProjectDetails, } = require("./s3-aws-sdk");
 
 const app = express();
-app.use(cors())
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(require("cookie-parser")());
@@ -25,6 +25,23 @@ const upload = multer({
   storage: multer.memoryStorage(),
 });
 
+
+const redisClient = redis.createClient({
+  url: 'redis://dv-cache-0001-001.dv-cache.m9cmn4.eun1.cache.amazonaws.com:6379',
+  socket: {
+    tls: true, 
+  },
+});
+redisClient.on('error', (err) => console.error('Redis error:', err));
+
+(async () => {
+  try {
+    await redisClient.connect();
+    console.log('Connected to Redis');
+  } catch (err) {
+    console.error('Redis connection failed:', err);
+  }
+})();
 
 const validateZip = (buffer, frontend_name, backend_name, backend_file_name, res) => {
   console.log('Validating ZIP file structure...');
@@ -329,10 +346,6 @@ app.post("/dynamicHosting", upload.single('zipFile'), async (req, res) => {
   }
 });
 
-
-
-
-
 app.post("/upload-folder", upload.array("files", 30), async (req, res) => {
   console.log(`Received a request to upload files`);
   // Extract the token from the Authorization header
@@ -395,6 +408,16 @@ app.post("/upload-folder", upload.array("files", 30), async (req, res) => {
       status: "Failed",
       message: error.message,
     });
+  }
+});
+
+app.get('/views', async (req, res) => {
+  try {
+    const views = await redisClient.incr('site:views');
+    res.json({ views });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to fetch views' });
   }
 });
 

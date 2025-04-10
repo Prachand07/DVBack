@@ -1,8 +1,9 @@
 body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
-   
+    padding-right: 10px;
 }
+
 .nav-links li:hover {
     color: var(--accent-primary);
 }
@@ -203,13 +204,15 @@ nav {
         display: block;
         font-size: 32px;
     }
-    .navbar{
+
+    .navbar {
         background-color: transparent;
         border: none;
         box-shadow: none;
     }
+
     .nav-links,
-    .nav-buttons{
+    .nav-buttons {
         display: none;
         flex-direction: column;
         position: absolute;
@@ -226,10 +229,11 @@ nav {
     .nav-buttons.active {
         display: flex;
     }
+
     /* Hamburger Menu */
     /* Adjust Logo */
     .logo {
-       display: none;
+        display: none;
     }
 
     /* User Icon */
