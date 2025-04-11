@@ -410,11 +410,35 @@ app.post("/upload-folder", upload.array("files", 30), async (req, res) => {
   }
 });
 
+const getIP = (req) => {
+  return (
+    req.headers['x-forwarded-for']?.split(',')[0] ||
+    req.connection?.remoteAddress ||
+    req.socket?.remoteAddress ||
+    'unknown-ip'
+  );
+};
+
 app.get('/views', async (req, res) => {
   try {
-    const views = await redisClient.incr('site:views');
-    res.json({ views });
-    console.log(views);
+    const ip = getIP(req);
+    const uniqueKey = `site:unique:${ip}`;
+    const alreadyCounted = await redisClient.exists(uniqueKey);
+
+    let views;
+    if (!alreadyCounted) {
+      await redisClient.set(uniqueKey, 1, { EX: 60 * 60 * 24 }); // 1 day expiry
+      views = await redisClient.incr('site:views');
+    } else {
+      views = await redisClient.get('site:views');
+    }
+
+    res.json({
+      views: parseInt(views),
+      unique: !alreadyCounted
+    });
+
+    console.log(`IP: ${ip}, Views: ${views}, Unique: ${!alreadyCounted}`);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Failed to fetch views' });
