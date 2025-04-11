@@ -119,40 +119,31 @@
             <a id="downloadButton" class="download-btn" href="#" download style="display: none">Download File</a>
           </div>
         </div>
+      </div>
 
-        <div class="upload-section" id="uploadSection">
-          <div class="upload-box" id="uploadBox">
-            <div class="input-group">
-              <label for="projectName">Project Name:</label>
-              <input
-                type="text"
-                id="projectName"
-                name="projectname"
-                placeholder="Enter project name"
-                required
-              />
-            </div>
-            <div class="file-icon">
-              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                />
-              </svg>
-            </div>
-            <div class="upload-text">Click to Upload a File</div>
-            <input type="file" id="fileInput" multiple />
-            <button
-              class="custom-file-input"
-              onclick="document.getElementById('fileInput').click()"
-            >
-              Choose File
-            </button>
+
+      <div class="upload-section" id="uploadSection">
+        <div class="upload-box" id="uploadBox">
+
+          <div class="input-group">
+            <label for="projectName">Project Name:</label>
+            <input type="text" id="projectName" name="projectname" placeholder="Enter project name" required />
           </div>
-          <div id="response"></div>
+          <div class="file-icon">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+          </div>
+          <div class="upload-text">Click to Upload a File</div>
+          <input type="file" id="fileInput" multiple />
+          <button class="custom-file-input" onclick="document.getElementById('fileInput').click()">
+            Choose File
+          </button>
         </div>
+        <div id="response"></div>
+      </div>
+
 
       <div class="loading-spinner" id="loadingSpinner" style="display: none">
         <svg class="bike" viewBox="0 0 48 30" width="48px" height="30px">
@@ -198,141 +189,143 @@
       }
       return null;
     }
+    function showOverlay() {
+  document.getElementById("whiteOverlay").style.display = "block";  // Show the overlay
+  
+  // Add blur effect to specific elements using their IDs
+  document.getElementById("navbar-container").classList.add("blurred");
+  document.getElementById("header-s3").classList.add("blurred");
+  document.getElementById("container").classList.add("blurred");
+}
 
-      document.addEventListener("DOMContentLoaded", () => {
-        console.log("Token from backend:", getTokenFromCookies());
-        const ipAddress = CONFIG.PUBLIC_IP;
-        const fileInput = document.getElementById("fileInput");
-        const uploadSection = document.getElementById("uploadSection");
-        const loadingSpinner = document.getElementById("loadingSpinner");
-        const responseDiv = document.getElementById("response");
-        const steps = document.querySelectorAll(".step");
-        const usernameInput = document.getElementById("username");
-        const projectNameInput = document.getElementById("projectName");
-        const token = getTokenFromCookies();
+function hideOverlay() {
+  document.getElementById("whiteOverlay").style.display = "none";  // Hide the overlay
+  
+  // Remove blur effect from specific elements using their IDs
+  document.getElementById("navbar-container").classList.remove("blurred");
+  document.getElementById("header-s3").classList.remove("blurred");
+  document.getElementById("container").classList.remove("blurred");
+}
 
-        const validFileTypes = [
-          "image/jpeg",
-          "image/png",
-          "image/jpg",
-          "text/html",
-          "text/css",
-          "text/javascript",
-          "application/javascript",
-          "video/mp4",
-          "video/x-matroska",
-          "text/csv",
-        ];
 
+    document.addEventListener("DOMContentLoaded", () => {
+      console.log("Token from backend:", getTokenFromCookies());
+      const ipAddress = CONFIG.PUBLIC_IP;
+      const fileInput = document.getElementById("fileInput");
+      const uploadSection = document.getElementById("uploadSection");
+      const loadingSpinner = document.getElementById("loadingSpinner");
+      const responseDiv = document.getElementById("response");
+      const steps = document.querySelectorAll(".step");
+      const usernameInput = document.getElementById("username");
+      const projectNameInput = document.getElementById("projectName");
+      const token = getTokenFromCookies();
+
+      const validFileTypes = [
+        "image/jpeg", "image/png", "image/jpg",
+        "text/html", "text/css", "text/javascript", "application/javascript", "video/mp4",
+        "video/x-matroska", "text/csv",
+      ];
+
+      steps[0].classList.add("active");
+
+      fileInput.addEventListener("change", async () => {
+        responseDiv.innerText = "";
+        responseDiv.style.color = "";
+
+
+        let projectName = projectNameInput.value.trim();
+        if (!projectName) {
+          return Swal.fire({
+            icon: 'error',
+            title: 'Missing Project Name',
+            text: "Project name is required!"
+          });
+        }
+
+        const maxSize = 20 * 1024 * 1024;
+        const files = fileInput.files;
+        if (files.length === 0) return;
+
+        for (let file of files) {
+          if (!validFileTypes.includes(file.type)) {
+            return Swal.fire({
+              icon: 'error',
+              title: 'Invalid File Type',
+              text: `Invalid file type: ${file.name}`
+            });
+          }
+
+          // Size check
+          if (file.size > maxSize) {
+            return Swal.fire({
+              icon: 'error',
+              title: 'File Too Large',
+              text: `"${file.name}" exceeds the 20MB limit.`
+            });
+          }
+        }
+
+        toggleUploadSpinner(true);
         steps[0].classList.add("active");
 
-        fileInput.addEventListener("change", async () => {
-          responseDiv.innerText = "";
-          responseDiv.style.color = "";
+        const formData = new FormData();
+        for (const file of files) formData.append("files", file);
 
-          let projectName = projectNameInput.value.trim();
+        formData.append("projectname", projectName);
 
-          if (!projectName) {
-            return Swal.fire({
-              icon: "error",
-              title: "Missing Project Name",
-              text: "Project name is required!",
-            }).then(() => {
-              fileInput.value = "";
-            });
-          }
+        try {
+          setTimeout(() => steps[1].classList.add("active"), 1000);
 
-          const maxSize = 20 * 1024 * 1024;
-          const files = fileInput.files;
-          if (files.length === 0) return;
-
-          for (let file of files) {
-            if (!validFileTypes.includes(file.type)) {
-              return Swal.fire({
-                icon: "error",
-                title: "Invalid File Type",
-                text: `Invalid file type: ${file.name}`,
-              });
+          const response = await fetch(`http://${ipAddress}:8090/upload-folder`, {
+            method: "POST",
+            body: formData,
+            headers: {
+              "Authorization": `Bearer ${token}`
             }
+          });
 
-            // Size check
-            if (file.size > maxSize) {
-              return Swal.fire({
-                icon: "error",
-                title: "File Too Large",
-                text: `"${file.name}" exceeds the 20MB limit.`,
-              }).then(() => {
-                fileInput.value = "";
-              });
-            }
-          }
-
-          toggleUploadSpinner(true);
-          steps[0].classList.add("active");
-
-          const formData = new FormData();
-          for (const file of files) formData.append("files", file);
-
-          formData.append("projectname", projectName);
-
-          try {
-            setTimeout(() => steps[1].classList.add("active"), 1000);
-
-            const response = await fetch(
-              `http://${ipAddress}:8090/upload-folder`,
-              {
-                method: "POST",
-                body: formData,
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-              }
-            );
-
-            const result = await response.json();
-            if (response.ok) {
-              handleSuccess(result.message);
-            } else {
-              Swal.fire({
-                icon: "error",
-                title: "Upload Failed",
-                text: result.message,
-              }).then(() => {
-                fileInput.value = "";
-              });
-              toggleUploadSpinner(false);
-            }
-          } catch (error) {
-            console.error("Upload Error:", error);
+          const result = await response.json();
+          if (response.ok) {
+            handleSuccess(result.message);
+          } else {
             Swal.fire({
-              icon: "error",
-              title: "Network Error",
-              text: "An error occurred during file upload.",
+              icon: 'error',
+              title: 'Upload Failed',
+              text: result.message
             });
+            toggleUploadSpinner(false);
           }
-        });
-
-        function displayError(message) {
-          responseDiv.textContent = message;
-          responseDiv.style.color = "red";
-          toggleUploadSpinner(false);
+        } catch (error) {
+          console.error("Upload Error:", error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Network Error',
+            text: "An error occurred during file upload."
+          });
         }
+      });
 
-        function toggleUploadSpinner(isUploading) {
-          uploadSection.style.display = isUploading ? "none" : "block";
-          loadingSpinner.style.display = isUploading ? "block" : "none";
-        }
+      function displayError(message) {
+        responseDiv.textContent = message;
+        responseDiv.style.color = "red";
+        toggleUploadSpinner(false);
+      }
 
-        function handleSuccess(fileUrl) {
-          let mainUrl = fileUrl.match(/http[s]?:\/\/[^\s]+/)?.[0] || fileUrl;
-          steps[2].classList.add("active");
-          toggleUploadSpinner(false);
-          document.getElementById("uploadBox").style.display = "none";
+      function toggleUploadSpinner(isUploading) {
+        uploadSection.style.display = isUploading ? "none" : "block";
+        loadingSpinner.style.display = isUploading ? "block" : "none";
+      }
 
-          const blob = new Blob([fileUrl], { type: "text/plain" });
-          const fileDownloadUrl = URL.createObjectURL(blob);
+      function handleSuccess(fileUrl) {
+        let mainUrl = fileUrl.match(/http[s]?:\/\/[^\s]+/)?.[0] || fileUrl;
+        steps[2].classList.add("active");
+        toggleUploadSpinner(false);
+        document.getElementById("uploadBox").style.display = "none";
 
-          responseDiv.innerHTML = `
+        const blob = new Blob([fileUrl], { type: "text/plain" });
+        const fileDownloadUrl = URL.createObjectURL(blob);
+
+        responseDiv.innerHTML = `
       <div class="response-container">
         <h2 class="response-title">Your File is Ready!</h2>
         <div class="file-info">
@@ -346,51 +339,49 @@
       </div>
     `;
 
-          document
-            .getElementById("copyButton")
-            .addEventListener("click", () => {
-              const fileUrlInput = document.getElementById("fileUrlInput");
-              fileUrlInput.select();
-              document.execCommand("copy");
-              alert("URL copied to clipboard!");
-            });
+        document.getElementById("copyButton").addEventListener("click", () => {
+          const fileUrlInput = document.getElementById("fileUrlInput");
+          fileUrlInput.select();
+          document.execCommand("copy");
+          alert("URL copied to clipboard!");
+        });
 
-          document
-            .getElementById("newProjectButton")
-            .addEventListener("click", () => {
-              location.reload();
-            });
-        }
+        document.getElementById("newProjectButton").addEventListener("click", () => {
+          location.reload();
+        });
+      }
 
-        loadingSpinner.style.display = "none";
-      });
+      loadingSpinner.style.display = "none";
+    });
 
-      fetch("../Frontend/Navbar.html")
-        .then((response) => response.text())
-        .then((data) => {
-          document.getElementById("navbar-container").innerHTML = data; // Insert navbar HTML
 
-          // Load CSS
-          let link = document.createElement("link");
-          link.rel = "stylesheet";
-          link.href = "../Frontend/Navbar.css";
-          document.head.appendChild(link);
+    fetch("../Frontend/Navbar.html")
+      .then((response) => response.text())
+      .then((data) => {
+        document.getElementById("navbar-container").innerHTML = data; // Insert navbar HTML
 
-          // Load JS dynamically and wait for it to finish loading
-          let script = document.createElement("script");
-          script.src = "../Backend/Navbar.js";
-          script.onload = () => {
-            if (typeof updateNavbar === "function") {
-              updateNavbar(); // Call only after script loads
-            } else {
-              console.error(
-                "updateNavbar is not defined even after script load."
-              );
-            }
-          };
-          document.body.appendChild(script);
-        })
-        .catch((error) => console.error("Error loading navbar:", error));
-    </script>
-  </body>
+        // Load CSS
+        let link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.href = "../Frontend/Navbar.css";
+        document.head.appendChild(link);
+
+        // Load JS dynamically and wait for it to finish loading
+        let script = document.createElement("script");
+        script.src = "../Backend/Navbar.js";
+        script.onload = () => {
+          if (typeof updateNavbar === "function") {
+            updateNavbar(); // Call only after script loads
+          } else {
+            console.error("updateNavbar is not defined even after script load.");
+          }
+        };
+        document.body.appendChild(script);
+      })
+      .catch((error) => console.error("Error loading navbar:", error));
+
+  </script>
+
+</body>
+
 </html>
