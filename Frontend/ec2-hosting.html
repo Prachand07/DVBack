@@ -14,8 +14,83 @@
 
 <body>
   <div id="navbar-container"></div>
-  <div class="container">
-    <h1 class="title">Let's<span> Meet Cloud</span></h1>
+  <div class="header-ec2" id="header-ec2">
+    <div class="heading1">
+      <h1 class="title">Let's <span>Meet Cloud</span></h1>
+    </div>
+    <div class="instruction-set">
+      <img src="../Images/noun-instructions-7083136.png" alt="Guide Document" onclick="showOverlay()">
+    </div>
+  </div>  
+  <div id="whiteOverlay" class="overlay">
+    <div class="overlay-container">
+      <button class="close-btn" aria-label="Close Overlay" onclick="hideOverlay()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
+             viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+  
+      <div class="overlay-content">
+        <header class="header">
+          <h1>DeployVerse</h1>
+          <p class="subtitle">Your comprehensive guide to deploying static websites</p>
+        </header>
+  
+        <section class="content-section">
+          <h2>Deployment Instructions</h2>
+          <ol class="steps-list">
+            <li>
+              <div class="step-content-instruction">
+                <strong>Prepare Your Project Files</strong>
+                <p>Make sure your HTML, CSS, JavaScript, and other assets are in one folder.</p>
+              </div>
+            </li>
+        
+            <li>
+              <div class="step-content-instruction">
+                <strong>Set Up Project Structure</strong>
+                <p>Ensure your directory has <code>frontend</code> (with <code>index.html</code>) and <code>backend</code> (with Node.js file). No typos, case-sensitive.</p>
+              </div>              
+            </li>
+        
+            <li>
+              <div class="step-content-instruction">
+                <strong>Keep It Light — File Size Limit: 20MB</strong>
+                <p>Smaller files = faster websites! Upload files under 20MB to ensure quick loading times.</p>
+              </div>
+            </li>
+        
+            <li>
+              <div class="step-content-instruction">
+                <strong>Only Safe Files, Please!</strong>
+                <p>Only upload safe files like images, videos, HTML, CSS, CSV, and JS. No executable files like <code>.exe</code> or <code>.bat</code>.</p>
+              </div>
+            </li>
+        
+            <li>
+              <div class="step-content-instruction">
+                <strong>Verify File Paths and References</strong>
+                <p>Make sure all links, file paths, and resources work properly after you deploy.</p>
+              </div>
+            </li>
+          </ol>
+        
+          <div class="pro-tip">
+            <strong>Pro Tip:</strong> Need help? Feel free to contact our team. We’re fast and always happy to help!
+            <br><br>
+            <button onclick="hideOverlay()">Deploy Now 🚀☁️</button>
+          </div>
+        </section>
+        
+      </div>
+    </div>
+  </div>  
+</div>
+  <div class="container" id="container">
+    <!-- <h1 class="title">Let's<span> Meet Cloud</span></h1> -->
 
     <!-- Timeline Component -->
     <div class="timeline-container">
@@ -242,6 +317,25 @@
       }
       return null;
     }
+    function showOverlay() {
+  document.getElementById("whiteOverlay").style.display = "block";  // Show the overlay
+  
+  // Add blur effect to specific elements using their IDs
+  document.getElementById("navbar-container").classList.add("blurred");
+  document.getElementById("header-ec2").classList.add("blurred");
+  document.getElementById("container").classList.add("blurred");
+}
+
+function hideOverlay() {
+  document.getElementById("whiteOverlay").style.display = "none";  // Hide the overlay
+  
+  // Remove blur effect from specific elements using their IDs
+  document.getElementById("navbar-container").classList.remove("blurred");
+  document.getElementById("header-ec2").classList.remove("blurred");
+  document.getElementById("container").classList.remove("blurred");
+}
+
+
     document.addEventListener("DOMContentLoaded", function () {
       let activeStep = 0;
       const totalSteps = 4;

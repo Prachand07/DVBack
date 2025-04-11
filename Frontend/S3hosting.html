@@ -1,56 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>🚀Deploy Static Website</title>
-    <link rel="stylesheet" href="S3hosting.css" />
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  </head>
 
-  <body>
-    <div id="navbar-container"></div>
-    <div class="container">
-      <h1 class="title">Let's<span> Meet Cloud</span></h1>
-      <div class="content">
-        <div class="timeline">
-          <div class="step">
-            <div class="step-number">1</div>
-            <div class="step-content">
-              <div class="step-label">STEP 1</div>
-              <h3 class="step-title">Upload files</h3>
-              <p class="step-description">
-                Got code? Drop it here to take your creation on a thrilling ride
-              </p>
-            </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deploy Static Website</title>
+  <link rel="stylesheet" href="S3hosting.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+  <div id="navbar-container"></div>
+  <div class="header-s3" id="header-s3">
+    <div class="heading1">
+      <h1 class="title">Let's <span>Meet Cloud</span></h1>
+    </div>
+    <div class="instruction-set">
+      <img src="../Images/noun-instructions-7083136.png" alt="Guide Document" onclick="showOverlay()">
+    </div>
+  </div>  
+  <div id="whiteOverlay" class="overlay">
+    <div class="overlay-container">
+      <button class="close-btn" aria-label="Close Overlay" onclick="hideOverlay()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
+             viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+  
+      <div class="overlay-content">
+        <header class="header">
+          <h1>DeployVerse</h1>
+          <p class="subtitle">Your comprehensive guide to deploying static websites</p>
+        </header>
+  
+        <section class="content-section">
+          <h2>Deployment Instructions</h2>
+          <ol class="steps-list">
+            <li>
+              <div class="step-content">
+                <strong>Prepare your project files</strong>
+                <p>Organize your HTML, CSS, JavaScript, and assets in a single directory.</p>
+              </div>
+            </li>
+  
+            <li>
+              <div class="step-content">
+                <strong>Set up your project</strong>
+                <p>Ensure your main file is named <code>index.html</code> before deployment.</p>
+              </div>
+            </li>
+  
+            <li>
+              <div class="step-content">
+                <strong>Keep It Light — File Size Limit: 20MB</strong>
+                <p>Smaller files = faster sites! Upload and enjoy quick loading times.</p>
+              </div>
+            </li>
+  
+            <li>
+              <div class="step-content">
+                <strong>No Secret Agents Allowed!</strong>
+                <p>Please restrict your uploads to videos, images, HTML, CSS, CSV, and JS only. No <code>.exe</code>, <code>.bat</code>, etc.</p>
+              </div>
+            </li>
+  
+            <li>
+              <div class="step-content">
+                <strong>Verify File Paths and References</strong>
+                <p>Double-check that all file paths, links, and resource references work properly post-deployment.</p>
+              </div>
+            </li>
+          </ol>
+  
+          <div class="pro-tip">
+            <strong>Pro Tip:</strong> Need help? Ping our team anytime — we’re nerdy, friendly, and fast!
+            <br><br>
+            <button onclick="hideOverlay()">Deploy Now 🚀☁️</button>
           </div>
-          <div class="step">
-            <div class="step-number">2</div>
-            <div class="step-content">
-              <div class="step-label">STEP 2</div>
-              <h3 class="step-title">Processing files</h3>
-              <p class="step-description">
-                Hang tight! We’re handling the heavy lifting behind the scenes!
-              </p>
-            </div>
+        </section>
+      </div>
+    </div>
+  </div>  
+</div>
+  <div class="container" id="container">
+    <div class="content">
+      <div class="timeline">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <div class="step-label">STEP 1</div>
+            <h3 class="step-title">Upload files</h3>
+            <p class="step-description">
+              Got code? Drop it here to take your creation on a thrilling ride
+            </p>
           </div>
-          <div class="step">
-            <div class="step-number">3</div>
-            <div class="step-content">
-              <div class="step-label">STEP 3</div>
-              <h3 class="step-title">Results</h3>
-              <p class="step-description">
-                Your results have landed !! Go ahead, take a peek!
-              </p>
-              <a
-                id="downloadButton"
-                class="download-btn"
-                href="#"
-                download
-                style="display: none"
-                >Download File</a
-              >
-            </div>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <div class="step-label">STEP 2</div>
+            <h3 class="step-title">Processing files</h3>
+            <p class="step-description">
+              Hang tight! We’re handling the heavy lifting behind the scenes!
+            </p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <div class="step-label">STEP 3</div>
+            <h3 class="step-title">Results</h3>
+            <p class="step-description">
+              Your results have landed !! Go ahead, take a peek!
+            </p>
+            <a id="downloadButton" class="download-btn" href="#" download style="display: none">Download File</a>
           </div>
         </div>
 
@@ -88,104 +154,50 @@
           <div id="response"></div>
         </div>
 
-        <div class="loading-spinner" id="loadingSpinner" style="display: none">
-          <svg class="bike" viewBox="0 0 48 30" width="48px" height="30px">
-            <g
-              fill="none"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="1"
-            >
-              <g transform="translate(9.5,19)">
-                <circle
-                  class="bike__tire"
-                  r="9"
-                  stroke-dasharray="56.549 56.549"
-                />
-                <g
-                  class="bike__spokes-spin"
-                  stroke-dasharray="31.416 31.416"
-                  stroke-dashoffset="-23.562"
-                >
-                  <circle class="bike__spokes" r="5" />
-                  <circle
-                    class="bike__spokes"
-                    r="5"
-                    transform="rotate(180,0,0)"
-                  />
-                </g>
+      <div class="loading-spinner" id="loadingSpinner" style="display: none">
+        <svg class="bike" viewBox="0 0 48 30" width="48px" height="30px">
+          <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1">
+            <g transform="translate(9.5,19)">
+              <circle class="bike__tire" r="9" stroke-dasharray="56.549 56.549" />
+              <g class="bike__spokes-spin" stroke-dasharray="31.416 31.416" stroke-dashoffset="-23.562">
+                <circle class="bike__spokes" r="5" />
+                <circle class="bike__spokes" r="5" transform="rotate(180,0,0)" />
               </g>
-              <g transform="translate(24,19)">
-                <g
-                  class="bike__pedals-spin"
-                  stroke-dasharray="25.133 25.133"
-                  stroke-dashoffset="-21.991"
-                  transform="rotate(67.5,0,0)"
-                >
-                  <circle class="bike__pedals" r="4" />
-                  <circle
-                    class="bike__pedals"
-                    r="4"
-                    transform="rotate(180,0,0)"
-                  />
-                </g>
-              </g>
-              <g transform="translate(38.5,19)">
-                <circle
-                  class="bike__tire"
-                  r="9"
-                  stroke-dasharray="56.549 56.549"
-                />
-                <g
-                  class="bike__spokes-spin"
-                  stroke-dasharray="31.416 31.416"
-                  stroke-dashoffset="-23.562"
-                >
-                  <circle class="bike__spokes" r="5" />
-                  <circle
-                    class="bike__spokes"
-                    r="5"
-                    transform="rotate(180,0,0)"
-                  />
-                </g>
-              </g>
-              <polyline
-                class="bike__seat"
-                points="14 3,18 3"
-                stroke-dasharray="5 5"
-              />
-              <polyline
-                class="bike__body"
-                points="16 3,24 19,9.5 19,18 8,34 7,24 19"
-                stroke-dasharray="79 79"
-              />
-              <path
-                class="bike__handlebars"
-                d="m30,2h6s1,0,1,1-1,1-1,1"
-                stroke-dasharray="10 10"
-              />
-              <polyline
-                class="bike__front"
-                points="32.5 2,38.5 19"
-                stroke-dasharray="19 19"
-              />
             </g>
-          </svg>
-          <p style="color: white">Processing files... Please wait.</p>
-        </div>
+            <g transform="translate(24,19)">
+              <g class="bike__pedals-spin" stroke-dasharray="25.133 25.133" stroke-dashoffset="-21.991"
+                transform="rotate(67.5,0,0)">
+                <circle class="bike__pedals" r="4" />
+                <circle class="bike__pedals" r="4" transform="rotate(180,0,0)" />
+              </g>
+            </g>
+            <g transform="translate(38.5,19)">
+              <circle class="bike__tire" r="9" stroke-dasharray="56.549 56.549" />
+              <g class="bike__spokes-spin" stroke-dasharray="31.416 31.416" stroke-dashoffset="-23.562">
+                <circle class="bike__spokes" r="5" />
+                <circle class="bike__spokes" r="5" transform="rotate(180,0,0)" />
+              </g>
+            </g>
+            <polyline class="bike__seat" points="14 3,18 3" stroke-dasharray="5 5" />
+            <polyline class="bike__body" points="16 3,24 19,9.5 19,18 8,34 7,24 19" stroke-dasharray="79 79" />
+            <path class="bike__handlebars" d="m30,2h6s1,0,1,1-1,1-1,1" stroke-dasharray="10 10" />
+            <polyline class="bike__front" points="32.5 2,38.5 19" stroke-dasharray="19 19" />
+          </g>
+        </svg>
+        <p style="color: white;">Processing files... Please wait.</p>
       </div>
     </div>
-    <script src="../Backend/config.js"></script>
-    <script>
-      function getTokenFromCookies() {
-        const cookies = document.cookie.split("; ");
-        for (let cookie of cookies) {
-          const [name, value] = cookie.split("=");
-          if (name === "authToken") return value;
-        }
-        return null;
+  </div>
+  <script src="../Backend/config.js"></script>
+  <script>
+    function getTokenFromCookies() {
+      const cookies = document.cookie.split("; ");
+      for (let cookie of cookies) {
+        const [name, value] = cookie.split("=");
+        if (name === "authToken") return value;
       }
+      return null;
+    }
 
       document.addEventListener("DOMContentLoaded", () => {
         console.log("Token from backend:", getTokenFromCookies());

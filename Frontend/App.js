@@ -106,4 +106,17 @@ if (window.innerWidth <= 768) {
       }, 100);
     })
     .catch((error) => console.error("Error loading terminal:", error));
+
+  fetch("./Frontend/footer.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok: " + response.statusText);
+      }
+      return response.text();
+    })
+    .then((data) => {
+      document.getElementById("footer").innerHTML = data;
+    })
+    .catch((error) => console.error("Error loading content:", error));
+
 }
