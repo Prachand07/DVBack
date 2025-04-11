@@ -11,8 +11,81 @@
 
 <body>
   <div id="navbar-container"></div>
+  <div class="header-s3">
+    <div class="heading1">
+      <h1 class="title">Let's <span>Meet Cloud</span></h1>
+    </div>
+    <div class="instruction-set">
+      <img src="../Images/noun-instructions-7083136.png" alt="Guide Document" onclick="showOverlay()">
+    </div>
+  </div>  
+  <div id="whiteOverlay" class="overlay">
+    <div class="overlay-container">
+      <button class="close-btn" aria-label="Close Overlay" onclick="hideOverlay()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
+             viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+  
+      <div class="overlay-content">
+        <header class="header">
+          <h1>DeployVerse</h1>
+          <p class="subtitle">Your comprehensive guide to deploying static websites</p>
+        </header>
+  
+        <section class="content-section">
+          <h2>Deployment Instructions</h2>
+          <ol class="steps-list">
+            <li>
+              <div class="step-content">
+                <strong>Prepare your project files</strong>
+                <p>Organize your HTML, CSS, JavaScript, and assets in a single directory.</p>
+              </div>
+            </li>
+  
+            <li>
+              <div class="step-content">
+                <strong>Set up your project</strong>
+                <p>Ensure your main file is named <code>index.html</code> before deployment.</p>
+              </div>
+            </li>
+  
+            <li>
+              <div class="step-content">
+                <strong>Keep It Light — File Size Limit: 20MB</strong>
+                <p>Smaller files = faster sites! Upload and enjoy quick loading times.</p>
+              </div>
+            </li>
+  
+            <li>
+              <div class="step-content">
+                <strong>No Secret Agents Allowed!</strong>
+                <p>Please restrict your uploads to videos, images, HTML, CSS, CSV, and JS only. No <code>.exe</code>, <code>.bat</code>, etc.</p>
+              </div>
+            </li>
+  
+            <li>
+              <div class="step-content">
+                <strong>Verify File Paths and References</strong>
+                <p>Double-check that all file paths, links, and resource references work properly post-deployment.</p>
+              </div>
+            </li>
+          </ol>
+  
+          <div class="pro-tip">
+            <strong>Pro Tip:</strong> Need help? Ping our team anytime — we’re nerdy, friendly, and fast!
+            <br><br>
+            <button onclick="hideOverlay()">Deploy Now 🚀☁️</button>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>  
+</div>
   <div class="container">
-    <h1 class="title">Let's<span> Meet Cloud</span></h1>
     <div class="content">
       <div class="timeline">
         <div class="step">
@@ -116,6 +189,13 @@
       }
       return null;
     }
+    function showOverlay() {
+    document.getElementById("whiteOverlay").style.display = "block";
+  }
+
+  function hideOverlay() {
+    document.getElementById("whiteOverlay").style.display = "none";
+  }
 
     document.addEventListener("DOMContentLoaded", () => {
       console.log("Token from backend:", getTokenFromCookies());
