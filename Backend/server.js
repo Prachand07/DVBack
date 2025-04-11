@@ -414,6 +414,7 @@ app.get('/views', async (req, res) => {
   try {
     const views = await redisClient.incr('site:views');
     res.json({ views });
+    console.log(views);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Failed to fetch views' });
