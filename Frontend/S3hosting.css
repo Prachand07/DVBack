@@ -29,6 +29,12 @@ body {
   overflow: hidden;
 }
 
+#navbar-container.blurred,
+#header-s3.blurred,
+#container.blurred {
+  filter: blur(5px); /* Adds blur effect to the specific elements */
+}
+
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -110,7 +116,6 @@ body {
 
 .close-btn {
   position: absolute;
-  top: 16px;
   right: 16px;
   background: none;
   border: none;
@@ -146,7 +151,7 @@ body {
 .overlay-content h1 {
   text-align: center;
   margin-bottom: 25px;
-  color: #edede9;
+  color:deepskyblue;
   font-size: 2.2rem;
   font-weight: 700;
   position: relative;
@@ -173,7 +178,7 @@ body {
 }
 
 .overlay-content h2 {
-  color: #edede9;
+  color:aquamarine;
   margin: 25px 0 15px;
   font-size: 1.4rem;
 }

@@ -11,7 +11,7 @@
 
 <body>
   <div id="navbar-container"></div>
-  <div class="header-s3">
+  <div class="header-s3" id="header-s3">
     <div class="heading1">
       <h1 class="title">Let's <span>Meet Cloud</span></h1>
     </div>
@@ -85,7 +85,7 @@
     </div>
   </div>  
 </div>
-  <div class="container">
+  <div class="container" id="container">
     <div class="content">
       <div class="timeline">
         <div class="step">
@@ -190,12 +190,23 @@
       return null;
     }
     function showOverlay() {
-    document.getElementById("whiteOverlay").style.display = "block";
-  }
+  document.getElementById("whiteOverlay").style.display = "block";  // Show the overlay
+  
+  // Add blur effect to specific elements using their IDs
+  document.getElementById("navbar-container").classList.add("blurred");
+  document.getElementById("header-s3").classList.add("blurred");
+  document.getElementById("container").classList.add("blurred");
+}
 
-  function hideOverlay() {
-    document.getElementById("whiteOverlay").style.display = "none";
-  }
+function hideOverlay() {
+  document.getElementById("whiteOverlay").style.display = "none";  // Hide the overlay
+  
+  // Remove blur effect from specific elements using their IDs
+  document.getElementById("navbar-container").classList.remove("blurred");
+  document.getElementById("header-s3").classList.remove("blurred");
+  document.getElementById("container").classList.remove("blurred");
+}
+
 
     document.addEventListener("DOMContentLoaded", () => {
       console.log("Token from backend:", getTokenFromCookies());
