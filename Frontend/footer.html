@@ -133,7 +133,7 @@
     <script src="../Backend/config.js"></script>
     <script>
         const ipAddress = CONFIG.PUBLIC_IP;
-        const apiUrl = `http://${ipAddress}:3000/views`;
+        const apiUrl = `http://${ipAddress}:8090/views`;
 
         fetch(apiUrl)
             .then(response => response.json())
