@@ -1,8 +1,8 @@
 // First check if we should redirect to mobile version
 if (window.innerWidth <= 768) {
   // Check if we're already on the mobile page to prevent infinite redirect
-  if (!window.location.pathname.endsWith('/frontend/phone.html')) {
-    window.location.href = '/frontend/phone.html';
+  if (!window.location.pathname.endsWith('/Frontend/phone.html')) {
+    window.location.href = '/Frontend/phone.html';
   }
 } else {
   // Only proceed with desktop version if screen is large enough
@@ -115,7 +115,23 @@ if (window.innerWidth <= 768) {
       return response.text();
     })
     .then((data) => {
-      document.getElementById("footer").innerHTML = data;
+      const footer = document.getElementById("footer");
+      footer.innerHTML = data;
+
+      // Extract and reinsert script tags
+      const tempDiv = document.createElement("div");
+      tempDiv.innerHTML = data;
+      const scripts = tempDiv.querySelectorAll("script");
+
+      scripts.forEach((script) => {
+        const newScript = document.createElement("script");
+        if (script.src) {
+          newScript.src = script.src;
+        } else {
+          newScript.textContent = script.textContent;
+        }
+        document.body.appendChild(newScript);
+      });
     })
     .catch((error) => console.error("Error loading content:", error));
 
