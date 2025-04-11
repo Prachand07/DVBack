@@ -146,7 +146,7 @@ body {
 .overlay-content h1 {
   text-align: center;
   margin-bottom: 25px;
-  color: #a8dadc;
+  color: #edede9;
   font-size: 2.2rem;
   font-weight: 700;
   position: relative;
@@ -173,7 +173,7 @@ body {
 }
 
 .overlay-content h2 {
-  color: #a8dadc;
+  color: #edede9;
   margin: 25px 0 15px;
   font-size: 1.4rem;
 }
@@ -197,7 +197,7 @@ body {
   content: counter(step);
   min-width: 32px;
   height: 32px;
-  background-color: #e63946;
+  background-color: cornflowerblue;
   color: white;
   font-weight: bold;
   border-radius: 50%;
