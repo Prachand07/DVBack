@@ -13,24 +13,24 @@ const cardData = [
 
     {
         title: "EC2 DualHost",
-        image: "Images/ec2-nbgr.png",
+        image: "Images/ec2-mongo.png",
         description: "Powering both frontend & backend on EC2.",
         features: [
             { icon: "Images/laptop.png", text: "Run your Frontend and Backend code at one place" },
-            { icon: "Images/lightning.png", text: "Seamless, high-speed, and dependable execution on EC2 " },
+            { icon: "Images/db.png", text: "Supports apps connected to MongoDB Atlas or other external services" },
             { icon: "Images/globe.png", text: "Get a public IP to access your hosted application" },
             { icon: "Images/tools.png", text: "No manual configurations—just upload and go!" }
         ]
     },
     {
-        title: "All-in-One Deploy",
-        image: "Images/rdec-nbr.png",
+        title: "Host-My-MERN",
+        image: "Images/amplify-mongo.png",
         description: "Seamless hosting for logic and data layers.",
         features: [
             { icon: "Images/shield.png", text: "Built-in security measures for all layers" },
-            { icon: "Images/link.png", text: " Host your application logic on EC2 with MySQL RDS support" },
+            { icon: "Images/link.png", text: "Connect seamlessly to your MongoDB Atlas database" },
             { icon: "Images/tools.png", text: "Preconfigured environments for a hassle-free exprience" },
-            { icon: "Images/backup.png", text: " MySQL comes with automated backups and point-in-time recovery" }
+            { icon: "Images/key.png", text: "Manage API and database credentials using environment variables" }
         ]
     }
 ];
@@ -38,7 +38,7 @@ const cardData = [
 const getCardClass = (title) => {
     if (title.includes("EC2")) return "ec2";
     if (title.includes("Static")) return "s3";
-    if (title.includes("All")) return "rds";
+    if (title.includes("MERN")) return "amplify";
 };
 
 const cardsContainer = document.querySelector('.cards-container');

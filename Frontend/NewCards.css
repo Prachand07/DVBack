@@ -23,7 +23,7 @@ body {
 
 
 .card {
-   
+
     background: #1b263b;
     padding: 15px;
     width: 330px;
@@ -71,22 +71,20 @@ body {
     filter: invert(41%) sepia(60%) saturate(635%) hue-rotate(60deg) brightness(89%) contrast(82%);
 }
 
-.ec2:hover .card-header h2,
-.ec2:hover .card-header img {
+.ec2:hover .card-header h2 {
     color: #f4820b;
-    filter: invert(47%) sepia(81%) saturate(545%) hue-rotate(350deg) brightness(105%) contrast(98%);
-   
 }
 
-.rds:hover .card-header h2 {
-
-
-    color: #f6bd60;
-   
+.ec2:hover .card-header img {
+    content: url("/Images/ec2-mongo-transparent.png");
 }
 
-.rds:hover .card-header img {
-    content: url("/Images/upd-rdec.png");
+.amplify:hover .card-header h2 {
+    color: #ef233c;
+}
+
+.amplify:hover .card-header img {
+    content: url("/Images/amplify-mongo-colored.png");
 }
 
 
@@ -100,20 +98,24 @@ body {
 
 .feature {
     display: flex;
-    align-items: center; /* Align image and text vertically */
-    width: 100%; 
-    padding: 8px 0; /* Adjust spacing inside the feature block */
-   
+    align-items: center;
+    /* Align image and text vertically */
+    width: 100%;
+    padding: 8px 0;
+    /* Adjust spacing inside the feature block */
+
     margin-bottom: 10px;
-    position: relative; 
+    position: relative;
 }
 
 
 .feature img {
-    width: 45px;  /* Ensures all icons have the same width */
+    width: 45px;
+    /* Ensures all icons have the same width */
     height: 45px;
     object-fit: contain;
-    flex-shrink: 0;  /* Prevents icons from shrinking */
+    flex-shrink: 0;
+    /* Prevents icons from shrinking */
     transition: transform 0.3s ease;
     filter: brightness(0) invert(1);
 }
@@ -127,11 +129,14 @@ body {
 .feature p {
     font-size: 0.9rem;
     color: #d0d0d0;
-    margin: 0; /* Remove any default margins */
+    margin: 0;
+    /* Remove any default margins */
     text-align: left;
-    line-height: 1.5; 
-    flex-grow: 1; /* Ensure text occupies the remaining space */
-    word-wrap: break-word; /* Prevent text overflow */
+    line-height: 1.5;
+    flex-grow: 1;
+    /* Ensure text occupies the remaining space */
+    word-wrap: break-word;
+    /* Prevent text overflow */
 }
 
 
@@ -185,56 +190,60 @@ body {
     box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
 }
 
-.s3 .learn-more a{
+.s3 .learn-more a {
     text-decoration: none;
     color: #68d743;
 }
 
-.s3 .learn-more a:hover{
-    color:black;
+.s3 .learn-more a:hover {
+    color: black;
 }
 
-.ec2 .learn-more a{
+.ec2 .learn-more a {
     text-decoration: none;
     color: #f6bd60;
 }
 
-.ec2 .learn-more a:hover{
-    color:black;
+.ec2 .learn-more a:hover {
+    color: black;
 }
 
 @media (max-width:1512px) {
-    .apps-section{
+    .apps-section {
         gap: 80px;
     }
 }
+
 @media (max-width:1442px) {
-    .apps-section{
+    .apps-section {
         gap: 30px;
     }
-    .cards-container{
-        gap:35px;
+
+    .cards-container {
+        gap: 35px;
     }
 }
 
 
-@media (max-width: 1250px)
-{
-    .apps-section{
+@media (max-width: 1250px) {
+    .apps-section {
         gap: 25px;
     }
-    .cards-container{
+
+    .cards-container {
         gap: 18px;
     }
-    .ec2 .learn-more a{
+
+    .ec2 .learn-more a {
         text-decoration: none;
         color: #f6bd60;
     }
-    
-    .ec2 .learn-more a:hover{
-        color:black;
+
+    .ec2 .learn-more a:hover {
+        color: black;
     }
-    .card{
+
+    .card {
         width: 280px;
         padding: 1px;
     }
@@ -290,20 +299,21 @@ body {
         filter: invert(47%) sepia(81%) saturate(545%) hue-rotate(350deg) brightness(105%) contrast(98%);
     }
 
-    .rds .card-header h2 {
+    .amplify .card-header h2 {
         color: #f6bd60;
     }
 
-    .rds .card-header img {
+    .amplify .card-header img {
         content: url("/Images/upd-rdec.png");
     }
-    .ec2 .learn-more a{
+
+    .ec2 .learn-more a {
         text-decoration: none;
         color: #f6bd60;
     }
-    
-    .ec2 .learn-more a:hover{
-        color:black;
+
+    .ec2 .learn-more a:hover {
+        color: black;
     }
 
 }
