@@ -1,0 +1,383 @@
+:root {
+    --bg-primary: #0d1117;
+    --bg-secondary: #161b22;
+    --text-primary: #ffffff;
+    --text-secondary: #8b949e;
+    --button-color: #d4d4d4;
+    --accent-primary: #58a6ff;
+    --accent-glow: rgba(88, 166, 255, 0.15);
+  }
+  
+  body {
+    font-family: "Poppins", sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  /* Enhanced animated background */
+  .animated-background {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+    z-index: -3;
+  }
+  
+  /* Subtle gradient overlay */
+  .animated-background::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(125deg, rgba(13, 17, 23, 0.7), rgba(30, 58, 95, 0.4), rgba(35, 57, 93, 0.7));
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+    z-index: -2;
+  }
+  
+  /* Mesh grid overlay */
+  .animated-background::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: linear-gradient(rgba(88, 166, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(88, 166, 255, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    z-index: -1;
+  }
+  
+  /* Advanced floating particles system */
+  .floating-particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+  }
+  
+  .particle {
+    position: absolute;
+    background: transparent;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0;
+    box-shadow: 0 0 10px 2px var(--accent-glow);
+    animation: particleFloat 12s ease-in-out infinite;
+  }
+  
+  /* Particle styling variations */
+  .particle::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: var(--accent-primary);
+    opacity: 0.4;
+    filter: blur(4px);
+  }
+  
+  .particle:nth-child(1) {
+    top: 65%;
+    left: 3%;
+    width: 6px;
+    height: 6px;
+    animation-delay: 0s;
+  }
+  .particle:nth-child(2) {
+    top: 80%;
+    left: 15%;
+    width: 8px;
+    height: 8px;
+    animation-delay: -1s;
+  }
+  .particle:nth-child(3) {
+    top: 10%;
+    left: 30%;
+    width: 5px;
+    height: 5px;
+    animation-delay: -2s;
+  }
+  .particle:nth-child(4) {
+    top: 20%;
+    left: 90%;
+    width: 7px;
+    height: 7px;
+    animation-delay: -3s;
+  }
+  .particle:nth-child(5) {
+    top: 60%;
+    left: 85%;
+    width: 9px;
+    height: 9px;
+    animation-delay: -4s;
+  }
+  .particle:nth-child(6) {
+    top: 30%;
+    left: 10%;
+    width: 4px;
+    height: 4px;
+    animation-delay: -5s;
+  }
+  .particle:nth-child(7) {
+    top: 98%;
+    left: 50%;
+    width: 6px;
+    height: 6px;
+    animation-delay: -6s;
+  }
+  .particle:nth-child(8) {
+    top: 95%;
+    left: 95%;
+    width: 8px;
+    height: 8px;
+    animation-delay: -7s;
+  }
+  .particle:nth-child(9) {
+    top: 40%;
+    left: 40%;
+    width: 5px;
+    height: 5px;
+    animation-delay: -8s;
+  }
+  .particle:nth-child(10) {
+    top: 75%;
+    left: 70%;
+    width: 7px;
+    height: 7px;
+    animation-delay: -9s;
+  }
+  .particle:nth-child(11) {
+    top: 15%;
+    left: 60%;
+    width: 6px;
+    height: 6px;
+    animation-delay: -10s;
+  }
+  .particle:nth-child(12) {
+    top: 55%;
+    left: 25%;
+    width: 8px;
+    height: 8px;
+    animation-delay: -11s;
+  }
+  
+  /* Geometric shapes for added depth */
+  .geometric-shape {
+    position: absolute;
+    border: 1px solid rgba(88, 166, 255, 0.1);
+    opacity: 0.2;
+    animation: rotateShape 30s linear infinite;
+  }
+  
+  .shape-1 {
+    width: 300px;
+    height: 300px;
+    border-radius: 40%;
+    top: 20%;
+    left: 10%;
+    animation-duration: 60s;
+  }
+  
+  .shape-2 {
+    width: 400px;
+    height: 400px;
+    border-radius: 45%;
+    bottom: 10%;
+    right: 15%;
+    animation-duration: 70s;
+    animation-direction: reverse;
+  }
+  
+  .shape-3 {
+    width: 200px;
+    height: 200px;
+    border-radius: 30%;
+    top: 60%;
+    left: 60%;
+    animation-duration: 50s;
+  }
+  
+  /* Enhanced animations */
+  @keyframes gradientShift {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  
+  @keyframes particleFloat {
+    0% {
+      transform: translateY(0) translateX(0) scale(1);
+      opacity: 0;
+    }
+    10% {
+      opacity: 0.8;
+    }
+    50% {
+      transform: translateY(-100px) translateX(30px) scale(1.5);
+      opacity: 0.4;
+    }
+    90% {
+      opacity: 0.8;
+    }
+    100% {
+      transform: translateY(-200px) translateX(0) scale(1);
+      opacity: 0;
+    }
+  }
+  
+  @keyframes rotateShape {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  /* Contact form container */
+  .container {
+    display: flex;
+    flex-direction: row;
+    background-color: var(--bg-secondary);
+    border-radius: 12px;
+    padding: 30px;
+    max-width: 900px;
+    width: 90%;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 15px rgba(88, 166, 255, 0.1);
+    gap: 30px;
+    z-index: 1;
+    backdrop-filter: blur(5px);
+    transition: all 0.4s ease;
+  }
+  
+  /* Contact info section */
+  .contact-info,
+  .contact-form {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  .contact-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .contact-info h2 {
+    font-size: 1.2rem;
+    color: var(--accent-primary);
+    margin-top: 10px;
+  }
+  
+  .contact-info p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+  }
+  
+  /* Styling for icons */
+  .logo {
+    width: 200px;
+    height: auto;
+    margin-bottom: 15px;
+  }
+  
+  .info-item {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    gap: 15px;
+    margin-top: 10px;
+    width: 100%;
+  }
+  
+  .info-item .icon {
+    width: 44px;
+    height: 44px;
+  }
+  
+  .input-group {
+    margin-bottom: 10px;
+  }
+  
+  .input-group input,
+  .input-group textarea {
+    width: 92%;
+    padding: 15px;
+    border: 1px solid var(--text-secondary);
+    border-radius: 5px;
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    margin-top: 20px;
+    transition: all 0.3s ease;
+  }
+  .input-group textarea{
+    height: 140px;
+  }
+  
+  .input-group input:focus,
+  .input-group textarea:focus {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 2px var(--accent-glow);
+    outline: none;
+  }
+  
+  /* Contact form title */
+  .contact-form h2 {
+    font-size: 2rem;
+    color: var(--accent-primary);
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: var(--button-color);
+    color: var(--bg-primary);
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 4px;
+    transition: 0.3s;
+    box-sizing: border-box; /* Ensure padding and border are included in the total width */
+  }
+  
+  button:hover {
+    background-color: var(--accent-primary);
+    color: white;
+    box-shadow: 0 0 15px var(--accent-glow);
+  }
+  
+  /* Updated hover effect */
+  .container:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7), 0 0 40px rgba(88, 166, 255, 0.2);
+    transform: translateY(-5px);
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column;
+      width: 85%;
+    }
+  }
