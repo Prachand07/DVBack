@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Hosting Solutions</title>
+    <link rel="stylesheet" href="aboutstyles.css">
+</head>
+
+<body>
+    <div id="navbar-container"></div>
+    <!-- Particles background -->
+    <div class="particles" id="particles"></div>
+
+    <div class="container">
+        <div class="header">
+
+            <h1 class="title"> DEPLOYVERSE </h1>
+        </div>
+
+        <div class="content">
+            <div class="text-content-wrapper">
+                <!-- Content for first video -->
+                <div class="text-content active" data-content="0">
+                    <h2 class="content-title">ABOUT US</h2>
+                    <p>Experience unparalleled performance with our cutting-edge cloud hosting infrastructure. Built for
+                        reliability, scalability, and speed, our platform ensures your applications run smoothly 24/7.
+                    </p>
+
+                    <p>Whether you're launching a startup or managing enterprise workloads, our platform scales with
+                        your needs.</p>
+
+                    <a href="/index.html" class="cta-button">Explore Cloud Solutions</a>
+                </div>
+
+                <!-- Content for second video -->
+                <div class="text-content" data-content="1">
+                    <h2 class="content-title">S3 Static Website Hosting</h2>
+                    <p>Deploy your static websites with lightning-fast performance using our S3-powered hosting
+                        solution. Benefit from global CDN distribution, ensuring your content loads quickly for users
+                        worldwide.</p>
+
+                    <p>Our static hosting platform offers 99.99% uptime, automatic scaling. With built-in security
+                        features and easy deployment options, you can focus on building great websites while we handle
+                        the infrastructure.</p>
+
+                    <a href="/index.html#services" class="cta-button">Try S3 Hosting</a>
+                </div>
+
+                <!-- Content for third video -->
+                <div class="text-content" data-content="2">
+                    <h2 class="content-title">EC2 DualHost Solution</h2>
+                    <p>Our EC2 DualHost platform provides the perfect environment for full-stack applications. Host both
+                        your frontend and backend with optimized performance and simplified management.</p>
+
+                    <p>With dedicated resources, custom scaling options, DualHost makes deployment seamless. Our managed
+                        service handles security patches, allowing your team to focus on development rather than
+                        operations.</p>
+
+                    <a href="/index.html#services" class="cta-button">Get Started with DualHost</a>
+                </div>
+            </div>
+
+            <div class="tv-container" id="tv-container">
+                <!-- Left navigation arrow -->
+                <div class="nav-arrow nav-arrow-left" id="prev-video">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </div>
+
+                <!-- Right navigation arrow -->
+                <div class="nav-arrow nav-arrow-right" id="next-video">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </div>
+
+                <div class="tv-screen">
+                    <video id="tv-video" class="tv-video" autoplay loop muted>
+                        <source src="https://deployverse.s3.ap-south-1.amazonaws.com/video.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="tv-on"></div>
+                    <div class="glitch-effect"></div>
+                    <div class="scan-lines"></div>
+
+                    <!-- Fullscreen button (moved to bottom right) -->
+                    <div class="fullscreen-button" id="fullscreen-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="fullscreen-icon">
+                            <path
+                                d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3">
+                            </path>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="exit-fullscreen-icon" style="display: none;">
+                            <path
+                                d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3">
+                            </path>
+                        </svg>
+                    </div>
+
+                    <!-- Video indicator dots -->
+                    <div class="video-indicators">
+                        <div class="video-indicator active" data-index="0"></div>
+                        <div class="video-indicator" data-index="1"></div>
+                        <div class="video-indicator" data-index="2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../Frontend/App.js"></script>
+    <script src="aboutscript.js"></script>
+    <script>
+        fetch("../Frontend/Navbar.html")
+            .then((response) => response.text())
+            .then((data) => {
+                document.getElementById("navbar-container").innerHTML = data; // Insert navbar HTML
+
+                // Load CSS
+                let link = document.createElement("link");
+                link.rel = "stylesheet";
+                link.href = "../Frontend/Navbar.css";
+                document.head.appendChild(link);
+
+                // Load JS dynamically and wait for it to finish loading
+                let script = document.createElement("script");
+                script.src = "../Backend/Navbar.js";
+                script.onload = () => {
+                    if (typeof updateNavbar === "function") {
+                        updateNavbar(); // Call only after script loads
+                    } else {
+                        console.error(
+                            "updateNavbar is not defined even after script load."
+                        );
+                    }
+                };
+                document.body.appendChild(script);
+            })
+            .catch((error) => console.error("Error loading navbar:", error));
+    </script>
+</body>
+
+</html>
