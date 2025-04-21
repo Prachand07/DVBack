@@ -320,36 +320,37 @@
       return null;
     }
     window.onload = function () {
-      // Blur elements initially
-      document.getElementById("navbar-container").classList.add("blurred");
-      document.getElementById("header-ec2").classList.add("blurred");
-      document.getElementById("container").classList.add("blurred");
+  // Blur elements initially
+  document.getElementById("navbar-container").classList.add("blurred");
+  document.getElementById("header-ec2").classList.add("blurred");
+  document.getElementById("container").classList.add("blurred");
 
-      Swal.fire({
-        title: "Enter Procode",
-        input: "text",
-        inputLabel: "Access required to proceed",
-        inputPlaceholder: "Enter your procode",
-        allowOutsideClick: false,
-        allowEscapeKey: false,
-        confirmButtonText: "Submit"
-      }).then((result) => {
-        const correctCode = "12345"; // Your procode
-        if (result.value === correctCode) {
-          // Remove blur on success
-          document.getElementById("navbar-container").classList.remove("blurred");
-          document.getElementById("header-ec2").classList.remove("blurred");
-          document.getElementById("container").classList.remove("blurred");
+  Swal.fire({
+    title: "Enter Promocode",
+    input: "text",
+    inputLabel: "Access required to proceed",
+    inputPlaceholder: "Enter your promocode",
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+    confirmButtonText: "Submit"
+  }).then((result) => {
+    const validCodes = ["12345", "aditya99", "aarush69", "WELCOME99"]; // List of valid promo codes
 
-          Swal.fire("Access Granted", "Welcome to the page!", "success");
-        } else {
-          Swal.fire("Access Denied", "Incorrect procode!", "error")
-            .then(() => {
-              window.location.href = "noaccess.html";
-            });
-        }
-      });
-    };
+    if (validCodes.includes(result.value)) {
+      // Remove blur on success
+      document.getElementById("navbar-container").classList.remove("blurred");
+      document.getElementById("header-ec2").classList.remove("blurred");
+      document.getElementById("container").classList.remove("blurred");
+
+      Swal.fire("Access Granted", "Welcome to the page!", "success");
+    } else {
+      Swal.fire("Access Denied", "Incorrect promocode!", "error")
+        .then(() => {
+          window.location.href = "/Frontend/index.html";
+        });
+    }
+  });
+};
     function showOverlay() {
   document.getElementById("whiteOverlay").style.display = "block";  // Show the overlay
   

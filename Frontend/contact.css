@@ -17,14 +17,14 @@ body {
 
 .container {
     width: 100%;
-    max-width: 1000px;
+    max-width: 1200px;
 }
 
 /* Contact card */
 .contact-card {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1rem; /* reduce gap between elements */
+  gap: 2rem; /* reduce gap between elements */
   background: linear-gradient(145deg, #111620, #0d1017);
   border-radius: 1rem;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
@@ -40,7 +40,6 @@ body {
     .contact-card {
         grid-template-columns: 1fr 1fr;
         align-items: center;
-        padding: 2rem;
     }
 }
 
@@ -53,13 +52,12 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1rem;
   overflow: hidden;
 }
 
 .image-container img {
   max-width: 100%;
-  height: auto;
+  height: 95vh;
   border-radius: 0.5rem;
   object-fit: cover;
 }
@@ -238,10 +236,6 @@ nav {
 }
 /* Responsive adjustments */
 @media (max-width: 767px) {
-    .contact-card {
-        padding: 1.75rem;
-    }
-    
     .form-title {
         font-size: 1.75rem;
         text-align: center;
