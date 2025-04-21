@@ -12,7 +12,7 @@ const AdmZip = require('adm-zip');
 const redis = require('redis');
 const bcrypt = require("bcryptjs");
 require("dotenv").config();
-
+const { storeContactDetails } = require('./contactus-aws-sdk');
 const { createEC2Instance, getPublicIP, bucketCreate, copyFromS3ToEC2, storeDetails } = require("./ec2-aws-sdk");
 const { generateBucketName, checkLimit, bucketCreateandhost, storeProjectDetails, } = require("./s3-aws-sdk");
 
@@ -232,7 +232,24 @@ app.post("/signup", async (req, res) => {
   }
 });
 
+app.post('/contact', async(req, res) => {
+  const { name, email, message } = req.body;
 
+  // Basic validation on server (you can enhance it more)
+  if (!name || !email || !message) {
+    return res.status(400).json({ error: 'All fields are required.' });
+  }
+
+  console.log('Received Contact Form Submission:', name, email, message);
+
+  const result = await storeContactDetails(name, email, message);
+
+  if (result.status === 'Success') {
+    return res.status(200).json({ message: 'Message received and stored successfully!' });
+  } else {
+    return res.status(500).json({ error: 'Something went wrong while saving your message.' });
+  }
+});
 
 app.post("/signin", async (req, res) => {
   try {
