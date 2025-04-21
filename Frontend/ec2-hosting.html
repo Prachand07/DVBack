@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lucide-icons@0.284.0/dist/umd/lucide.min.css" />
   <!-- SweetAlert2 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet" />
-
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link rel="stylesheet" href="ecstyle.css" />
 </head>
 
@@ -319,6 +319,37 @@
       }
       return null;
     }
+    window.onload = function () {
+      // Blur elements initially
+      document.getElementById("navbar-container").classList.add("blurred");
+      document.getElementById("header-ec2").classList.add("blurred");
+      document.getElementById("container").classList.add("blurred");
+
+      Swal.fire({
+        title: "Enter Procode",
+        input: "text",
+        inputLabel: "Access required to proceed",
+        inputPlaceholder: "Enter your procode",
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        confirmButtonText: "Submit"
+      }).then((result) => {
+        const correctCode = "12345"; // Your procode
+        if (result.value === correctCode) {
+          // Remove blur on success
+          document.getElementById("navbar-container").classList.remove("blurred");
+          document.getElementById("header-ec2").classList.remove("blurred");
+          document.getElementById("container").classList.remove("blurred");
+
+          Swal.fire("Access Granted", "Welcome to the page!", "success");
+        } else {
+          Swal.fire("Access Denied", "Incorrect procode!", "error")
+            .then(() => {
+              window.location.href = "noaccess.html";
+            });
+        }
+      });
+    };
     function showOverlay() {
   document.getElementById("whiteOverlay").style.display = "block";  // Show the overlay
   
