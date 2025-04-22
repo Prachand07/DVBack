@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 content.classList.add('slide-out');
                 setTimeout(() => {
                     content.classList.remove('active', 'slide-out');
-                }, 500);
+                }, 100);
             }
         });
         
@@ -80,8 +80,8 @@ document.addEventListener('DOMContentLoaded', function() {
             
             setTimeout(() => {
                 newContent.classList.remove('slide-in');
-            }, 500);
-        }, 500);
+            }, 100);
+        }, 100);
     }
     
     // Function to play video with TV on and glitch effects
