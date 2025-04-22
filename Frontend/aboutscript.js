@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const textContents = document.querySelectorAll('.text-content');
     
     // Video sources array
-    const videoSources = ['https://deployverse.s3.ap-south-1.amazonaws.com/video.mp4', 'https://deployverse.s3.ap-south-1.amazonaws.com/video1.mp4','https://deployverse.s3.ap-south-1.amazonaws.com/video2.mp4'];
+    const videoSources = ['https://deployverse-videos.s3.eu-north-1.amazonaws.com/video.mp4', 'https://deployverse-videos.s3.eu-north-1.amazonaws.com/video1.mp4','https://deployverse-videos.s3.eu-north-1.amazonaws.com/video2.mp4'];
     let currentVideoIndex = 0;
     
     // Function to switch text content with animation

@@ -20,5 +20,6 @@ chmod 400 /var/www/html/Backend/Ec2-DV.pem
 sudo echo "CONFIG = { PUBLIC_IP: '$(curl -s ifconfig.me)' };" > config.js
 sudo yum install -y nodejs
 sudo npm install -g pm2
-sudo pm2 start server.js
+sudo mv server.js kaal.js
+sudo pm2 start kaal.js
 echo "Deployment complete and server restarted successfully."

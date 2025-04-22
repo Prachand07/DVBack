@@ -81,7 +81,7 @@
 
                 <div class="tv-screen">
                     <video id="tv-video" class="tv-video" autoplay loop muted>
-                        <source src="https://deployverse.s3.ap-south-1.amazonaws.com/video.mp4" type="video/mp4">
+                        <source src="https://deployverse-videos.s3.eu-north-1.amazonaws.com/video.mp4" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                     <div class="tv-on"></div>
@@ -123,20 +123,19 @@
         fetch("../Frontend/Navbar.html")
             .then((response) => response.text())
             .then((data) => {
-                document.getElementById("navbar-container").innerHTML = data; // Insert navbar HTML
-
-                // Load CSS
+                document.getElementById("navbar-container").innerHTML = data; 
+               
                 let link = document.createElement("link");
                 link.rel = "stylesheet";
                 link.href = "../Frontend/Navbar.css";
                 document.head.appendChild(link);
 
-                // Load JS dynamically and wait for it to finish loading
+                
                 let script = document.createElement("script");
                 script.src = "../Backend/Navbar.js";
                 script.onload = () => {
                     if (typeof updateNavbar === "function") {
-                        updateNavbar(); // Call only after script loads
+                        updateNavbar(); 
                     } else {
                         console.error(
                             "updateNavbar is not defined even after script load."
