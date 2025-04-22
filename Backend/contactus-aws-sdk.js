@@ -1,15 +1,11 @@
-// dynamodbService.js
 const AWS = require('aws-sdk');
-
-// Configure DynamoDB
 AWS.config.update({ region: 'eu-north-1' });
-
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 const storeContactDetails = async (name, email, message) => {
   try {
     const params = {
-      TableName: 'ContactFormDetails', // DynamoDB table name
+      TableName: 'ContactFormDetails',
       Item: {
         name: name,
         email: email,
