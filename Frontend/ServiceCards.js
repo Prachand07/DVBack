@@ -6,7 +6,7 @@ const cardData = [
         features: [
             { icon: "Images/stocks.png", text: "Reliable hosting with minimal downtime" },
             { icon: "Images/lightning.png", text: "Lightning-fast page loads, ensuring seamless content delivery" },
-            { icon: "Images/shield.png", text: "Robust Security with SSL and DDoS protection." },
+            { icon: "Images/shield.png", text: "Robust Security with DDoS protection across globe." },
             { icon: "Images/scaling.png", style: { width: "50px", height: "50px" }, text: "Easy Scaling with support for parallel requests." }
         ]
     },

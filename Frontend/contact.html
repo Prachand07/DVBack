@@ -1,66 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Form</title>
-     <link rel="stylesheet" href="contact.css">
-</head>
-<body>
-    <div id="navbar-container"></div>
-    <div class="container">
-        <div class="contact-card">
-            <div class="image-container">
-                <img src="/Images/contactus.jpg" alt="Contact Image">
-            </div>
-            <div class="form-container">
-                <h1 class="form-title">Get in <span class="gradient-text">touch</span></h1>        
-                <form class="contact-form" id="contactform">
-                    <div class="form-group">
-                        <label for="name" class="form-label">Your Name</label>
-                        <input type="text" id="name" class="form-input" placeholder="Enter your name" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" id="email" class="form-input" placeholder="Enter your email" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="message" class="form-label">Message</label>
-                        <textarea id="message" class="form-textarea" placeholder="Your message..." required></textarea>
-                    </div>
-                    
-                    <button type="submit" class="submit-button">
-                        Send Message
-                    </button>
-                </form>
-            </div>
-        </div>
-    </div>
 
-    <script src="App.js"></script>
-    <script src="contact.js"></script>
-    <script src="/Backend/config.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-         fetch("../Frontend/Navbar.html")
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Form</title>
+  <link rel="stylesheet" href="contact.css">
+</head>
+
+<body>
+  <div id="navbar-container"></div>
+  <div class="container">
+    <div class="contact-card">
+      <div class="image-container">
+        <video id="myVideo" width="840" height="660" autoplay muted>
+          <source src="https://deployverse-videos.s3.eu-north-1.amazonaws.com/contact.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+      <div class="form-container">
+        <h1 class="form-title">Get in <span class="gradient-text">touch</span></h1>
+        <form class="contact-form" id="contactform">
+          <div class="form-group">
+            <label for="name" class="form-label">Your Name</label>
+            <input type="text" id="name" class="form-input" placeholder="Enter your name" required>
+          </div>
+
+          <div class="form-group">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" id="email" class="form-input" placeholder="Enter your email" required>
+          </div>
+
+          <div class="form-group">
+            <label for="message" class="form-label">Message</label>
+            <textarea id="message" class="form-textarea" placeholder="Your message..." required></textarea>
+          </div>
+
+          <button type="submit" class="submit-button">
+            Send Message
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="App.js"></script>
+  <script src="contact.js"></script>
+  <script src="/Backend/config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    fetch("../Frontend/Navbar.html")
       .then((response) => response.text())
       .then((data) => {
-        document.getElementById("navbar-container").innerHTML = data; // Insert navbar HTML
+        document.getElementById("navbar-container").innerHTML = data;
 
-        // Load CSS
         let link = document.createElement("link");
         link.rel = "stylesheet";
         link.href = "../Frontend/Navbar.css";
         document.head.appendChild(link);
 
-        // Load JS dynamically and wait for it to finish loading
         let script = document.createElement("script");
         script.src = "../Backend/Navbar.js";
         script.onload = () => {
           if (typeof updateNavbar === "function") {
-            updateNavbar(); // Call only after script loads
+            updateNavbar();
           } else {
             console.error(
               "updateNavbar is not defined even after script load."
@@ -70,6 +73,7 @@
         document.body.appendChild(script);
       })
       .catch((error) => console.error("Error loading navbar:", error));
-    </script>
+  </script>
 </body>
+
 </html>
