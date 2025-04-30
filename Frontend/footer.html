@@ -132,7 +132,7 @@
 
     <script>
         const ipAddress = CONFIG.PUBLIC_IP;
-        const apiUrl = `http://${ipAddress}:8090/views`;
+        const apiUrl = `https://${ipAddress}/views`;
 
         fetch(apiUrl)
             .then(response => response.json())

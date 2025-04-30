@@ -524,7 +524,7 @@ function hideOverlay() {
 
         try {
           const response = await fetch(
-            `http://${ipAddress}:8090/dynamicHosting`,
+            `https://${ipAddress}/dynamicHosting`,
             {
               method: "POST",
               body: formData,

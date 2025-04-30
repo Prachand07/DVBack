@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     // Send to backend
-    fetch(`http://${ipAddress}:8090/contact`, {
+    fetch(`https://${ipAddress}/contact`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

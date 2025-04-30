@@ -132,8 +132,11 @@ const validateZip = (buffer, frontend_name, backend_name, backend_file_name, res
     const hasFrontendFolder = withoutRootDir.some(entry => entry.startsWith(`${frontend_name}/`));
     const hasBackendFolder = withoutRootDir.some(entry => entry.startsWith(`${backend_name}/`));
     const hasPackageManifest =
-      withoutRootDir.includes('package.json') ||
-      withoutRootDir.includes('package-lock.json');
+    withoutRootDir.includes('package.json') ||
+    withoutRootDir.includes('package-lock.json') ||
+    withoutRootDir.includes(`${backend_name}/package.json`) ||
+    withoutRootDir.includes(`${backend_name}/package-lock.json`);
+  
 
     console.log(`Checking for frontend index.html: ${hasFrontendIndex}`);
     console.log(`Checking for backend file: ${hasBackendFile}`);
