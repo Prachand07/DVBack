@@ -148,12 +148,12 @@ const bashCopy = async (publicIp, fileName, backend_file_name, backend_name, fro
     const fixedBucketName = "deployverse";
     const fixedFileName = "script.sh";
 
-    const sshCommand = `ssh -o StrictHostKeyChecking=no -i "Ec2-DV.pem" ec2-user@${publicIp} `
+   const sshCommand = `ssh -o StrictHostKeyChecking=no -i "Ec2-DV.pem" ec2-user@${publicIp} `
         + `"aws s3 cp s3://${fixedBucketName}/${fixedFileName} /home/ec2-user/ && `
         + `chmod +x /home/ec2-user/${fixedFileName} && `
-        + `/home/ec2-user/${fixedFileName} "${fileName}" "${backend_name}" "${backend_file_name}" "${frontend_name}" && `
+        + `bash -c '/home/ec2-user/${fixedFileName} "${fileName}" "${backend_name}" "${backend_file_name}" "${frontend_name}"' && `
         + `echo 'Script executed successfully!' || echo 'Error executing script.';"`;
-
+        
     return new Promise((resolve, reject) => {
         exec(sshCommand, (error, stdout, stderr) => {
             if (error) {
