@@ -151,7 +151,7 @@ const bashCopy = async (publicIp, fileName, backend_file_name, backend_name, fro
     const sshCommand = `ssh -o StrictHostKeyChecking=no -i "Ec2-DV.pem" ec2-user@${publicIp} `
         + `"aws s3 cp s3://${fixedBucketName}/${fixedFileName} /home/ec2-user/ && `
         + `chmod +x /home/ec2-user/${fixedFileName} && `
-        + `bash -c '/home/ec2-user/${fixedFileName} "${fileName}" "${backend_name}" "${backend_file_name}" "${frontend_name}"' && `
+        + `/home/ec2-user/${fixedFileName} "${fileName}" "${backend_name}" "${backend_file_name}" "${frontend_name}" && `
         + `echo 'Script executed successfully!' || echo 'Error executing script.';"`;
 
     return new Promise((resolve, reject) => {
@@ -169,25 +169,25 @@ const bashCopy = async (publicIp, fileName, backend_file_name, backend_name, fro
 
 
 const storeDetails = async (username, projectname, publicIp) => {
-console.log(username+projectname+publicIp);
-  try {
-    const params = {
-      TableName: "EC2ProjectDetails", 
-      
-      Item: {
-        username: username,
-        projectname: projectname,
-        IP: publicIp,
-      },
-    };
+    console.log(username + projectname + publicIp);
+    try {
+        const params = {
+            TableName: "EC2ProjectDetails",
 
-    console.log(`Storing details for username: ${username}, IP:${publicIp}`);
-    await dynamodb.put(params).promise();
-    return { status: "Success", message: "Project stored successfully." };
-  } catch (error) {
-    console.error("Error storing data:", error);
-    return { status: "Failed", message: "Error storing project details." };
-  }
+            Item: {
+                username: username,
+                projectname: projectname,
+                IP: publicIp,
+            },
+        };
+
+        console.log(`Storing details for username: ${username}, IP:${publicIp}`);
+        await dynamodb.put(params).promise();
+        return { status: "Success", message: "Project stored successfully." };
+    } catch (error) {
+        console.error("Error storing data:", error);
+        return { status: "Failed", message: "Error storing project details." };
+    }
 };
 
 
