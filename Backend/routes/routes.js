@@ -3,18 +3,18 @@ const router = express.Router();
 const bodyParser = require("body-parser"); // Note the capital 'R'
 const multer = require("multer");
 const jwt = require("jsonwebtoken");
-const verifyToken = require("./authMiddleware");
+const verifyToken = require("../authMiddleware");
 const cookieParser = require("cookie-parser");
-const User = require("./models/user");
+const User = require("../models/user");
 const path = require("path");
 const AdmZip = require('adm-zip');
 const redis = require('redis');
 const bcrypt = require("bcryptjs");
-const myrouter=require('./routes/routes')
+
 require("dotenv").config();
-const { storeContactDetails } = require('./contactus-aws-sdk');
-const { createEC2Instance, getPublicIP, bucketCreate, copyFromS3ToEC2, storeDetails } = require("./ec2-aws-sdk");
-const { generateBucketName, checkLimit, bucketCreateandhost, storeProjectDetails, } = require("./s3-aws-sdk");
+const { storeContactDetails } = require('../contactus-aws-sdk');
+const { createEC2Instance, getPublicIP, bucketCreate, copyFromS3ToEC2, storeDetails } = require("../ec2-aws-sdk");
+const { generateBucketName, checkLimit, bucketCreateandhost, storeProjectDetails, } = require("../s3-aws-sdk");
 const upload = multer({
   storage: multer.memoryStorage(),
 });
