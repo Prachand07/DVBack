@@ -14,7 +14,7 @@ const bcrypt = require("bcryptjs");
 require("dotenv").config();
 const { storeContactDetails } = require('../contactus-aws-sdk');
 const { createEC2Instance, getPublicIP, bucketCreate, copyFromS3ToEC2, storeDetails } = require("../ec2-aws-sdk");
-const { generateBucketName, checkLimit, bucketCreateandhost, storeProjectDetails, } = require("../s3-aws-sdk");
+const { generateBucketName, checkLimit, bucketCreateandhost, storeProjectDetails, mapSubdomainToS3 } = require("../s3-aws-sdk");
 const upload = multer({
   storage: multer.memoryStorage(),
 });
@@ -243,7 +243,7 @@ router.post("/upload-folder", upload.array("files", 30), async (req, res) => {
 
   try {
     console.log(`Checking if user ${username} already has 3 projects...`);
-    const isLimitReached = await checkLimit(username);
+    const { isLimitReached, projectCount } = await checkLimit(username);
 
     if (isLimitReached) {
       console.error(`User ${username} already has 3 projects. Denying request.`);
@@ -256,9 +256,11 @@ router.post("/upload-folder", upload.array("files", 30), async (req, res) => {
     console.log(`Starting bucket creation and configuration for: ${bucketName}`);
     const websiteUrl = await bucketCreateandhost(bucketName, req.files);
     console.log(`Static website hosted successfully at: ${websiteUrl}`);
-    const storedURL = await storeProjectDetails(username, projectname, websiteUrl);
+    const MappedURL= await mapSubdomainToS3(projectname, projectCount, websiteUrl);
+    console.log(`Mapped URL: ${MappedURL}`);
+    const storedURL = await storeProjectDetails(username, projectname, MappedURL);
     console.log(`Website data stored successfully for username: ${username}`);
-
+    
     res.json({
       status: "Success",
       message: `Static website hosted successfully at: ${websiteUrl}`,

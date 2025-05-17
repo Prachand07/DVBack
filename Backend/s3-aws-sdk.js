@@ -2,10 +2,12 @@ const AWS = require("aws-sdk");
 const crypto = require("crypto");
 const mime = require("mime-types");
 
-AWS.config.update({ region: 'eu-north-1' });
+AWS.config.update({ region: 'us-east-1' });
 const s3 = new AWS.S3();
 const dynamodb = new AWS.DynamoDB.DocumentClient();
-
+const route53 = new Route53Client();
+const hostedZoneId = process.env.ROUTE53_HOSTED_ZONE_ID;
+const domain = process.env.DOMAIN;
 const generateBucketName = (username) => {
   const randomString = crypto.randomBytes(4).toString("hex");
   const timestamp = Date.now();
@@ -18,15 +20,19 @@ const generateBucketName = (username) => {
 const checkLimit = async (username) => {
   try {
     const existingProjects = await dynamodb.query({
-      TableName: "S3ProjectDetails",  
+      TableName: "S3ProjectDetails",
       KeyConditionExpression: "username = :username",
       ExpressionAttributeValues: {
         ":username": username
       },
-      
+
     }).promise();
+    const projectCount = existingProjects.Items.length;
     console.log(existingProjects.Items.length)
-    return existingProjects.Items.length >= 3;
+    return {
+      isLimitReached: projectCount >= 3,
+      projectCount
+    };
   } catch (error) {
     console.error("Error checking project limit:", error);
     throw new Error("Failed to check project limit.");
@@ -93,14 +99,44 @@ const bucketCreateandhost = async (bucketName, files) => {
   }
 };
 
-const storeProjectDetails = async (username, projectname, websiteURL) => {
+const mapSubdomainToS3 = async (projectname, projectCount, websiteURL) => {
+  if (!hostedZoneId) {
+    throw new Error("ROUTE53_HOSTED_ZONE_ID not set in environment variables");
+  }
+
+  const subdomain = `${projectname}.${projectCount}.${domain}`;
+  const changeRecordCommand = new ChangeResourceRecordSetsCommand({
+    HostedZoneId: hostedZoneId,
+    ChangeBatch: {
+      Comment: `Map ${subdomain} to S3 website endpoint`,
+      Changes: [
+        {
+          Action: "UPSERT",
+          ResourceRecordSet: {
+            Name: subdomain,
+            Type: "CNAME",
+            TTL: 300,
+            ResourceRecords: [{ Value: websiteURL }],
+          },
+        },
+      ],
+    },
+  });
+
+  await route53.send(changeRecordCommand);
+  console.log(`Successfully mapped ${subdomain} → ${websiteEndpoint}`);
+  return `http://${subdomain}`;
+};
+
+
+const storeProjectDetails = async (username, projectname, MappedURL) => {
   try {
     const params = {
-      TableName: "S3ProjectDetails",  
+      TableName: "S3ProjectDetails",
       Item: {
         username: username,
         projectname: projectname,
-        URL: websiteURL,
+        URL: MappedURL,
       },
     };
 
@@ -118,4 +154,5 @@ module.exports = {
   checkLimit,
   bucketCreateandhost,
   storeProjectDetails,
+  mapSubdomainToS3
 };
