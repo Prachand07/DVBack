@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@aws-sdk/client-route-53": "^3.812.0",
     "adm-zip": "^0.5.16",
     "aws-sdk": "^2.1692.0",
     "bcryptjs": "^2.4.3",

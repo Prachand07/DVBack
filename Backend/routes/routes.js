@@ -193,9 +193,42 @@ router.post("/dynamicHosting", upload.single('zipFile'), async (req, res) => {
 
     try {
       console.log("Attempting to copy file to EC2 instance...");
-      await copyFromS3ToEC2(publicIp, bucketName, req.file.originalname, backend_file_name, backend_name, frontend_name);
-      await storeDetails(user_name, projectname, publicIp);
-    } catch (err) {
+      const copyWithRetry = async (maxRetries = 5) => {
+      let attempt = 1;
+      while (attempt <= maxRetries) {
+        console.log(`Attempt ${attempt}: Copying file to EC2 instance...`);
+        try {
+          const result = await copyFromS3ToEC2(publicIp, bucketName, req.file.originalname, backend_file_name, backend_name, frontend_name);
+
+          if (result === "success") {
+            console.log(`Copy successful on attempt ${attempt}`);
+            return "success";
+          }
+
+          console.log(`Copy attempt ${attempt} failed. Retrying...`);
+        } catch (err) {
+          console.error(`Error on attempt ${attempt}:`, err.message || err);
+        }
+
+        attempt++;
+        if (attempt <= maxRetries) {
+          console.log(`Retrying in 3 seconds...`);
+          await new Promise((resolve) => setTimeout(resolve, 10000));
+        }
+      }
+      console.log("Max retries reached. Copy operation failed.");
+      return "fail";
+    };
+
+    const copyStatus = await copyWithRetry();
+
+    if (copyStatus === "fail") {
+      return res.status(500).json({ error: "Deployment failed after multiple attempts to copy files to EC2." });
+    }
+     await storeDetails(user_name, projectname, publicIp);
+    
+    } 
+    catch (err) {
       console.error("Error copying file:", err);
       return res.status(500).json({ error: `Deployment failed while copying files to EC2: ${err.message || err}` });
     }

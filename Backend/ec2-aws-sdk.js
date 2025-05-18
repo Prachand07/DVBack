@@ -123,22 +123,26 @@ const bucketCreate = async (user_name, file) => {
 };
 
 
-
 const copyFromS3ToEC2 = async (publicIp, bucketName, fileName, backend_file_name, backend_name, frontend_name) => {
     const sshCommand = `ssh -o StrictHostKeyChecking=no -i "Ec2-DV.pem" ec2-user@${publicIp} `
         + `"aws s3 cp s3://${bucketName}/${fileName} /home/ec2-user/ && echo 'File copied successfully!' || echo 'S3 file does not exist.';"`;
 
     return new Promise((resolve, reject) => {
         exec(sshCommand, async (error, stdout, stderr) => {
-
             if (error) {
                 console.error("Error copying file from S3:", stderr);
-                reject(error);
-            } else {
-                console.log("File copied to EC2:", stdout);
-                await bashCopy(publicIp, fileName, backend_file_name, backend_name, frontend_name);
-                resolve();
+                resolve("fail");  // Return "fail" instead of rejecting
+                return;
+            }
 
+            console.log("File copied to EC2:", stdout);
+
+            try {
+                await bashCopy(publicIp, fileName, backend_file_name, backend_name, frontend_name);
+                resolve("success");
+            } catch (bashError) {
+                console.error("Error during bashCopy:", bashError);
+                resolve("fail");  // Handle bashCopy error
             }
         });
     });

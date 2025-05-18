@@ -31,7 +31,7 @@ async function verifyToken() {
       return;
     }
 
-    const response = await fetch(`https://${ipAddress}/verify`, {
+    const response = await fetch(`http://${ipAddress}/verify`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -129,7 +129,7 @@ document
     const password = document.getElementById("password").value;
 
     try {
-      const response = await fetch(`https://${ipAddress}/signup`, {
+      const response = await fetch(`http://${ipAddress}/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
@@ -196,7 +196,7 @@ document
     const password = document.getElementById("signin-password").value;
 
     try {
-      const response = await fetch(`https://${ipAddress}/signin`, {
+      const response = await fetch(`http://${ipAddress}/signin`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

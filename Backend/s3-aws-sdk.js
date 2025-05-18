@@ -1,7 +1,7 @@
 const AWS = require("aws-sdk");
 const crypto = require("crypto");
 const mime = require("mime-types");
-
+const { Route53Client } = require("@aws-sdk/client-route-53");
 AWS.config.update({ region: 'us-east-1' });
 const s3 = new AWS.S3();
 const dynamodb = new AWS.DynamoDB.DocumentClient();
