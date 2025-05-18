@@ -1,148 +1,158 @@
 <div class="deployverse-footer-wrapper">
-    <style>
-        html,
-        body {
-            overflow-x: hidden !important;
-        }
+  <style>
+    html,
+    body {
+      overflow-x: hidden !important;
+    }
 
-        .deployverse-footer-wrapper {
-            width: 100vw;
-            overflow-x: hidden;
-            background-color: #161b22;
-            font-family: 'Poppins', sans-serif;
-            color: #c9d1d9;
-            margin-top: 45px !important;
-            margin-bottom: 0 !important;
-            position: relative;
-        }
+    .deployverse-footer-wrapper {
+      width: 100vw;
+      overflow-x: hidden;
+      background-color: #161b22;
+      font-family: "Poppins", sans-serif;
+      color: #c9d1d9;
+      margin-top: 45px !important;
+      margin-bottom: 0 !important;
+      position: relative;
+    }
 
-        .deployverse-footer {
-            width: 100%;
-            padding: 30px 20px 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            font-size: 18px;
-            box-sizing: border-box;
-            max-width: 100%;
-        }
+    .deployverse-footer {
+      width: 100%;
+      padding: 30px 20px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      font-size: 18px;
+      box-sizing: border-box;
+      max-width: 100%;
+    }
 
-        .footer-logo {
-            font-size: 28px;
-            font-weight: bold;
-            background: linear-gradient(90deg, #00e5ff 0%, #007bff 50%, #ff00ff 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 12px;
-        }
+    .footer-logo {
+      font-size: 28px;
+      font-weight: bold;
+      background: linear-gradient(90deg, #00e5ff 0%, #007bff 50%, #ff00ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+    }
 
-        .footer-links {
-            margin-bottom: 22px;
-        }
+    .footer-links {
+      margin-bottom: 22px;
+    }
 
-        .footer-links a {
-            color: #8b949e;
-            text-decoration: none;
-            margin: 0 14px;
-            font-size: 18px;
-        }
+    .footer-links a {
+      color: #8b949e;
+      text-decoration: none;
+      margin: 0 14px;
+      font-size: 18px;
+    }
 
-        .footer-links a:hover {
-            color: #58a6ff;
-        }
+    .footer-links a:hover {
+      color: #58a6ff;
+    }
 
-        .footer-views {
-            font-size: 19px;
-            color: #8b949e;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            justify-content: center;
-            font-weight: 500;
-        }
+    .footer-views {
+      font-size: 19px;
+      color: #8b949e;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+      font-weight: 500;
+    }
 
-        #views-number {
-            font-size: 22px;
-            font-weight: bold;
-            color: #58a6ff;
-            animation: pop-in 0.3s ease-out forwards;
-        }
+    #views-number {
+      font-size: 22px;
+      font-weight: bold;
+      color: #58a6ff;
+      animation: pop-in 0.3s ease-out forwards;
+    }
 
-        @keyframes pop-in {
-            0% {
-                transform: scale(0.7);
-                opacity: 0;
-            }
+    @keyframes pop-in {
+      0% {
+        transform: scale(0.7);
+        opacity: 0;
+      }
 
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
 
-        .footer-bottom {
-            margin-top: 24px;
-            border-top: 1px solid #30363d;
-            padding-top: 12px;
-            font-size: 15px;
-            color: #8b949e;
-        }
+    .footer-bottom {
+      margin-top: 24px;
+      border-top: 1px solid #30363d;
+      padding-top: 12px;
+      font-size: 15px;
+      color: #8b949e;
+    }
 
-        @media screen and (max-width: 1330px) {
-            .deployverse-footer {
-                padding: 25px 15px 10px;
-            }
+    @media screen and (max-width: 1330px) {
+      .deployverse-footer {
+        padding: 25px 15px 10px;
+      }
 
-            .footer-links a {
-                font-size: 16px;
-            }
+      .footer-links a {
+        font-size: 16px;
+      }
 
-            .footer-bottom {
-                font-size: 15px;
-            }
+      .footer-bottom {
+        font-size: 15px;
+      }
 
-            .footer-logo {
-                font-size: 26px;
-            }
+      .footer-logo {
+        font-size: 26px;
+      }
 
-            #views-number {
-                font-size: 22px;
-            }
-        }
-    </style>
+      #views-number {
+        font-size: 22px;
+      }
+    }
+  </style>
 
-    <footer class="deployverse-footer">
-        <div class="footer-logo">DeployVerse</div>
+  <footer class="deployverse-footer">
+    <div class="footer-logo">DeployVerse</div>
 
-        <div class="footer-links">
-            <a href="./Frontend/aboutus.html">About Us</a>
-            <a href="./Frontend/contact.html">Contact Us</a>
-            <a href="#">Sponsor Us</a>
-        </div>
+    <div class="footer-links">
+      <a href="./Frontend/aboutus.html">About Us</a>
+      <a href="./Frontend/contact.html">Contact Us</a>
+      <a href="#">Sponsor Us</a>
+    </div>
 
-        <div class="footer-views" id="view-count">
-            👁️ <span id="views-number">...</span> Views
-        </div>
+    <div class="footer-views" id="view-count">
+      👁️ <span id="views-number">...</span> Views
+    </div>
 
-        <div class="footer-bottom">
-            © 2025 DeployVerse. All rights reserved.
-        </div>
-    </footer>
+    <div class="footer-views" style="margin-top: 20px">
+      Our Sponsors:
+      <a
+        href="https://www.simplesolution.com"
+        target="_blank"
+        style="text-decoration: none; color: #007bff"
+      >
+        Simple Solution
+      </a>
+    </div>
 
-    <script>
-        const ipAddress = CONFIG.PUBLIC_IP;
-        const apiUrl = `https://${ipAddress}/views`;
+    <div class="footer-bottom">© 2025 DeployVerse. All rights reserved.</div>
+  </footer>
 
-        fetch(apiUrl)
-            .then(response => response.json())
-            .then(data => {
-                const numb = document.getElementById('views-number');
-                numb.innerText = data.views.toLocaleString();
-            })
-            .catch(err => {
-                document.getElementById('view-count').innerText = 'Could not load views.';
-                console.error(err);
-            });
-    </script>
+  <script>
+    const ipAddress = CONFIG.PUBLIC_IP;
+    const apiUrl = `${ipAddress}/views`;
+
+    fetch(apiUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        const numb = document.getElementById("views-number");
+        numb.innerText = data.views.toLocaleString();
+      })
+      .catch((err) => {
+        document.getElementById("view-count").innerText =
+          "Could not load views.";
+        console.error(err);
+      });
+  </script>
 </div>

@@ -82,7 +82,7 @@ function updateNavbar() {
                         <ul class="menu-items">
                             <li>My Projects</li>
                             <li>Account Settings</li>
-                            <li>Support & Feedback</li>
+                            <li><a href="contactus.html" style="text-decoration: none;">Support & Feedback</a></li>
                         </ul>
                         <button onclick="logout()" class="logout-btn">Log Out</button>
                     </div>

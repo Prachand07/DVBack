@@ -129,7 +129,7 @@ document
     const password = document.getElementById("password").value;
 
     try {
-      const response = await fetch(`http://${ipAddress}/signup`, {
+      const response = await fetch(`${ipAddress}/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
@@ -196,7 +196,7 @@ document
     const password = document.getElementById("signin-password").value;
 
     try {
-      const response = await fetch(`http://${ipAddress}/signin`, {
+      const response = await fetch(`${ipAddress}/signin`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
