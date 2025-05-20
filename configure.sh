@@ -14,10 +14,10 @@ gpgkey=https://pgp.mongodb.com/server-8.0.asc" | sudo tee $REPO_FILE > /dev/null
 sudo yum install -y mongodb-org
 sudo systemctl start mongod
 sudo systemctl enable mongod
-aws ssm get-parameters --names "JWT_SECRET" "MONGO_URL" "REDIS_URL" --with-decryption --query "Parameters[*].{Name:Name,Value:Value}" --output text | awk '{print $1 "=" $2}' > .env
+aws ssm get-parameters --names "JWT_SECRET" "MONGO_URL" "REDIS_URL" "DOMAIN" "ROUTE53_HOSTED_ZONE_ID" --with-decryption --query "Parameters[*].{Name:Name,Value:Value}" --output text | awk '{print $1 "=" $2}' > .env
 aws ssm get-parameter --name "KP" --with-decryption --query "Parameter.Value" --output text > /var/www/html/Backend/Ec2-DV.pem    
 chmod 400 /var/www/html/Backend/Ec2-DV.pem     
-sudo echo "CONFIG = { PUBLIC_IP: 'deployverse.in' };" > config.js
+sudo echo "CONFIG = { PUBLIC_IP: 'https://deployverse.in' };" > config.js
 sudo yum install -y nodejs
 sudo npm install -g pm2
 sudo mv server.js kaal.js
