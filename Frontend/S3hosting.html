@@ -247,7 +247,18 @@
             fileInput.value = '';
           });
         }
-
+        const identifierRegex = /^[a-zA-Z_][a-zA-Z0-9_]*$/;
+        if (!identifierRegex.test(projectName)) {
+          return Swal.fire({
+            icon: 'error',
+            title: 'Invalid Project Name',
+            text: "Project name must start with a letter or underscore and contain only letters, numbers, or underscores."
+          }).then(() => {
+            projectNameInput.value = '';
+            fileInput.value = '';
+          });
+        }
+        
         const maxSize = 20 * 1024 * 1024;
         const files = fileInput.files;
         if (files.length === 0) return;
