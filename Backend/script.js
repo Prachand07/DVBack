@@ -31,7 +31,7 @@ async function verifyToken() {
       return;
     }
 
-    const response = await fetch(`http://${ipAddress}/verify`, {
+    const response = await fetch(`${ipAddress}/verify`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -61,16 +61,12 @@ function redirectToHostingPage() {
   }
 }
 
-// Ensure token verification runs
 verifyToken();
 
-// Function to validate the signup form
 function validateSignupForm() {
   const username = document.getElementById("name").value;
-  const email = document.getElementById("email").value; // Assuming you have an input field with id="email"
+  const email = document.getElementById("email").value; 
   const password = document.getElementById("password").value;
-
-  // Username validation (must start with a letter)
   const usernameRegex = /^[a-zA-Z]/;
   if (!usernameRegex.test(username)) {
     Swal.fire({
@@ -121,7 +117,7 @@ document
     event.preventDefault();
 
     if (!validateSignupForm()) {
-      return; // Stop request if validation fails
+      return; 
     }
 
     const name = document.getElementById("name").value;

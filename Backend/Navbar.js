@@ -5,7 +5,7 @@ function GotoSignLogin() {
 
 function logout() {
     document.cookie =
-        "authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";   // if not there cookies remain in session
+        "authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     window.location.href = "../index.html";
 }
 
@@ -19,10 +19,9 @@ function getTokenFromCookies() {
 }
 function scrollToTop() {
     if (window.location.pathname.endsWith("index.html") || window.location.pathname === "/") {
-        // If on the main page, smoothly scroll to the top
         window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
-        // If on another page, redirect to index.html
+
         window.location.href = "../index.html";
     }
 }
@@ -33,13 +32,11 @@ function scrollToServices() {
 }
 
 
-
-
 function parseJwt(token) {
     try {
-        const base64Url = token.split(".")[1]; // Get payload part it has 3 parts header.payload.signature
-        const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/"); //replace 
-        return JSON.parse(atob(base64)); // Decode to Base64 and use as JS object
+        const base64Url = token.split(".")[1];
+        const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+        return JSON.parse(atob(base64));
     } catch (e) {
         console.error("Error decoding token", e);
         return null;
@@ -48,7 +45,6 @@ function parseJwt(token) {
 
 
 function getUserInitials(username) {
-    // Extract the first letter of the first and last name
     const nameParts = username.split(" ");
     const firstLetter = nameParts[0].charAt(0).toUpperCase();
     const lastLetter =
@@ -82,7 +78,7 @@ function updateNavbar() {
                         <ul class="menu-items">
                             <li>My Projects</li>
                             <li>Account Settings</li>
-                            <li><a href="contactus.html" style="text-decoration: none;">Support & Feedback</a></li>
+                            <li><a href="/Frontend/contact.html" style="all: unset;">Support & Feedback</a></li>
                         </ul>
                         <button onclick="logout()" class="logout-btn">Log Out</button>
                     </div>
@@ -95,7 +91,7 @@ function updateNavbar() {
             userInfo.addEventListener("click", function () {
                 dropdownMenu.classList.toggle("show");
             });
-
+            
             document.addEventListener("click", function (event) {
                 if (
                     !userInfo.contains(event.target) &&

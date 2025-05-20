@@ -45,14 +45,13 @@ document.addEventListener('DOMContentLoaded', function () {
       return;
     }
 
-    // Prepare data
+
     const formData = {
       name,
       email,
       message
     };
 
-    // Send to backend
     fetch(`${ipAddress}/contact`, {
       method: 'POST',
       headers: {
@@ -60,31 +59,30 @@ document.addEventListener('DOMContentLoaded', function () {
       },
       body: JSON.stringify(formData)
     })
-    .then(response => {
-      if (!response.ok) throw new Error("Network response was not ok");
-      return response.json(); // Change if backend returns text
-    })
-    .then(data => {
-      Swal.fire({
-        icon: 'success',
-        title: 'Message Sent!',
-        text: 'Thank you for reaching out.',
-        confirmButtonColor: '#3085d6'
+      .then(response => {
+        if (!response.ok) throw new Error("Network response was not ok");
+        return response.json();
+      })
+      .then(data => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Message Sent!',
+          text: 'Thank you for reaching out.',
+          confirmButtonColor: '#3085d6'
+        });
+        contactForm.reset();
+      })
+      .catch(error => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Something went wrong. Please try again later.',
+          confirmButtonColor: '#d33'
+        });
+        console.error('Error:', error);
       });
-      contactForm.reset();
-    })
-    .catch(error => {
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Something went wrong. Please try again later.',
-        confirmButtonColor: '#d33'
-      });
-      console.error('Error:', error);
-    });
   });
 
-  // Input animation on focus
   const formInputs = document.querySelectorAll('.form-input, .form-textarea');
   formInputs.forEach(input => {
     input.addEventListener('focus', function () {

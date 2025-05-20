@@ -13,10 +13,6 @@ const redis = require('redis');
 const bcrypt = require("bcryptjs");
 const myrouter=require('./routes/routes')
 require("dotenv").config();
-const { storeContactDetails } = require('./contactus-aws-sdk');
-const { createEC2Instance, getPublicIP, bucketCreate, copyFromS3ToEC2, storeDetails } = require("./ec2-aws-sdk");
-const { generateBucketName, checkLimit, bucketCreateandhost, storeProjectDetails, } = require("./s3-aws-sdk");
-
 const app = express();
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -26,23 +22,6 @@ const upload = multer({
   storage: multer.memoryStorage(),
 });
 
-
-// const redisClient = redis.createClient({
-//   url: process.env.REDIS_URL,
-//   socket: {
-//     tls: true, 
-//   },
-// });
-// redisClient.on('error', (err) => console.error('Redis error:', err));
-
-// (async () => {
-//   try {
-//     await redisClient.connect();
-//     console.log('Connected to Redis');
-//   } catch (err) {
-//     console.error('Redis connection failed:', err);
-//   }
-// })();
 
 const validateZip = (buffer, frontend_name, backend_name, backend_file_name, res) => {
   console.log('Validating ZIP file structure...');

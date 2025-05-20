@@ -19,6 +19,23 @@ const upload = multer({
   storage: multer.memoryStorage(),
 });
 
+const redisClient = redis.createClient({
+  url: process.env.REDIS_URL,
+  socket: {
+    tls: true, 
+  },
+});
+redisClient.on('error', (err) => console.error('Redis error:', err));
+
+(async () => {
+  try {
+    await redisClient.connect();
+    console.log('Connected to Redis');
+  } catch (err) {
+    console.error('Redis connection failed:', err);
+  }
+})();
+
 router.get("/verify", (req, res) => {
   const token = req.headers.authorization?.split(" ")[1];
 
@@ -239,7 +256,7 @@ router.post("/dynamicHosting", upload.single('zipFile'), async (req, res) => {
   }
 });
 
-router.post("/upload-folder", upload.array("files", 30), async (req, res) => {
+router.post("/upload-folder", upload.array("files", 35), async (req, res) => {
   console.log(`Received a request to upload files`);
   // Extract the token from the Authorization header
   const authHeader = req.headers.authorization;
@@ -281,7 +298,7 @@ router.post("/upload-folder", upload.array("files", 30), async (req, res) => {
       return res.status(400).json({ message: "Maximum 3 projects allowed per user." });
     }
 
-    const bucketName = generateBucketName(username);
+    const bucketName = generateBucketName(projectname);
     console.log(`Generated bucket name: ${bucketName}`);
 
     console.log(`Starting bucket creation and configuration for: ${bucketName}`);
@@ -294,7 +311,7 @@ router.post("/upload-folder", upload.array("files", 30), async (req, res) => {
 
     res.json({
       status: "Success",
-      message: `Static website hosted successfully at: ${websiteUrl}`,
+      message: `Static website hosted successfully at: ${MappedURL}`,
       storedURL: storedURL,
     });
   } catch (error) {

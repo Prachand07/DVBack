@@ -1,17 +1,17 @@
 const AWS = require("aws-sdk");
 const crypto = require("crypto");
 const mime = require("mime-types");
-const { Route53Client } = require("@aws-sdk/client-route-53");
+const { Route53Client, ChangeResourceRecordSetsCommand } = require("@aws-sdk/client-route-53");
 AWS.config.update({ region: 'us-east-1' });
 const s3 = new AWS.S3();
-const dynamodb = new AWS.DynamoDB.DocumentClient();
+const dynamodb = new AWS.DynamoDB.DocumentClient({
+  region: "eu-north-1"
+});
 const route53 = new Route53Client();
 const hostedZoneId = process.env.ROUTE53_HOSTED_ZONE_ID;
 const domain = process.env.DOMAIN;
-const generateBucketName = (username) => {
-  const randomString = crypto.randomBytes(4).toString("hex");
-  const timestamp = Date.now();
-  const bucketName = `${username}-${randomString}${timestamp}`;
+const generateBucketName = (projectname) => {
+  const bucketName = `${projectname}.${randomId}`;
   console.log(`Generated bucket name: ${bucketName}`);
   return bucketName;
 };
@@ -29,7 +29,7 @@ const checkLimit = async (username) => {
     }).promise();
     const projectCount = existingProjects.Items.length;
     const isLimitReached = projectCount >= 3;
-    const randomId = crypto.randomBytes(2).toString("hex"); 
+    const randomId = crypto.randomBytes(2).toString("hex");
 
     return {
       isLimitReached,
@@ -126,7 +126,7 @@ const mapSubdomainToS3 = async (projectname, randomId, websiteURL) => {
   });
 
   await route53.send(changeRecordCommand);
-  console.log(`Successfully mapped ${subdomain} → ${websiteEndpoint}`);
+  console.log(`Successfully mapped ${subdomain} → ${websiteURL}`);
   return `https://${subdomain}`;
 };
 
@@ -142,7 +142,7 @@ const storeProjectDetails = async (username, projectname, MappedURL) => {
       },
     };
 
-    console.log(`Storing details for username: ${username}, URL: ${websiteURL}`);
+    console.log(`Storing details for username: ${username}, URL: ${MappedURL}`);
     await dynamodb.put(params).promise();
     return { status: "Success", message: "Project stored successfully." };
   } catch (error) {
