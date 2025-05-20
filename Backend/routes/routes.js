@@ -298,7 +298,7 @@ router.post("/upload-folder", upload.array("files", 35), async (req, res) => {
       return res.status(400).json({ message: "Maximum 3 projects allowed per user." });
     }
 
-    const bucketName = generateBucketName(projectname);
+    const bucketName = generateBucketName(projectname,randomId);
     console.log(`Generated bucket name: ${bucketName}`);
 
     console.log(`Starting bucket creation and configuration for: ${bucketName}`);

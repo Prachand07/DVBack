@@ -10,13 +10,6 @@ const dynamodb = new AWS.DynamoDB.DocumentClient({
 const route53 = new Route53Client();
 const hostedZoneId = process.env.ROUTE53_HOSTED_ZONE_ID;
 const domain = process.env.DOMAIN;
-const generateBucketName = (projectname) => {
-  const bucketName = `${projectname}.${randomId}`;
-  console.log(`Generated bucket name: ${bucketName}`);
-  return bucketName;
-};
-
-
 const checkLimit = async (username) => {
   try {
     const existingProjects = await dynamodb.query({
@@ -39,6 +32,12 @@ const checkLimit = async (username) => {
     console.error("Error checking project limit:", error);
     throw new Error("Failed to check project limit.");
   }
+};
+
+const generateBucketName = (projectname, randomId) => {
+  const bucketName = `${projectname}.${randomId}.deployverse.in`;
+  console.log(`Generated bucket name: ${bucketName}`);
+  return bucketName;
 };
 
 const bucketCreateandhost = async (bucketName, files) => {
@@ -127,7 +126,7 @@ const mapSubdomainToS3 = async (projectname, randomId, websiteURL) => {
 
   await route53.send(changeRecordCommand);
   console.log(`Successfully mapped ${subdomain} → ${websiteURL}`);
-  return `https://${subdomain}`;
+  return `http://${subdomain}`;
 };
 
 
