@@ -19,24 +19,23 @@
     <div class="instruction-set">
       <img src="../Images/noun-instructions-7083136.png" alt="Guide Document" onclick="showOverlay()">
     </div>
-  </div>  
+  </div>
   <div id="whiteOverlay" class="overlay">
     <div class="overlay-container">
       <button class="close-btn" aria-label="Close Overlay" onclick="hideOverlay()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
-             viewBox="0 0 24 24" fill="none" stroke="currentColor" 
-             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="18" y1="6" x2="6" y2="18"></line>
           <line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
       </button>
-  
+
       <div class="overlay-content">
         <header class="header">
           <h1>DeployVerse</h1>
           <p class="subtitle">Your comprehensive guide to deploying static websites</p>
         </header>
-  
+
         <section class="content-section">
           <h2>Deployment Instructions</h2>
           <ol class="steps-list">
@@ -46,28 +45,30 @@
                 <p>Organize your HTML, CSS, JavaScript, and assets in a single directory.</p>
               </div>
             </li>
-  
+
             <li>
               <div class="step-content">
                 <strong>Set up your project</strong>
                 <p>Ensure your main file is named <code>index.html</code> before deployment.</p>
               </div>
             </li>
-  
+
             <li>
               <div class="step-content">
                 <strong>Keep It Light — File Size Limit: 20MB</strong>
                 <p>Smaller files = faster sites! Upload and enjoy quick loading times.</p>
               </div>
             </li>
-  
+
             <li>
               <div class="step-content">
                 <strong>No Secret Agents Allowed!</strong>
-                <p>Please restrict your uploads to videos, images, HTML, CSS, CSV, and JS only. No <code>.exe</code>, <code>.bat</code>, etc.</p>
+                <p>Please restrict your uploads to videos, images, HTML, CSS, CSV, and JS only. No <code>.exe</code>,
+                  <code>.bat</code>, etc.
+                </p>
               </div>
             </li>
-  
+
             <li>
               <div class="step-content">
                 <strong>Verify File Paths and References</strong>
@@ -75,7 +76,7 @@
               </div>
             </li>
           </ol>
-  
+
           <div class="pro-tip">
             <strong>Pro Tip:</strong> Need help? Ping our team anytime — we’re nerdy, friendly, and fast!
             <br><br>
@@ -84,8 +85,8 @@
         </section>
       </div>
     </div>
-  </div>  
-</div>
+  </div>
+  </div>
   <div class="container" id="container">
     <div class="content">
       <div class="timeline">
@@ -191,22 +192,22 @@
       return null;
     }
     function showOverlay() {
-  document.getElementById("whiteOverlay").style.display = "block";  // Show the overlay
-  
-  // Add blur effect to specific elements using their IDs
-  document.getElementById("navbar-container").classList.add("blurred");
-  document.getElementById("header-s3").classList.add("blurred");
-  document.getElementById("container").classList.add("blurred");
-}
+      document.getElementById("whiteOverlay").style.display = "block";  // Show the overlay
 
-function hideOverlay() {
-  document.getElementById("whiteOverlay").style.display = "none";  // Hide the overlay
-  
-  // Remove blur effect from specific elements using their IDs
-  document.getElementById("navbar-container").classList.remove("blurred");
-  document.getElementById("header-s3").classList.remove("blurred");
-  document.getElementById("container").classList.remove("blurred");
-}
+      // Add blur effect to specific elements using their IDs
+      document.getElementById("navbar-container").classList.add("blurred");
+      document.getElementById("header-s3").classList.add("blurred");
+      document.getElementById("container").classList.add("blurred");
+    }
+
+    function hideOverlay() {
+      document.getElementById("whiteOverlay").style.display = "none";  // Hide the overlay
+
+      // Remove blur effect from specific elements using their IDs
+      document.getElementById("navbar-container").classList.remove("blurred");
+      document.getElementById("header-s3").classList.remove("blurred");
+      document.getElementById("container").classList.remove("blurred");
+    }
 
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -241,6 +242,9 @@ function hideOverlay() {
             icon: 'error',
             title: 'Missing Project Name',
             text: "Project name is required!"
+          }).then(() => {
+            projectNameInput.value = '';
+            fileInput.value = '';
           });
         }
 
@@ -254,15 +258,20 @@ function hideOverlay() {
               icon: 'error',
               title: 'Invalid File Type',
               text: `Invalid file type: ${file.name}`
+            }).then(() => {
+              projectNameInput.value = '';
+              fileInput.value = '';
             });
           }
 
-          // Size check
           if (file.size > maxSize) {
             return Swal.fire({
               icon: 'error',
               title: 'File Too Large',
               text: `"${file.name}" exceeds the 20MB limit.`
+            }).then(() => {
+              projectNameInput.value = '';
+              fileInput.value = '';
             });
           }
         }
@@ -293,6 +302,9 @@ function hideOverlay() {
               icon: 'error',
               title: 'Upload Failed',
               text: result.message
+            }).then(() => {
+              projectNameInput.value = '';
+              fileInput.value = '';
             });
             toggleUploadSpinner(false);
           }
@@ -302,8 +314,13 @@ function hideOverlay() {
             icon: 'error',
             title: 'Network Error',
             text: "An error occurred during file upload."
+          }).then(() => {
+            projectNameInput.value = '';
+            fileInput.value = '';
           });
+          toggleUploadSpinner(false);
         }
+
       });
 
       function displayError(message) {

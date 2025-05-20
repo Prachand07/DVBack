@@ -271,7 +271,8 @@ router.post("/upload-folder", upload.array("files", 35), async (req, res) => {
   console.log(decoded);
   const username = decoded.username?.toLowerCase().trim().replace(/\s+/g, "");
   console.log("Token username ", username);
-  const projectname = req.body.projectname;
+  const rawProjectName = req.body.projectname;
+  const projectname = rawProjectName.toLowerCase().replace(/\s+/g, '');
   console.log(projectname);
   if (!req.files || req.files.length === 0) {
     console.error(`No files uploaded`);
