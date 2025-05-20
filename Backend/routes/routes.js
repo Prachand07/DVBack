@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const bodyParser = require("body-parser"); // Note the capital 'R'
+const bodyParser = require("body-parser");
 const multer = require("multer");
 const jwt = require("jsonwebtoken");
 const verifyToken = require("../authMiddleware");
@@ -20,7 +20,7 @@ const upload = multer({
 });
 
 router.get("/verify", (req, res) => {
-  const token = req.headers.authorization?.split(" ")[1]; // Support both methods
+  const token = req.headers.authorization?.split(" ")[1];
 
   console.log("Received Token:", token);
   if (!token) {
@@ -78,10 +78,8 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-router.post('/contact', async(req, res) => {
+router.post('/contact', async (req, res) => {
   const { name, email, message } = req.body;
-
-  // Basic validation on server (you can enhance it more)
   if (!name || !email || !message) {
     return res.status(400).json({ error: 'All fields are required.' });
   }
@@ -194,40 +192,40 @@ router.post("/dynamicHosting", upload.single('zipFile'), async (req, res) => {
     try {
       console.log("Attempting to copy file to EC2 instance...");
       const copyWithRetry = async (maxRetries = 5) => {
-      let attempt = 1;
-      while (attempt <= maxRetries) {
-        console.log(`Attempt ${attempt}: Copying file to EC2 instance...`);
-        try {
-          const result = await copyFromS3ToEC2(publicIp, bucketName, req.file.originalname, backend_file_name, backend_name, frontend_name);
+        let attempt = 1;
+        while (attempt <= maxRetries) {
+          console.log(`Attempt ${attempt}: Copying file to EC2 instance...`);
+          try {
+            const result = await copyFromS3ToEC2(publicIp, bucketName, req.file.originalname, backend_file_name, backend_name, frontend_name);
 
-          if (result === "success") {
-            console.log(`Copy successful on attempt ${attempt}`);
-            return "success";
+            if (result === "success") {
+              console.log(`Copy successful on attempt ${attempt}`);
+              return "success";
+            }
+
+            console.log(`Copy attempt ${attempt} failed. Retrying...`);
+          } catch (err) {
+            console.error(`Error on attempt ${attempt}:`, err.message || err);
           }
 
-          console.log(`Copy attempt ${attempt} failed. Retrying...`);
-        } catch (err) {
-          console.error(`Error on attempt ${attempt}:`, err.message || err);
+          attempt++;
+          if (attempt <= maxRetries) {
+            console.log(`Retrying in 3 seconds...`);
+            await new Promise((resolve) => setTimeout(resolve, 10000));
+          }
         }
+        console.log("Max retries reached. Copy operation failed.");
+        return "fail";
+      };
 
-        attempt++;
-        if (attempt <= maxRetries) {
-          console.log(`Retrying in 3 seconds...`);
-          await new Promise((resolve) => setTimeout(resolve, 10000));
-        }
+      const copyStatus = await copyWithRetry();
+
+      if (copyStatus === "fail") {
+        return res.status(500).json({ error: "Deployment failed after multiple attempts to copy files to EC2." });
       }
-      console.log("Max retries reached. Copy operation failed.");
-      return "fail";
-    };
+      await storeDetails(user_name, projectname, publicIp);
 
-    const copyStatus = await copyWithRetry();
-
-    if (copyStatus === "fail") {
-      return res.status(500).json({ error: "Deployment failed after multiple attempts to copy files to EC2." });
     }
-     await storeDetails(user_name, projectname, publicIp);
-    
-    } 
     catch (err) {
       console.error("Error copying file:", err);
       return res.status(500).json({ error: `Deployment failed while copying files to EC2: ${err.message || err}` });
@@ -276,7 +274,7 @@ router.post("/upload-folder", upload.array("files", 30), async (req, res) => {
 
   try {
     console.log(`Checking if user ${username} already has 3 projects...`);
-    const { isLimitReached, projectCount } = await checkLimit(username);
+    const { isLimitReached, randomId } = await checkLimit(username);
 
     if (isLimitReached) {
       console.error(`User ${username} already has 3 projects. Denying request.`);
@@ -289,11 +287,11 @@ router.post("/upload-folder", upload.array("files", 30), async (req, res) => {
     console.log(`Starting bucket creation and configuration for: ${bucketName}`);
     const websiteUrl = await bucketCreateandhost(bucketName, req.files);
     console.log(`Static website hosted successfully at: ${websiteUrl}`);
-    const MappedURL= await mapSubdomainToS3(projectname, projectCount, websiteUrl);
+    const MappedURL = await mapSubdomainToS3(projectname, randomId, websiteUrl);
     console.log(`Mapped URL: ${MappedURL}`);
     const storedURL = await storeProjectDetails(username, projectname, MappedURL);
     console.log(`Website data stored successfully for username: ${username}`);
-    
+
     res.json({
       status: "Success",
       message: `Static website hosted successfully at: ${websiteUrl}`,
@@ -317,9 +315,24 @@ const getIP = (req) => {
   );
 };
 
+const isPrivateIP = (ip) => {
+  return (
+    ip.startsWith('10.') ||
+    ip.startsWith('192.168.') ||
+    /^172\.(1[6-9]|2[0-9]|3[0-1])\./.test(ip)
+  );
+};
+
 router.get('/views', async (req, res) => {
   try {
     const ip = getIP(req);
+    if (isPrivateIP(ip)) {
+      return res.json({
+        views: parseInt(await redisClient.get('site:views') || 0),
+        unique: false
+      });
+    }
+
     const uniqueKey = `site:unique:${ip}`;
     const alreadyCounted = await redisClient.exists(uniqueKey);
 

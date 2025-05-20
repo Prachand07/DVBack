@@ -28,10 +28,12 @@ const checkLimit = async (username) => {
 
     }).promise();
     const projectCount = existingProjects.Items.length;
-    console.log(existingProjects.Items.length)
+    const isLimitReached = projectCount >= 3;
+    const randomId = crypto.randomBytes(2).toString("hex"); 
+
     return {
-      isLimitReached: projectCount >= 3,
-      projectCount
+      isLimitReached,
+      randomId: isLimitReached ? null : randomId
     };
   } catch (error) {
     console.error("Error checking project limit:", error);
@@ -99,12 +101,12 @@ const bucketCreateandhost = async (bucketName, files) => {
   }
 };
 
-const mapSubdomainToS3 = async (projectname, projectCount, websiteURL) => {
+const mapSubdomainToS3 = async (projectname, randomId, websiteURL) => {
   if (!hostedZoneId) {
     throw new Error("ROUTE53_HOSTED_ZONE_ID not set in environment variables");
   }
 
-  const subdomain = `${projectname}.${projectCount}.${domain}`;
+  const subdomain = `${projectname}.${randomId}.${domain}`;
   const changeRecordCommand = new ChangeResourceRecordSetsCommand({
     HostedZoneId: hostedZoneId,
     ChangeBatch: {
@@ -125,7 +127,7 @@ const mapSubdomainToS3 = async (projectname, projectCount, websiteURL) => {
 
   await route53.send(changeRecordCommand);
   console.log(`Successfully mapped ${subdomain} → ${websiteEndpoint}`);
-  return `http://${subdomain}`;
+  return `https://${subdomain}`;
 };
 
 

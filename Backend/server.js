@@ -27,22 +27,22 @@ const upload = multer({
 });
 
 
-const redisClient = redis.createClient({
-  url: process.env.REDIS_URL,
-  socket: {
-    tls: true, 
-  },
-});
-redisClient.on('error', (err) => console.error('Redis error:', err));
+// const redisClient = redis.createClient({
+//   url: process.env.REDIS_URL,
+//   socket: {
+//     tls: true, 
+//   },
+// });
+// redisClient.on('error', (err) => console.error('Redis error:', err));
 
-(async () => {
-  try {
-    await redisClient.connect();
-    console.log('Connected to Redis');
-  } catch (err) {
-    console.error('Redis connection failed:', err);
-  }
-})();
+// (async () => {
+//   try {
+//     await redisClient.connect();
+//     console.log('Connected to Redis');
+//   } catch (err) {
+//     console.error('Redis connection failed:', err);
+//   }
+// })();
 
 const validateZip = (buffer, frontend_name, backend_name, backend_file_name, res) => {
   console.log('Validating ZIP file structure...');
