@@ -7,7 +7,7 @@ const s3 = new AWS.S3();
 const dynamodb = new AWS.DynamoDB.DocumentClient({
   region: "eu-north-1"
 });
-const route53 = new Route53Client();
+const route53 = new Route53Client({ region: 'us-east-1' });
 const hostedZoneId = process.env.ROUTE53_HOSTED_ZONE_ID;
 const domain = process.env.DOMAIN;
 const checkLimit = async (username) => {
