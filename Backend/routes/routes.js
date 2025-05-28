@@ -144,7 +144,6 @@ router.post("/signin", async (req, res) => {
 
     const emailRegex = /^[^\s@]+@(gmail\.com|yahoo\.com|outlook\.com|stu\.upes\.ac\.in)$/i;
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
-
     // Basic field presence check
     if (!email || !password) {
       return res.status(400).json({ message: "Email and password are required" });
