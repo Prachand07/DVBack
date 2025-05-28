@@ -70,7 +70,7 @@ router.post("/signup", async (req, res) => {
     }
 
     // Email validation
-    const emailRegex = /^[^\s@]+@((gmail\.com|yahoo\.com|outlook\.com)|stu[^\s@]*\.[a-z]{2,})$/i;
+    const emailRegex = /^[^\s@]+@(gmail\.com|yahoo\.com|outlook\.com|stu\.upes\.ac\.in)$/i;
     if (!emailRegex.test(email)) {
       return res.status(400).json({
         message: "Only Gmail, Yahoo, Outlook, or student emails (domains starting with 'stu') are allowed."
@@ -142,7 +142,7 @@ router.post("/signin", async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const emailRegex = /^[^\s@]+@((gmail\.com|yahoo\.com|outlook\.com)|stu[^\s@]*\.[a-z]{2,})$/i;
+    const emailRegex = /^[^\s@]+@(gmail\.com|yahoo\.com|outlook\.com|stu\.upes\.ac\.in)$/i;
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
 
     // Basic field presence check
