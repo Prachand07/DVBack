@@ -148,22 +148,7 @@ router.post("/signin", async (req, res) => {
     if (!email || !password) {
       return res.status(400).json({ message: "Email and password are required" });
     }
-
     // Validate email format
-    if (!emailRegex.test(email)) {
-      return res.status(400).json({
-        message: "Email must be from Gmail, Yahoo, Outlook, or a valid student domain",
-      });
-    }
-
-    // Validate password strength
-    if (!passwordRegex.test(password)) {
-      return res.status(400).json({
-        message:
-          "Password must be at least 8 characters long, with uppercase, lowercase, number, and special character (!@#$%^&*)",
-      });
-    }
-
     console.log("Login attempt:", email);
 
     // Check if user exists

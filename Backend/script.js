@@ -115,26 +115,48 @@ document
   .getElementById("signup-form")
   .addEventListener("submit", async function (event) {
     event.preventDefault();
+    console.log("Form submission triggered");
 
     if (!validateSignupForm()) {
-      return; 
+      console.log("Client-side validation failed");
+      return;
     }
 
     const name = document.getElementById("name").value;
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
+    console.log("Collected input:");
+    console.log("Name:", name);
+    console.log("Email:", email);
+    console.log("Password:", password);
+
     try {
+      console.log("Sending signup request to:", `${ipAddress}/signup`);
+
       const response = await fetch(`${ipAddress}/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
       });
 
-      const data = await response.json();
+      console.log("Raw response:", response);
+
+      let data;
+      try {
+        data = await response.clone().json();
+        console.log("Parsed response JSON:", data);
+      } catch (err) {
+        const text = await response.text();
+        console.error("Response was not valid JSON. Raw response text:", text);
+        throw new Error("Invalid JSON in server response");
+      }
 
       if (response.ok) {
+        console.log("Signup success. Token received:", data.token);
+
         document.cookie = `authToken=${data.token}; path=/; max-age=3600; Samesite=Lax`;
+
         Swal.fire({
           icon: "success",
           title: "Signup Successful! Go ahead and deploy!!",
@@ -146,6 +168,7 @@ document
 
         setTimeout(() => {
           const selectedHosting = localStorage.getItem("selectedHosting");
+          console.log("Redirecting based on selected hosting:", selectedHosting);
 
           if (selectedHosting) {
             if (selectedHosting.includes("Static")) {
@@ -161,7 +184,9 @@ document
             window.location.href = "../index.html#services";
           }
         }, 1000);
+
       } else {
+        console.warn("Signup failed:", data.message);
         Swal.fire({
           icon: "error",
           title: "Signup Failed",
@@ -170,8 +195,9 @@ document
           confirmButtonText: "OK",
         });
       }
+
     } catch (error) {
-      console.error("Signup failed:", error);
+      console.error("Signup error caught:", error);
       Swal.fire({
         icon: "error",
         title: "Error",
@@ -181,6 +207,7 @@ document
       });
     }
   });
+
 
 // Sign-in form submission
 document
