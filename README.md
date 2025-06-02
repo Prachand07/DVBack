@@ -28,7 +28,7 @@
 
 ---
 
-![DeployVerse Architecture](./images/architecture.png)
+![DeployVerse Architecture](images/architecture.png)
 
 ## 🤝 Contributing
 
